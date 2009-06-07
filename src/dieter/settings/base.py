@@ -31,6 +31,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.i18n',
     'django.core.context_processors.media',
     'django.core.context_processors.request',
+    
+    'dieter.home.context_processors.tabs'
 )
 
 INSTALLED_APPS = (
@@ -42,6 +44,7 @@ INSTALLED_APPS = (
     'django.contrib.webdesign',
     
     'dieter.home',
+    'dieter.dashboard',
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -66,4 +69,4 @@ ACCOUNT_ACTIVATION_DAYS = 3
 AWS_ACCESS_KEY_ID = ""
 AWS_SECRET_ACCESS_KEY = ""
 
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "/logged_in"

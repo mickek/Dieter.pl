@@ -6,7 +6,8 @@ import os
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url('', include('dieter.home.urls')),      
+    url('', include('dieter.home.urls')),
+    url('^dashboard/', include('dieter.dashboard.urls')),      
     url(r'^accounts/', include('dieter.registration.urls')),
     url(r'^admin/(.*)', admin.site.root),
 )

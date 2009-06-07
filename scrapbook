@@ -1,0 +1,21 @@
+			{% if user.is_authenticated %}
+				<div>
+					Welcome <b>{{ user.username }}</b>
+				</div> 
+				<div>
+					<a href="/accounts/logout/" title="logout">logout</a>
+					<a href="/accounts/password/change/">change password</a>
+					{% if user.is_staff %}
+						<a href="/admin">admin</a>
+					{% endif %}
+				</div>
+			{% else %}
+				<div>
+					<a href="/accounts/login" title="Login">Login</a>
+					&nbsp;|&nbsp;
+					<a href="/accounts/register" title="Sign up">Sign up</a>
+				</div>
+			{% endif %}
+
+    	
+    	<div id="footer">&copy;2009 Dieter.pl<br/>Skontaktuj się z nami: <a href="mailto:kontakt@dieter.pl">kontakt@dieter.pl</a></div>

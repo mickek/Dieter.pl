@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block main-tabs %}
+	<li class="ui-state-default ui-corner-top {% ifequal top_tab 'dashboard'%}ui-tabs-selected ui-state-active{%endifequal%}"><a href="{% url dashboard %}">Start</a></li>
+	<li class="ui-state-default ui-corner-top {% ifequal top_tab 'diet'%}ui-tabs-selected ui-state-active{%endifequal%}"><a href="">Dieta</a></li>
+	<li class="ui-state-default ui-corner-top {% ifequal top_tab 'graphs'%}ui-tabs-selected ui-state-active{%endifequal%}"><a href="">Wykresy</a></li>
+	<li class="ui-state-default ui-corner-top {% ifequal top_tab 'shopping'%}ui-tabs-selected ui-state-active{%endifequal%}"><a href="">Zakupy</a></li>
+	<li class="ui-state-default ui-corner-top {% ifequal top_tab 'contact'%}ui-tabs-selected ui-state-active{%endifequal%}"><a href="">Dietetyk</a></li>
+	<li class="ui-state-default ui-corner-top {% ifequal top_tab 'settings'%}ui-tabs-selected ui-state-active{%endifequal%}"><a href="">Ustawienia</a></li>
+{% endblock %}
+
+

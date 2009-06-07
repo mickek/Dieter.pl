@@ -8,66 +8,73 @@
         <title>{% block title %}Dieter.pl{% endblock %}</title>
         <link rel="stylesheet" href="{{MEDIA_URL}}css/reset-min.css" media="screen" type="text/css" />
         <link rel="stylesheet" href="{{MEDIA_URL}}css/fonts-min.css" media="screen" type="text/css" />
-		<link rel="stylesheet" href="{{MEDIA_URL}}css/base.css" media="screen" type="text/css" />
+        <link rel="stylesheet" href="{{MEDIA_URL}}css/base.css" media="screen" type="text/css" />
+		<link rel="stylesheet" href="{{MEDIA_URL}}css/grid.css" media="screen" type="text/css" />
+		
 		<link rel="stylesheet" href="{{MEDIA_URL}}css/main.css" media="screen" type="text/css" />
 		<link rel="stylesheet" href="{{MEDIA_URL}}css/jquery-ui-1.7.1.custom.css" media="screen" type="text/css" />
 		<link rel="Shortcut Icon" type="image/ico" href="{{MEDIA_URL}}images/favicon.ico" />
 		
 		{% jquery %}
-		
 		{% block head %}{%endblock%}
-		
     </head>
-    <body>
-    	<div id="top">
-    		
-    		<div id="top-left">
-	    		<a href="/" id="logo">Dieter.pl</a>
-			</div>
-    		    		
-    		<div id="top-links">
+    
+    <body class="container_12">
+		
+		<!-- Start logo -->
+		<div class="grid_9"><h1><a href="/" title="Dieter.pl">Dieter.pl</a></h1></div>
+		<!-- End logo -->
+		<!-- Start links -->
+		<div class="grid_3" id="top-links" style="text-align: right">
+			{% block top-links %}
+			
 				{% if user.is_authenticated %}
-					<div id="head-logged">
-						Welcome <b>{{ user.username }}</b>
+					<div>
+						Witaj <b>{{ user.username }}</b>
 					</div> 
-					<div id="head-buttons">
-						<a href="/accounts/logout/" title="logout">logout</a>
-						<a href="/accounts/password/change/">change password</a>
+					<div>
+						<a href="{% url auth_logout %}" title="logout">wyloguj się</a>
 						{% if user.is_staff %}
 							<a href="/admin">admin</a>
 						{% endif %}
 					</div>
-				{% else %}
-					<div id="head-buttons">
-						<a href="/accounts/login" title="Login">Login</a>
-						&nbsp;|&nbsp;
-						<a href="/accounts/register" title="Sign up">Sign up</a>
-					</div>
-				{% endif %}
-			</div>
-			<div id="top-clear"></div>
-    	</div>
-    	
-		<div id="container">
-				
-			<div id="breadcrumbs">
-				{%block breadcrumbs%}{%endblock%}
-			</div>
-
-			<div class="messages">
-				{% if messages %}
-				<ul>
-				    {% for message in messages %}
-				    <li>{{ message }}</li>
-				    {% endfor %}
-				</ul>
-				{% endif %}		
-			</div>
+				{% endif %}			
 			
-	    	<div id="content">{% block content %}{% endblock %}</div>
-	    	
+			{%endblock%}
 		</div>
+		<!-- End links -->
 
-    	<div id="footer">&copy;2009 Dieter.pl<br/>Skontaktuj się z nami: <a href="mailto:kontakt@dieter.pl">kontakt@dieter.pl</a></div>
+		<!-- Start tabs -->
+		<div id="top-tabs" class="grid_12 ui-tabs ui-widget ui-widget-content ui-corner-all">
+			<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+				{% block main-tabs %}<li><a href="/" class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active">Dieter.pl</a></li>{% endblock %}
+			</ul>			
+		</div>	
+		<!-- End tabs -->
+		<div class="grid_12">&nbsp;</div>
+		{% if messages %}
+		<div class="grid_12" id="messages">
+			<ul>
+			    {% for message in messages %}
+				    <li>{{ message }}</li>
+			    {% endfor %}
+		    </ul>
+		</div>
+		{% endif %}
+		
+				
+		<!-- Start content -->
+		<div class="grid_12">
+			{% block content %}{% endblock%}
+		</div>
+		<!-- End content -->
+		
+		<!-- Start footer -->
+		<div id="footer" class="grid_12">
+			&copy;2009 <a href="Dieter.pl" title="Dieter.pl">Dieter.pl</a><br/>Skontaktuj się z nami: <a href="mailto:kontakt@dieter.pl">kontakt@dieter.pl</a>
+		</div>	
+		<!-- End footer -->
+		
+
 	</body>
 </html>

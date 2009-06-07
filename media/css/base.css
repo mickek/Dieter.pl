@@ -83,7 +83,7 @@ ol li {
 
 ul li {
 	/* Giving UL's LIs generated disc markers. */
-
+	list-style: disc;
 }
 
 dl dd {

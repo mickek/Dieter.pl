@@ -2,33 +2,14 @@ body {
 	font-family: verdana;
 }
 
-/* Header */
-#top { margin: 5px auto; width: 980px; }
-#logo { font-weight: bold; font-size: 197%; width:400px; }
-#top-left{ float: left; }
-#top-clear { clear: both;}
-#top-links { text-align: left; float: right; }
 
-/* Content */
-#container{
-	margin: 0px auto;
-	width: 980px;
-	padding-bottom: 2em;
-	margin-top: 1em;
-	margin-bottom: 1em;
-	border-bottom: 1px solid #999;
-}
-
-/* footer */
-#footer { font-family: arial; font-size: 85%; text-align: center; margin-top: 2em;  }
+#top-tabs ul li{ list-style: none;}
+#footer { text-align: center; border-top: 1px solid black; padding-top: .5em; margin-top: .5em;}
 
 /* Misc */
 a,a:VISITED,a:HOVER { color: blue; }
 .error { color:red; }
 
+
 /* Forms */
 label { display: block; padding-bottom: 0.5em; }
-
-#action-buttons { float: left; width: 300px; text-align: left; height: 30px; line-height:30px;}
-#action-buttons form { display: inline;}
-#select-buttons { float: left; width: 150px; text-align: left; height: 30px; line-height:30px;}

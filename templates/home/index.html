@@ -1,1 +1,55 @@
 {% extends 'base.html' %}
+
+{% block content %}
+
+	<div class="grid_5 alpha">
+		<h2>Masz już konto?</h2>
+		<form action="{% url auth_login %}" method="post">
+			{{form.as_p}}
+			<p><input type="submit" class="submit" value="Zaloguj się" />
+			<p><a href="{% url auth_password_reset %}" title="Forgot your password?">Zapomniałeś hasła?</a></p>
+		</form>
+	</div>
+	
+	<div class="grid_5">
+		<h2>Nie masz konta?</h2>
+		<p><a href="{% url registration_register %}">Zarejestruj się</a></p>
+		<p>Czym jest dieter?<br/>Ile kosztuje?</p>
+	</div>
+	
+	<div class="grid_2 omega" style="background-color: yellow; text-align: center;">
+	
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>Ads by google</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+	
+	</div>
+	
+	<div class="clear"></div>
+	
+	<div class="grid_6 alpha" style="background-color: aqua; text-align: center;">
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>Monitorowanie wagi, ładny screenshot</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+	</div>
+	
+	<div class="grid_6 omega" style="background-color: gray; text-align: center;">
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>Baza produktów / Planowanie zakupów</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+			
+	</div>
+	
+{% endblock %}
