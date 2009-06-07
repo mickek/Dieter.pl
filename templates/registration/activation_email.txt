@@ -1,0 +1,7 @@
+Welcome to {{site.domain}}!
+
+Click the following link to activate your account:
+http://{{site.domain}}/accounts/activate/{{activation_key}}
+
+--
+{{site.domain}}

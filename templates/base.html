@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl" lang="pl">
+
+   	{% load home %}
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>{% block title %}Dieter.pl{% endblock %}</title>
+        <link rel="stylesheet" href="{{MEDIA_URL}}css/reset-min.css" media="screen" type="text/css" />
+        <link rel="stylesheet" href="{{MEDIA_URL}}css/fonts-min.css" media="screen" type="text/css" />
+		<link rel="stylesheet" href="{{MEDIA_URL}}css/base.css" media="screen" type="text/css" />
+		<link rel="stylesheet" href="{{MEDIA_URL}}css/main.css" media="screen" type="text/css" />
+		<link rel="stylesheet" href="{{MEDIA_URL}}css/jquery-ui-1.7.1.custom.css" media="screen" type="text/css" />
+		<link rel="Shortcut Icon" type="image/ico" href="{{MEDIA_URL}}images/favicon.ico" />
+		
+		{% jquery %}
+		
+		{% block head %}{%endblock%}
+		
+    </head>
+    <body>
+    	<div id="top">
+    		
+    		<div id="top-left">
+	    		<a href="/" id="logo">Dieter.pl</a>
+			</div>
+    		    		
+    		<div id="top-links">
+				{% if user.is_authenticated %}
+					<div id="head-logged">
+						Welcome <b>{{ user.username }}</b>
+					</div> 
+					<div id="head-buttons">
+						<a href="/accounts/logout/" title="logout">logout</a>
+						<a href="/accounts/password/change/">change password</a>
+						{% if user.is_staff %}
+							<a href="/admin">admin</a>
+						{% endif %}
+					</div>
+				{% else %}
+					<div id="head-buttons">
+						<a href="/accounts/login" title="Login">Login</a>
+						&nbsp;|&nbsp;
+						<a href="/accounts/register" title="Sign up">Sign up</a>
+					</div>
+				{% endif %}
+			</div>
+			<div id="top-clear"></div>
+    	</div>
+    	
+		<div id="container">
+				
+			<div id="breadcrumbs">
+				{%block breadcrumbs%}{%endblock%}
+			</div>
+
+			<div class="messages">
+				{% if messages %}
+				<ul>
+				    {% for message in messages %}
+				    <li>{{ message }}</li>
+				    {% endfor %}
+				</ul>
+				{% endif %}		
+			</div>
+			
+	    	<div id="content">{% block content %}{% endblock %}</div>
+	    	
+		</div>
+
+    	<div id="footer">&copy;2009 Dieter.pl<br/>Skontaktuj się z nami: <a href="mailto:kontakt@dieter.pl">kontakt@dieter.pl</a></div>
+	</body>
+</html>
