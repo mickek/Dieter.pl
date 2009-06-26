@@ -48,6 +48,7 @@ INSTALLED_APPS = (
 )
 
 AUTHENTICATION_BACKENDS = (
+    "dieter.auth.EmailBackend",
     "django.contrib.auth.backends.ModelBackend",
 )
 
@@ -70,3 +71,5 @@ AWS_ACCESS_KEY_ID = ""
 AWS_SECRET_ACCESS_KEY = ""
 
 LOGIN_REDIRECT_URL = "/logged_in"
+
+AUTH_PROFILE_MODULE = 'patients.profile'
