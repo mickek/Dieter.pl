@@ -26,7 +26,7 @@ from django.contrib.auth import views as auth_views
 
 from registration.views import activate
 from registration.views import register
-
+from dieter.registration.forms import RegistrationForm
 
 urlpatterns = patterns('',
                        # Activation keys get matched by \w+ instead of the more specific
@@ -46,6 +46,7 @@ urlpatterns = patterns('',
                            name='auth_logout'),
                        url(r'^password/change/$',
                            auth_views.password_change,
+                           {'template_name':"patients/settings.html"},
                            name='auth_password_change'),
                        url(r'^password/change/done/$',
                            auth_views.password_change_done,
@@ -64,6 +65,7 @@ urlpatterns = patterns('',
                            name='auth_password_reset_done'),
                        url(r'^register/$',
                            register,
+                          {'form_class':RegistrationForm},
                            name='registration_register'),
                        url(r'^register/complete/$',
                            direct_to_template,

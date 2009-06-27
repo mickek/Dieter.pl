@@ -1,13 +1,59 @@
 {% extends "base.html" %}
+{% block title %}Zarejestruj się{% endblock %}
 
-{% block title %}Registration{% endblock %}
+{% load webdesign %} 
 
 {% block content %}
 
-<form method="post" action="">
-	<h1>Sign up</h1>
-	{{ form.as_p }}
-	<input type="submit" value="Sign up" />
-</form>
-
+	<div class="grid_5 alpha">
+	
+		<form method="post" action="">
+			<h2>Utwórz konto</h2>
+			{{ form.as_p }}
+			<input type="submit" value="Zarejestruj się" />
+		</form>
+	</div>
+	
+	<div class="grid_5">
+	
+		<h2>Jak założyć konto?</h2>
+	
+		{%lorem 2 p%}
+	</div>
+	
+	<div class="grid_2 omega" style="background-color: yellow; text-align: center;">
+	
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>Ads by google</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+	
+	</div>
+	
+	<div class="clear"></div>
+	
+	<div class="grid_6 alpha" style="background-color: aqua; text-align: center;">
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>Monitorowanie wagi, ładny screenshot</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+	</div>
+	
+	<div class="grid_6 omega" style="background-color: gray; text-align: center;">
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>Baza produktów / Planowanie zakupów</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+			
+	</div>
+	
 {% endblock %}

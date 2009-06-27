@@ -1,8 +1,44 @@
 {% extends 'loggedin-base.html' %}
 
+{% load webdesign %} 
 
 {% block content %}
 
-	<h2>Dashboard TODO</h2>
+	<div class="grid_10 alpha">
+		
+		<div class="grid_5 alpha">
+			<h2>Moja waga dzisiaj</h2>
+		</div>
+		
+		<div class="grid_5 omega">
+			<h2>Moja waga</h2>
+		</div>
+
+		<div class="grid_10 alpha">
+			<a href="#">Spytaj się dietetyka</a>
+		</div>
+		
+		<div class="grid_10 alpha">
+			{% lorem 1 p%}	
+		</div>
+		
+		<div class="grid_10 alpha">
+			{% lorem 1 p%}
+		</div>
+	
+	</div>
+	
+	<div class="grid_2 omega" style="background-color: yellow; text-align: center;">
+	
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>Ads by google</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+	
+	</div>	
+	
 
 {% endblock %}

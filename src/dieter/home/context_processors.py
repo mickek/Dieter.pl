@@ -14,7 +14,7 @@ def tabs(request):
         top_tab = 'shopping'
     elif path.startswith('/contact'):
         top_tab = 'contact'
-    elif path.startswith('/settings'):
+    elif path.startswith('/patients/settings') or path.startswith('/accounts/password/change/'):
         top_tab = 'settings'
         
     return {

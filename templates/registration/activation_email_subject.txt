@@ -1,1 +1,1 @@
-Welcome to {{site.domain}}
+Witaj w {{site.domain}}

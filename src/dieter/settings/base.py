@@ -43,8 +43,11 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.webdesign',
     
-    'dieter.home',
     'dieter.dashboard',
+    'dieter.diet',    
+    'dieter.home',
+    'dieter.patients',
+    'dieter.registration',
 )
 
 AUTHENTICATION_BACKENDS = (

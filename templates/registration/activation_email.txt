@@ -1,6 +1,6 @@
-Welcome to {{site.domain}}!
+Witamy w {{site.domain}}!
 
-Click the following link to activate your account:
+Kliknij poniższy link aby aktywować swoje konto:
 http://{{site.domain}}/accounts/activate/{{activation_key}}
 
 --

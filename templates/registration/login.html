@@ -4,11 +4,11 @@
 
 {% block content %}
 
-<h1>Log in</h1>
+<h1>Zaloguj się</h1>
 <form method="post" action="">
 	{{ form.as_p }}
-	<p><input type="submit" class="submit" value="Log in" /> or <a href="{% url registration_register %}" title="Sign up">Sign up</a></p>
-	<p><a href="{% url auth_password_reset %}" title="Forgot your password?">Forgot your password?</a></p>
+	<p><input type="submit" class="submit" value="Zaloguj się" /> albo <a href="{% url registration_register %}" title="Zarejestruj się">Utwórz nowe konto</a></p>
+	<p><a href="{% url auth_password_reset %}" title="Zapomniałeś hasła?">Zapomniałeś hasła?</a></p>
 </form>
 
 {% endblock %}
