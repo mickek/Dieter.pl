@@ -8,7 +8,7 @@ class EmailBackend(ModelBackend):
     def authenticate(self, username=None, password=None):
         try:
             user = User.objects.get(email=username)
-        except User.DoesNotExist:
+        except User.DoesNotExist: #@UndefinedVariable
             return None
         else:
             if user.check_password(password):

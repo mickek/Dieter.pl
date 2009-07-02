@@ -50,7 +50,7 @@ class RegistrationForm(forms.Form):
         """
         try:
             user = User.objects.get(username__iexact=self.cleaned_data['username'])
-        except User.DoesNotExist:
+        except User.DoesNotExist: #@UndefinedVariable
             return self.cleaned_data['username']
         raise forms.ValidationError(_(u'This username is already taken. Please choose another.'))
 

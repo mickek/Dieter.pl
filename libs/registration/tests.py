@@ -77,7 +77,7 @@ class RegistrationModelTests(RegistrationTestCase):
         Test that user signup sends an activation email.
         
         """
-        self.assertEqual(len(mail.outbox), 2)
+        self.assertEqual(len(mail.outbox), 2) #@UndefinedVariable
 
     def test_activation_email_disable(self):
         """
@@ -88,7 +88,7 @@ class RegistrationModelTests(RegistrationTestCase):
                                                          password='foo',
                                                          email='nobody@example.com',
                                                          send_email=False)
-        self.assertEqual(len(mail.outbox), 2)
+        self.assertEqual(len(mail.outbox), 2) #@UndefinedVariable
 
     def test_activation(self):
         """
