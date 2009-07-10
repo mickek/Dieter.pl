@@ -51,8 +51,8 @@ INSTALLED_APPS = (
 )
 
 AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.ModelBackend",                           
     "dieter.auth.EmailBackend",
-    "django.contrib.auth.backends.ModelBackend",
 )
 
 # our class connected with user profile
