@@ -16,7 +16,7 @@ def index(request):
 def logged_in(request):
     
     if request.user.is_staff:
-        return redirect_to(request, '/admin')
+        return redirect_to(request, reverse('patients_list'))
     
     if request.user.is_authenticated():
         return redirect_to(request, reverse('dashboard'))

@@ -16,10 +16,12 @@ def activate(request, activation_key):
     activation_key = activation_key.lower() # Normalize before trying anything with it.
     account = RegistrationProfile.objects.activate_user(activation_key)
     if account:
+        """
+        small hack so that auto login will work
+        """
         account.backend = settings.AUTHENTICATION_BACKENDS[0]
         login(request, account)
         request.user.message_set.create(message="Twoje konto zostało aktywowane, dziękujemy za rejestrację :-)")
-        print 'accoutn activated'
         return redirect_to(request,reverse('dashboard'))
     else:
         return render_to_response('registration/activate.html',

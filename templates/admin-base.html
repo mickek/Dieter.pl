@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block head %}
+	{{ block.super }}
+	<link rel="stylesheet" href="{{MEDIA_URL}}css/admin-base.css" media="screen" type="text/css" />
+{% endblock %}
+
+{% block main-tabs %}
+	<li class="ui-state-default ui-corner-top {% ifequal top_tab 'patients'%}ui-tabs-selected ui-state-active{%endifequal%}"><a href="{% url patients_list %}">Pacjenci</a></li>
+	<li class="ui-state-default ui-corner-top {% ifequal top_tab 'messages'%}ui-tabs-selected ui-state-active{%endifequal%}"><a href="">Wiadomości</a></li>
+{% endblock %}
+
+

@@ -1,0 +1,33 @@
+{% extends 'admin-base.html' %}
+
+{% load humanize %}
+{% load webdesign %} 
+{% load i18n %}
+
+{% block content %}
+
+	<div id="patient_list" class="grid_12">
+
+		<h2>Lista pacjentów</h2>
+		{%if patients %}
+			<table>
+				<tr>
+					<th>Email</th>
+					<th>Data rejestracji</th>
+					<th>Stan</th>
+				</tr>
+				{% for p in patients %}
+				<tr>
+					<td><a href="{% url edit_diet p.id %}" title="Edytuj dietę">{{p.user.email}}</a></td>
+					<td>{{p.user.date_joined|naturalday}}</td>
+					<td>&nbsp;</td>									
+				</tr>
+				{% endfor %}
+			</table>				
+		{%endif%}
+		
+	</div>
+	
+	
+
+{% endblock %}

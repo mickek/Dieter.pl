@@ -16,6 +16,11 @@ def tabs(request):
         top_tab = 'contact'
     elif path.startswith('/patients/settings') or path.startswith('/accounts/password/change/'):
         top_tab = 'settings'
+    elif path.startswith('/patients/messages'):
+        top_tab = 'messages'        
+    elif path == '/patients/':
+        top_tab = 'patients'                
+        
         
     return {
         'top_tab':top_tab,
