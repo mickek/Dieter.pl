@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 class Diet(models.Model):
     
-    start_date      = models.DateField('Data startu diety')
+    start_date      = models.DateField('Data startu diety',auto_now=True)
     state           = models.CharField('Stan diety', unique=False, max_length=50)
     
     user            = models.ForeignKey(User)
@@ -14,6 +14,12 @@ class DayPlan(models.Model):
     
     sequence_no     = models.IntegerField('Liczba porządkowa')
     diet            = models.ForeignKey(Diet)
+    
+    def __cmp__(self, other):                       
+        if isinstance(other, DayPlan):            
+            return cmp(self.sequence_no, other.sequence_no)      
+        else:                                     
+            return cmp(self, other)    
 
 class Meal(models.Model):
     

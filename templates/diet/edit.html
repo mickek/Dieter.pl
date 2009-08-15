@@ -1,0 +1,45 @@
+{% extends 'admin-base.html' %}
+
+{% load humanize %}
+{% load webdesign %} 
+{% load i18n %}
+
+{% block content %}
+
+	<div class="grid_10 alpha">
+		<ul id="diet_days">
+		{%for d in days%}
+			<li>{{d.sequence_no}}</li>
+		{%endfor%}
+		</ul>
+	</div>
+
+	<div class="grid_2 omega">
+		<a href="{%url diet_add_day diet.id%}">Dodaj dzień</a>
+	</div>
+
+	<div class="grid_12">
+		<h2>Śniadanie</h2>	
+	</div>
+	
+	<div class="grid_12">
+		<h2>Drugie Śniadanie</h2>
+	</div>
+	
+	<div class="grid_12">
+		<h2>Obiad</h2>
+	</div>
+	
+	<div class="grid_12">
+		<h2>Kolacja</h2>
+	</div>	
+	
+	<div class="grid_12" style="text-align:right;">
+		<input type="reset" value="Wyczyść"/>
+		<input type="button" value="Zapisz Dzień"/>
+		<input type="button" value="Zapisz Dietę"/>
+		<input type="button" value="Wyślij Dietę"/>
+		<br/><br/>
+	</div>
+
+{% endblock %}

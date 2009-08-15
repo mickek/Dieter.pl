@@ -1,2 +1,4 @@
 table{ width: 98%; }
 table, td, th, tr { border: 1px solid black; }
+
+#diet_days li{ list-style: none; float: left; padding: 0px 10px; font-weight: bold; font-size: 120%; border: 1px soild black; background-color: lightgrey; margin-right: 2px; }

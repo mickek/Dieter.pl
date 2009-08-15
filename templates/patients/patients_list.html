@@ -14,13 +14,19 @@
 				<tr>
 					<th>Email</th>
 					<th>Data rejestracji</th>
-					<th>Stan</th>
+					<th>Akcje</th>
 				</tr>
 				{% for p in patients %}
 				<tr>
-					<td><a href="{% url edit_diet p.id %}" title="Edytuj dietę">{{p.user.email}}</a></td>
+					<td>{{p.user.email}}</td>
 					<td>{{p.user.date_joined|naturalday}}</td>
-					<td>&nbsp;</td>									
+					<td>
+						{% if p.has_diet %}
+							<a href="{% url edit_diet p.current_diet.id %}" title="Edytuj dietę">Edytuj dietę</a></td>
+						{%else%}
+							<a href="{% url create_diet p.user.id %}" title="Utwórz nową dietę">Utwórz nową dietę</a></td>
+						{%endif%}
+					</td>									
 				</tr>
 				{% endfor %}
 			</table>				
