@@ -9,13 +9,23 @@
 	<div class="grid_10 alpha">
 		<ul id="diet_days">
 		{%for d in days%}
-			<li>{{d.sequence_no}}</li>
+			<li>
+				{% ifequal d.sequence_no current_day.sequence_no %}
+					{{d.sequence_no}}
+				{% else %}
+					<a href="{%url edit_diet diet.id d.sequence_no%}">{{d.sequence_no}}</a>				
+				{% endifequal %}
+			</li>
 		{%endfor%}
 		</ul>
 	</div>
 
 	<div class="grid_2 omega">
 		<a href="{%url diet_add_day diet.id%}">Dodaj dzień</a>
+		{% if can_delete %}
+			<br/>
+			<a href="{%url diet_del_day diet.id current_day.sequence_no%}">Usuń dzień</a>
+		{% endif %}
 	</div>
 
 	<div class="grid_12">

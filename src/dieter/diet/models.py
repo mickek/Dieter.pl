@@ -19,7 +19,10 @@ class DayPlan(models.Model):
         if isinstance(other, DayPlan):            
             return cmp(self.sequence_no, other.sequence_no)      
         else:                                     
-            return cmp(self, other)    
+            return cmp(self, other)
+        
+    class Meta:
+        ordering = ["sequence_no"]    
 
 class Meal(models.Model):
     
@@ -30,6 +33,16 @@ class Meal(models.Model):
     unit_type       = models.CharField('Typ jednostki',max_length=50)
     
     day             = models.ForeignKey(DayPlan)
+    
+    def __cmp__(self, other):                       
+        if isinstance(other, Meal):            
+            return cmp(self.sequence_no, other.sequence_no)      
+        else:                                     
+            return cmp(self, other)
+        
+    class Meta:
+        ordering = ["sequence_no"]    
+    
         
 class Food(models.Model):
     

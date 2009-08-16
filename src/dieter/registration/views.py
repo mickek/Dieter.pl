@@ -21,7 +21,7 @@ def activate(request, activation_key):
         """
         account.backend = settings.AUTHENTICATION_BACKENDS[0]
         login(request, account)
-        request.user.message_set.create(message="Twoje konto zostało aktywowane, dziękujemy za rejestrację :-)")
+        request.user.message_set.create(message="Twoje konto zostało aktywowane, dziękujemy za rejestrację.")
         return redirect_to(request,reverse('dashboard'))
     else:
         return render_to_response('registration/activate.html',
