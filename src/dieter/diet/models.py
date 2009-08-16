@@ -8,8 +8,48 @@ class Diet(models.Model):
     state           = models.CharField('Stan diety', unique=False, max_length=50)
     
     user            = models.ForeignKey(User)
+    
+    """
+    Always inserting in the end
+    """
+    def add_day(self, sequence_no):
 
+        if sequence_no is None:
+            max_day = max(self.dayplan_set.all())
+            if max_day is None: day = 1
+            else: day = max_day.sequence_no+1
+        else:
+            raise "Adding days in between not Implemented"
+    
+        self.dayplan_set.create(sequence_no=day)
+        self.save()
+        return True        
+        
+    def remove_day(self, sequence_no):
+        
+        if len(self.dayplan_set.all())<2: return False
 
+        """
+        Remove day
+        """
+        if sequence_no is None:
+            current_day = min(self.dayplan_set.all())
+        else:
+            current_day = self.dayplan_set.get(sequence_no=sequence_no)
+
+        sequence_no = current_day.sequence_no
+        current_day.delete()
+    
+        """
+        Cleanup
+        """
+        for i, d in enumerate(self.dayplan_set.all()):
+            d.sequence_no = i+1
+            d.save()
+        
+        if sequence_no > 1: sequence_no -= 1 
+        return sequence_no
+    
 class DayPlan(models.Model):
     
     sequence_no     = models.IntegerField('Liczba porządkowa')

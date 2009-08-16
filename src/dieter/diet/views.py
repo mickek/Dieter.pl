@@ -43,63 +43,19 @@ def add_day(request, diet_id, day = None):
 
     diet = get_object_or_404(Diet, pk=diet_id)
 
-    """
-    Always inserting in the end
-    """
-     
-    if day is None:
-        """
-        We are adding at the end or at the begging
-        """
-        max_day = max(diet.dayplan_set.all())
-        if max_day is None: day = 1
-        else: day = max_day.sequence_no+1
-    else:
-        raise "Adding days in between not Implemented"
-
-    diet.dayplan_set.create(sequence_no=day)
-    diet.save()
-    
+    diet.add_day(day)
     request.user.message_set.create(message="Dodano dzień")
-    
-    """
-    Insert day
-    """
     return redirect(reverse('edit_diet',kwargs={'diet_id':diet_id}))
-    
 
 @login_required
 def del_day(request, diet_id, day = None):
     
     diet = get_object_or_404(Diet, pk=diet_id)    
-
-    """
-    Checking preconditions
-    """
-    if len(diet.dayplan_set.all())<2:
+    status = diet.remove_day(int(day))
+    
+    if not status:
         request.user.message_set.create(message="Nie można skasować wszystkich dni diety")
         return redirect(reverse('edit_diet',kwargs={'diet_id':diet_id}))        
     
-    """
-    Remove day
-    """
-    if day is None:
-        current_day = min(diet.dayplan_set.all())
-    else:
-        current_day = diet.dayplan_set.get(sequence_no=day)
-    day = current_day.sequence_no
-    
-    current_day.delete()
-    """
-    Cleanup
-    """
-    
-    for i, d in enumerate(diet.dayplan_set.all()):
-        d.sequence_no = i+1
-        d.save()
-    
     request.user.message_set.create(message="Usunięto dzień")
-    
-    if day > 1: day -= 1 
-    
-    return redirect(reverse('edit_diet',kwargs={'diet_id':diet_id, 'day': day}))
+    return redirect(reverse('edit_diet',kwargs={'diet_id':diet_id, 'day': status}))

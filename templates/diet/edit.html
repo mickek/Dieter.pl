@@ -4,6 +4,11 @@
 {% load webdesign %} 
 {% load i18n %}
 
+{% block head %}
+	{{block.super}}
+ 	<script type="text/javascript" src="{{MEDIA_URL}}js/diet.js"></script>	
+{% endblock %}
+
 {% block content %}
 
 	<div class="grid_10 alpha">
