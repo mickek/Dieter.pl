@@ -29,25 +29,73 @@
 		<a href="{%url diet_add_day diet.id%}">Dodaj dzień</a>
 		{% if can_delete %}
 			<br/>
-			<a href="{%url diet_del_day diet.id current_day.sequence_no%}">Usuń dzień</a>
+			<a href="{%url diet_del_day diet.id current_day.sequence_no%}" onclick="return confirm('Czy napewno chcesz usunąć ten dzień?')">Usuń dzień</a>
 		{% endif %}
 	</div>
 
 	<div class="grid_12">
-		<h2>Śniadanie</h2>	
+		<h2>Śniadanie</h2>
+		{% if breakfest %}
+		<ul>
+		{% for meal in breakfest %}
+			<li>{{meal.name}} {{meal.quantity}}</li>
+		{% endfor %}
+		</ul>
+		{% endif %}
 	</div>
 	
 	<div class="grid_12">
 		<h2>Drugie Śniadanie</h2>
+		{% if brunch %}
+		<ul>
+		{% for meal in brunch %}
+			<li>{{meal.name}} {{meal.quantity}}</li>
+		{% endfor %}
+		</ul>
+		{% endif %}
+		
 	</div>
 	
 	<div class="grid_12">
 		<h2>Obiad</h2>
+		{% if lunch %}
+		<ul>
+		{% for meal in lunch %}
+			<li>{{meal.name}} {{meal.quantity}}</li>
+		{% endfor %}
+		</ul>
+		{% endif %}
+		
 	</div>
 	
 	<div class="grid_12">
 		<h2>Kolacja</h2>
+		{% if dinner %}
+		<ul>
+		{% for meal in dinner %}
+			<li>{{meal.name}} {{meal.quantity}}</li>
+		{% endfor %}
+		</ul>
+		{% endif %}
+		
 	</div>	
+	
+	<div class="grid_12">
+		<h2>Debug</h2>
+		<form method="post" action="{%url diet_add_meal diet.id current_day.sequence_no%}">
+			<select name="type">
+				<option value="breakfest">breakfest</option>
+				<option value="brunch">brunch</option>
+				<option value="lunch">lunch</option>
+				<option value="dinner">dinner</option>
+			</select>
+			
+			<input type="text" name="name"/>
+			<input type="text" name="quantity"/>
+			
+			<input type="submit" value="dodaj"/>
+		</form>
+	</div>
 	
 	<div class="grid_12" style="text-align:right;">
 		<input type="reset" value="Wyczyść"/>

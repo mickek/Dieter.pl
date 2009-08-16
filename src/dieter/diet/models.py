@@ -2,6 +2,28 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+class DietManager(models.Manager):
+    
+    def create(self, **kwargs):
+        
+        new_diet = self.get_query_set().create(**kwargs)
+        for i in range(1,20):
+            new_diet.dayplan_set.create(sequence_no=i)
+            
+        return new_diet
+    
+    def get_or_create(self, **kwargs):
+        
+        diet, created = self.get_query_set().get_or_create(**kwargs)
+        if created:
+            for i in range(1,20): diet.dayplan_set.create(sequence_no=i)
+            diet.save()
+            
+        return (diet, created,)
+            
+    
+    
+    
 class Diet(models.Model):
     
     start_date      = models.DateField('Data startu diety',auto_now=True)
@@ -9,9 +31,8 @@ class Diet(models.Model):
     
     user            = models.ForeignKey(User)
     
-    """
-    Always inserting in the end
-    """
+    objects         = DietManager()
+    
     def add_day(self, sequence_no):
 
         if sequence_no is None:
