@@ -1,0 +1,16 @@
+<h2>
+	{{name}}
+	<a href="#" class="add_meal" rel="{{type}}">dodaj produkt</a>
+</h2> 
+{% if meals %}
+<ul class="sortable" id="{{type}}">
+	{% for meal in meals %}
+		<li>
+			<input type="hidden" name="meal_type" value="{{meal.type}}"/>
+			<input type="text" name="meal_name" value="{{meal.name}}"/> 
+			<input type="text" name="meal_quantity" value="{{meal.quantity}} {{meal.unit_type}}"/>
+			<input type="button" name="delete" class="remove_meal" value="Usuń"/>
+		</li>
+	{% endfor %}
+</ul>
+{% endif %}

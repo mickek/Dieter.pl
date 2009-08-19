@@ -56,14 +56,8 @@ AUTHENTICATION_BACKENDS = (
     "dieter.auth.EmailBackend",
 )
 
-# our class connected with user profile
-# AUTH_PROFILE_MODULE = 'playeraware.UserData'
-
 DEFAULT_FROM_EMAIL = 'kontakt@dieter.pl'
-
-# E-mail address that error messages come from.
-SERVER_EMAIL = 'kontakt@dieter.pl'
-
+SERVER_EMAIL = 'kontakt@dieter.pl'      # E-mail address that error messages come from.
 
 INTERNAL_IPS = ['127.0.0.1']
 

@@ -37,14 +37,13 @@ class Diet(models.Model):
 
         if sequence_no is None:
             max_day = max(self.dayplan_set.all())
-            if max_day is None: day = 1
-            else: day = max_day.sequence_no+1
+            day = 1 if max_day is None else max_day.sequence_no+1 
         else:
             raise "Adding days in between not Implemented"
     
         self.dayplan_set.create(sequence_no=day)
         self.save()
-        return True        
+        return day        
         
     def remove_day(self, sequence_no):
         

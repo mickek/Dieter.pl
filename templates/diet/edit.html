@@ -4,6 +4,8 @@
 {% load webdesign %} 
 {% load i18n %}
 
+{% load diet %}
+
 {% block head %}
 	{{block.super}}
  	<script type="text/javascript" src="{{MEDIA_URL}}js/diet.js"></script>	
@@ -33,54 +35,35 @@
 		{% endif %}
 	</div>
 
-	<div class="grid_12">
-		<h2>Śniadanie</h2>
-		{% if breakfest %}
-		<ul>
-		{% for meal in breakfest %}
-			<li>{{meal.name}} {{meal.quantity}}</li>
-		{% endfor %}
-		</ul>
-		{% endif %}
-	</div>
-	
-	<div class="grid_12">
-		<h2>Drugie Śniadanie</h2>
-		{% if brunch %}
-		<ul>
-		{% for meal in brunch %}
-			<li>{{meal.name}} {{meal.quantity}}</li>
-		{% endfor %}
-		</ul>
-		{% endif %}
+	<form action="{% url diet_perform_action diet.id current_day.sequence_no %}" method="post">
+
+		<div class="grid_12 meals">
+			{% meals_section 'breakfest' 'Śniadanie' breakfest %}
+		</div>
 		
-	</div>
-	
-	<div class="grid_12">
-		<h2>Obiad</h2>
-		{% if lunch %}
-		<ul>
-		{% for meal in lunch %}
-			<li>{{meal.name}} {{meal.quantity}}</li>
-		{% endfor %}
-		</ul>
-		{% endif %}
+		<div class="grid_12 meals">
+			{% meals_section 'brunch' 'Drugie Śniadanie' brunch %}		
+		</div>
 		
-	</div>
-	
-	<div class="grid_12">
-		<h2>Kolacja</h2>
-		{% if dinner %}
-		<ul>
-		{% for meal in dinner %}
-			<li>{{meal.name}} {{meal.quantity}}</li>
-		{% endfor %}
-		</ul>
-		{% endif %}
+		<div class="grid_12 meals">
+			{% meals_section 'lunch' 'Obiad' lunch %}		
+		</div>
 		
-	</div>	
+		<div class="grid_12 meals">
+			{% meals_section 'dinner' 'Kolacja' dinner %}
+		</div>	
+		
+		<div class="grid_12" style="text-align:right;">
+			<input type="submit" name="save_day" value="Zapisz Dzień"/>
+			<input type="submit" name="save_diet" value="Zapisz Dietę"/>
+			<input type="submit" name="send_diet" value="Wyślij Dietę"/>
+			<br/><br/>
+		</div>
+	
+	</form>
 	
 	<div class="grid_12">
+		<hr/>
 		<h2>Debug</h2>
 		<form method="post" action="{%url diet_add_meal diet.id current_day.sequence_no%}">
 			<select name="type">
@@ -97,12 +80,5 @@
 		</form>
 	</div>
 	
-	<div class="grid_12" style="text-align:right;">
-		<input type="reset" value="Wyczyść"/>
-		<input type="button" value="Zapisz Dzień"/>
-		<input type="button" value="Zapisz Dietę"/>
-		<input type="button" value="Wyślij Dietę"/>
-		<br/><br/>
-	</div>
 
 {% endblock %}
