@@ -6,7 +6,7 @@ register = template.Library()
 @register.simple_tag
 def google_analytics_code():
     if settings.DEBUG:
-        return ''
+        return ""
     else:
         return """
 <script type="text/javascript">
@@ -23,9 +23,11 @@ pageTracker._trackPageview();
 def jquery():
     
     uncompressed = 'false'
-    if settings.DEBUG: uncompressed = 'true'
-    
-    return """<script src="http://www.google.com/jsapi"></script>
+    if settings.DEBUG: 
+        return """<script src="%sjs/jquery-1.3.2.js"></script>
+<script src="%sjs/jquery-ui-1.7.2.js"></script>""" % (settings.MEDIA_URL, settings.MEDIA_URL)
+    else:
+        return """<script src="http://www.google.com/jsapi"></script>
 <script type="text/javascript">
 google.load("jquery", "1.3.2",{uncompressed:%s});
 google.load("jqueryui", "1.7.1",{uncompressed:%s});

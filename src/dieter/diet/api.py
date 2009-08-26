@@ -1,16 +1,27 @@
-"""
+import re
 
-Operacje na diecie:
+def parse_quantity(value):
+    
+    pattern = re.compile(r"([0-9\.,]+)\s*(.*)")
+    results = re.search(pattern, value)
+    
+    if not results: return None, None
+    
+    quantity, unit_type = float(results.group(1).strip()), results.group(2).strip()
+    
+    unit_types = {
+        "g":          ["g", "gram"],
+        "kg":         ["kilogram", "kilo", "kg"],
+        "ml":         ["ml"],
+        "l":          ["l","litr"],
+        "szklanka":   ["szklanka","szklanki"],
+        "kromka":     ["kromka","kromki"],
+        "plasterek":  ["plasterek"]
+    }
 
-get_diet_data - informacje o diecie, ile dni / to samo co pobierz 
-get_diet_day_plan - plan diety na konkretny dzien 
-remove_item_from_day_plan - usuniecie elementu z konkretnego dnia diety
-save_item_to_day_plan - zapisanie elementu na konkretny dzien diety
-
-Inne:
-
-get_avaliable_products
-
-większość rzeczy dostępna przez api django... być może wystarczy trochę przykładów?
-"""
-
+    for type, values in unit_types.items():
+        if unit_type in values: return quantity, type 
+    
+    if unit_type == '': unit_type = None
+    
+    return quantity, unit_type

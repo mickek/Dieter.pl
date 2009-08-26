@@ -90,7 +90,7 @@ class Meal(models.Model):
     name            = models.CharField('Nazwa dania', max_length=250, null=False)
     quantity        = models.FloatField('Ilość', default=1)
     sequence_no     = models.IntegerField('Liczba porządkowa')
-    unit_type       = models.CharField('Typ jednostki',max_length=50)
+    unit_type       = models.CharField('Typ jednostki',max_length=50, null=True)
     
     day             = models.ForeignKey(DayPlan)
     
