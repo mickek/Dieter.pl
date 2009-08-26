@@ -1,11 +1,17 @@
 function setup_tab_index(){
 
 	var index = 0;
-	$(".meals ul li input[type='text']").each(function(i,el){
-		$(el).attr('tabindex',i+1)
-		index++;
-	})
 	
+	$(".meals").each(function(i,el){
+
+		$(el).find("li input[type='text']").each(function(i,el){
+			$(el).attr('tabindex',++index)
+		})
+		
+		$(el).find('a').attr('tabindex',++index)
+		
+	})
+		
 	$('#save_day').attr('tabindex',++index)
 	$('#save_diet').attr('tabindex',++index)
 	$('#send_diet').attr('tabindex',++index)
@@ -13,7 +19,11 @@ function setup_tab_index(){
 }
 
 function focus_first_input(){
-	$(".meals ul li input[type='text']")[0].focus()
+	if( typeof $(".meals ul li input[type='text']")[0] == "undefined" ){
+		$(".meals a[rel='breakfest']")[0].focus()
+	}else{
+		$(".meals ul li input[type='text']")[0].focus()
+	}
 }
 
 function remove_button_action(){
@@ -30,8 +40,6 @@ function setup_autocomplete(el){
 	$(el).autocomplete(products_autocomplete_url, {
 		selectFirst: false
 	});
-	
-
 }
 
 
@@ -52,9 +60,9 @@ $(document).ready( function() {
 		var meal_name = null
 		$$('li',
 			$$('input',{'type':'hidden','value':meal_type, 'name':'meal_type'}),
-			meal_name = $$('input',{'type':'text','name':'meal_name'}),
+			meal_name = $$('input',{'type':'text','name':'meal_name','class':'meal_name'}),
 			' ',
-			$$('input',{'type':'text','name':'meal_quantity'}),
+			$$('input',{'type':'text','name':'meal_quantity','class':'meal_quantity'}),
 			' ',
 			$$('input.removal_meal',{'type':'button','name':'delete','value':'Usuń',click:remove_button_action})
 		).appendTo(el)

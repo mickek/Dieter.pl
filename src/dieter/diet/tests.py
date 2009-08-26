@@ -53,4 +53,10 @@ class ParseQuantityTest(TestCase):
         self.assertEquals(q,5)
         self.assertEquals(t,"plasterków")
         
+    def test_none(self):
+        q, t = parse_quantity("")
+        self.assertEquals(q,None)
+        self.assertEquals(t,None)
+        
+        
         

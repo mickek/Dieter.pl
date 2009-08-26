@@ -88,7 +88,7 @@ class Meal(models.Model):
     
     type            = models.CharField('Typ posiłku', max_length=100, null=False)
     name            = models.CharField('Nazwa dania', max_length=250, null=False)
-    quantity        = models.FloatField('Ilość', default=1)
+    quantity        = models.FloatField('Ilość', null=True)
     sequence_no     = models.IntegerField('Liczba porządkowa')
     unit_type       = models.CharField('Typ jednostki',max_length=50, null=True)
     

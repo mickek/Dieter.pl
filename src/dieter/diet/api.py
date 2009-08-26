@@ -14,9 +14,6 @@ def parse_quantity(value):
         "kg":         ["kilogram", "kilo", "kg"],
         "ml":         ["ml"],
         "l":          ["l","litr"],
-        "szklanka":   ["szklanka","szklanki"],
-        "kromka":     ["kromka","kromki"],
-        "plasterek":  ["plasterek"]
     }
 
     for type, values in unit_types.items():

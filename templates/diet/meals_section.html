@@ -7,8 +7,8 @@
 	{% for meal in meals %}
 		<li>
 			<input type="hidden" name="meal_type" value="{{meal.type}}"/>
-			<input type="text" name="meal_name" value="{{meal.name}}"/> 
-			<input type="text" name="meal_quantity" value="{{meal.quantity|floatformat:-1}}{%if meal.unit_type%} {{meal.unit_type}}{%endif%}"/>
+			<input type="text" name="meal_name" class="meal_name" value="{{meal.name}}"/> 
+			<input type="text" name="meal_quantity" class="meal_quantity" value="{{meal.quantity|floatformat:-1}}{%if meal.unit_type%} {{meal.unit_type}}{%endif%}"/>
 			<input type="button" name="delete" class="remove_meal" value="Usuń"/>
 		</li>
 	{% endfor %}

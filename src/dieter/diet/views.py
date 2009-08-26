@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic.simple import direct_to_template
 from django.shortcuts import redirect, get_object_or_404
 from django.core.urlresolvers import reverse
-from dieter.diet.models import Diet, DayPlan, Food
+from dieter.diet.models import Diet, DayPlan, Food, Meal
 from django.contrib.auth.models import User
 from api import parse_quantity
 from django.http import HttpResponse
@@ -83,7 +83,7 @@ def perform_action(request, diet_id, sequence_no):
     if request.method == 'POST': 
         
         if 'save_day' or 'save_diet' in request.POST:
-            sequence_no = int(sequence_no)
+            sequence_no = int(sequence_no)+1
             
             meals = zip( request.POST.getlist('meal_type'), request.POST.getlist('meal_name'), request.POST.getlist('meal_quantity') )
 
@@ -93,7 +93,7 @@ def perform_action(request, diet_id, sequence_no):
                 meal_type, meal_name, meal_quantity = row
                 quantity, unit_type = parse_quantity(meal_quantity)
                 
-                if meal_name != '' and quantity is not None and meal_type in ['breakfest','brunch','lunch','dinner']:
+                if meal_name != '' and meal_type in ['breakfest','brunch','lunch','dinner']:
                     day.meal_set.create( type=meal_type, name=meal_name, quantity=quantity, unit_type = unit_type, sequence_no=i )
                 
             day.save()
@@ -115,5 +115,15 @@ def food_autocomplete(request):
     """
     
     items = []
-    items.extend(Food.objects.filter(name__icontains = request.GET['q']).values_list('name',flat=True)[:int(request.GET['limit'])])
-    return HttpResponse("\n".join(items))
+    q = request.GET['q']
+    limit = int(request.GET['limit']) 
+    
+    items.extend(Food.objects.filter(name__icontains = q).values_list('name',flat=True))
+    items.extend(Meal.objects.filter(name__icontains = q).values_list('name',flat=True))
+    items = [ item.lower() for item in items ]
+    distinct_items = set(items)
+    items = []
+    items.extend(distinct_items)
+    items.sort()
+
+    return HttpResponse("\n".join(items[:limit]))
