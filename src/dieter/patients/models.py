@@ -27,10 +27,10 @@ class Profile(models.Model):
         >>> p = Profile()
         >>> p.is_profile_complete()
         False
-        >>> p = Profile(height = 176.8, waist = 85.1, target_weight = 86.5 )
+        >>> p = Profile(height = 176.8, target_weight = 86.5 )
         >>> p.is_profile_complete()
         False
-        >>> p = Profile(sex = 1, height = 176.8, waist = 85.1, target_weight = 86.5 )
+        >>> p = Profile(sex = 1, height = 176.8, target_weight = 86.5 )
         >>> p.is_profile_complete()
         True
         """

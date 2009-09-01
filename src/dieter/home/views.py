@@ -7,6 +7,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.core.urlresolvers import reverse
 from django.views.generic.simple import redirect_to, direct_to_template
 from dieter.patients.forms import ProfileForm
+from django.contrib.auth.decorators import login_required
 
 def index(request):
     
@@ -26,23 +27,22 @@ def logged_in(request):
             return redirect_to(request, reverse('dashboard'))
         else:
             return redirect_to(request, reverse('complete_profile'))
-        
+
+@login_required     
 def complete_profile(request):
 
     p = request.user.get_profile()
-    
     if p.is_profile_complete(): return redirect_to(request, reverse('dashboard'))
-    
+
     form = ProfileForm(instance = p)
-    
     if request.method == 'POST':
     
         form = ProfileForm(request.POST, instance=p)
         if form.is_valid():
             
-            current_weight = form.cleaned_data['current_weight']
-            request.user.userdata_set.create(weight=current_weight)
-            
+            request.user.userdata_set.create(
+                                             weight=form.cleaned_data['current_weight'], 
+                                             waist=form.cleaned_data['current_waist'])
             form.save()
             request.user.save()
             
