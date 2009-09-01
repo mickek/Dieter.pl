@@ -1,0 +1,52 @@
+{% extends 'incomplete-base.html' %}
+
+{% load webdesign %} 
+
+{% block content %}
+
+	<div class="grid_10 alpha">
+		
+		<form action="{% url complete_profile %}" method="post">
+		
+			<div class="grid_10 alpha">
+				<h2>Uzupełnij dane</h2>
+			</div>
+			<div class="grid_5 alpha">
+				
+				<ul>
+					<li><label for="id_sex">{{form.sex.label}}: {{form.sex}}</label>{{form.sex.errors}}</li>
+					<li><label for="id_current_weight">{{form.current_weight.label}}: {{form.current_weight}}</label>{{form.current_weight.errors}}</li>
+					<li><label for="id_height">{{form.height.label}}: {{form.height}}</label>{{form.height.errors}}</li>
+				</ul>
+				
+			</div>
+			
+			<div class="grid_5 omega">
+				<ul>
+					<li><label for="id_target_weight">{{form.target_weight.label}}: {{form.target_weight}}</label>{{form.target_weight.errors}}</li>
+					<li><label for="id_waist">{{form.waist.label}}: {{form.waist}}</label>{{form.waist.errors}}</li>
+				</ul>
+			</div>
+			
+			<div class="grid_10">
+				<input type="submit" value="Zapisz Dane"/>
+			</div>
+		
+		</form>
+	
+	</div>
+	
+	<div class="grid_2 omega" style="background-color: yellow; text-align: center;">
+	
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>Ads by google</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+	
+	</div>	
+	
+
+{% endblock %}
