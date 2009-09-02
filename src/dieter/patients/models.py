@@ -2,6 +2,7 @@
 
 from django.db import models
 from django.contrib.auth.models import User
+from dieter.utils import today_tommrow
 
 class Profile(models.Model):
     
@@ -35,6 +36,21 @@ class Profile(models.Model):
         True
         """
         return self.height is not None and self.target_weight is not None and self.sex is not None
+    
+    def get_current_data(self):
+        
+        today, tommorow = today_tommrow()
+        data = self.user.userdata_set.filter(date__gte=today, date__lte=tommorow)
+
+        if data:
+            return data[0]
+        else:
+            # get the latest data
+            data = self.user.userdata_set.all().order_by('-date')[:1]
+            if data:
+                return UserData(user=self.user, weight=data[0].weight, waist=data[0].waist)
+            else:
+                return UserData(user=self.user)
         
 
 class Coupon(models.Model):
@@ -48,5 +64,5 @@ class UserData(models.Model):
     weight  = models.FloatField('Waga', null=False)
     date    = models.DateField('Data', auto_now=True)    
     
-    user    = models.ForeignKey(User, unique=True)
+    user    = models.ForeignKey(User)
         

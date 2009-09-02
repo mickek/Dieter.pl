@@ -2,20 +2,34 @@
 
 {% load webdesign %} 
 
+{% block head %}
+	{{block.super}}
+	<link rel="stylesheet" href="{{MEDIA_URL}}css/dashboard.css" media="screen" type="text/css" />
+ 	<script>save_weight_url = '{% url dashboard_save_weight%}'</script>
+ 	<script type="text/javascript" src="{{MEDIA_URL}}js/dashboard.js"></script>
+{% endblock %}
+
+
 {% block content %}
 
 	<div class="grid_10 alpha">
-		
-		<div class="grid_5 alpha">
-			<h2>Moja waga dzisiaj</h2>
-		</div>
-		
-		<div class="grid_5 omega">
-			<h2>Moja waga</h2>
-		</div>
+	
+		<h2 style="float:left;">&lt; Wczoraj &gt;</h2>
+		<input style="float:right;" type="button" value="Spytaj się Dietetyka"/>	
+	</div>
 
-		<div class="grid_10 alpha">
-			<a href="#">Spytaj się dietetyka</a>
+
+	<div class="grid_10 alpha">
+		
+		<div class="grid_3 alpha" style="text-align:center;">
+			<h2>Moja waga dzisiaj</h2>
+			<a href="javascript:void(0)" id="weight_down">-</a>
+			{{weight_form.weight}}
+			<a href="javascript:void(0)" id="weight_up">+</a>			
+		</div>
+		
+		<div class="grid_7 omega">
+			<h2>Moja waga</h2>
 		</div>
 		
 		<div class="grid_10 alpha">
