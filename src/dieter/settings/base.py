@@ -42,7 +42,9 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.admin',
     'django.contrib.webdesign',
-    'django.contrib.humanize',        
+    'django.contrib.humanize',
+    
+    'south',        
     
     'dieter.dashboard',
     'dieter.diet',    
