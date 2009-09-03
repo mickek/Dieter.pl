@@ -1,11 +1,12 @@
 {% extends 'loggedin-base.html' %}
 
 {% load webdesign %} 
+{% load humanize %}
 
 {% block head %}
 	{{block.super}}
 	<link rel="stylesheet" href="{{MEDIA_URL}}css/dashboard.css" media="screen" type="text/css" />
- 	<script>save_weight_url = '{% url dashboard_save_weight%}'</script>
+ 	<script>save_weight_url = '{% url dashboard_save_weight requested_day.year requested_day.month requested_day.day %}'</script>
  	<script type="text/javascript" src="{{MEDIA_URL}}js/dashboard.js"></script>
 {% endblock %}
 
@@ -14,7 +15,19 @@
 
 	<div class="grid_10 alpha">
 	
-		<h2 style="float:left;">&lt; Wczoraj &gt;</h2>
+		<h2 style="float:left;">
+			<a href="{% url dashboard yesterday.year yesterday.month yesterday.day  %}">&lt;</a>
+
+			{{requested_day|naturalday}}
+
+			{% ifnotequal requested_day today %}
+			<a href="{% url dashboard %}">dzisiaj</a>
+			{% endifnotequal %}
+			
+			{% if tommorow %}
+			<a href="{% url dashboard tommorow.year tommorow.month tommorow.day  %}">&gt;</a>
+			{% endif %}
+		</h2>
 		<input style="float:right;" type="button" value="Spytaj się Dietetyka"/>	
 	</div>
 

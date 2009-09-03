@@ -4,7 +4,9 @@ going_down = false;
 function save_weight(){
 	
 	var current_weight = parseFloat($('#id_weight').attr('value'));
-	$.post(save_weight_url, {'weight': current_weight}, function(){},"text");
+	$.post(save_weight_url, {'weight': current_weight}, function(){
+		$.jGrowl("Zapisano wagę", { life: 500 });
+	},"text");
 }
 
 function go_up(){
@@ -41,7 +43,6 @@ function start_weight_down(){
 	go_down();
 	
 }
-
 
 $(document).ready( function() {
 	

@@ -13,16 +13,21 @@
 		
 		<link rel="stylesheet" href="{{MEDIA_URL}}css/main.css" media="screen" type="text/css" />
 		<link rel="stylesheet" href="{{MEDIA_URL}}css/jquery-ui-1.7.1.css" media="screen" type="text/css" />
+		<link rel="stylesheet" href="{{MEDIA_URL}}css/jquery.jgrowl.css" media="screen" type="text/css" />
+				
 		<link rel="Shortcut Icon" type="image/ico" href="{{MEDIA_URL}}images/favicon.ico" />
 		
 		{% jquery %}
+		
+ 		<script type="text/javascript" src="{{MEDIA_URL}}js/jquery.jgrowl.js"></script>
+ 				
 		{% block head %}{%endblock%}
     </head>
     
     <body class="container_12">
 		
 		<!-- Start logo -->
-		<div class="grid_9"><h1><a href="/" title="Dieter.pl">Dieter.pl</a></h1></div>
+		<div class="grid_9"><h1><a href="/" title="Dieter.pl"><img height="60" src="{{MEDIA_URL}}images/dieter.png" alt="Dieter.pl"/></a></h1></div>
 		<!-- End logo -->
 		<!-- Start links -->
 		<div class="grid_3" id="top-links" style="text-align: right">
@@ -52,16 +57,6 @@
 		</div>	
 		<!-- End tabs -->
 		<div class="grid_12">&nbsp;</div>
-		{% if messages %}
-		<div class="grid_12" id="messages">
-			<ul>
-			    {% for message in messages %}
-				    <li>{{ message }}</li>
-			    {% endfor %}
-		    </ul>
-		</div>
-		{% endif %}
-		
 				
 		<!-- Start content -->
 		<div class="grid_12">
@@ -74,6 +69,16 @@
 			<a href="Dieter.pl" title="Dieter.pl">Dieter.pl</a> &copy;2009&nbsp;|&nbsp;Skontaktuj się z nami: <a href="mailto:kontakt@dieter.pl">kontakt@dieter.pl</a>
 		</div>	
 		<!-- End footer -->
+		
+		{% if messages %}
+			<script>
+			$(document).ready( function() {
+		    {% for message in messages %}
+		    	$.jGrowl("{{message}}");
+		    {% endfor %}
+			})
+			</script>
+		{% endif %}
 		
 
 	</body>

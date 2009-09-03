@@ -2,7 +2,8 @@
 
 from django.db import models
 from django.contrib.auth.models import User
-from dieter.utils import today_tommrow
+from dieter.utils import today
+import datetime
 
 class Profile(models.Model):
     
@@ -37,20 +38,24 @@ class Profile(models.Model):
         """
         return self.height is not None and self.target_weight is not None and self.sex is not None
     
-    def get_current_data(self):
-        
-        today, tommorow = today_tommrow()
-        data = self.user.userdata_set.filter(date__gte=today, date__lte=tommorow)
-
-        if data:
-            return data[0]
-        else:
+    def get_user_data(self,day=today()):
+        """
+        By default returns today's user data.
+        If other date is set in day parameter tries to return that day user data.
+        If no user data is created for this date it returns a new object, 
+        if no other user_data is in the db it sets weight and waist set to 0,
+        else it sets weigth and waist to values from the latest user_data 
+        """
+        try:
+            data = self.user.userdata_set.get(date=day)
+            return data
+        except UserData.DoesNotExist:
             # get the latest data
             data = self.user.userdata_set.all().order_by('-date')[:1]
             if data:
-                return UserData(user=self.user, weight=data[0].weight, waist=data[0].waist)
+                return UserData(user=self.user, weight=data[0].weight, waist=data[0].waist, date=day)
             else:
-                return UserData(user=self.user)
+                return UserData(user=self.user, weight=0, waist=0, date=day)
         
 
 class Coupon(models.Model):
@@ -62,7 +67,7 @@ class UserData(models.Model):
     
     waist   = models.FloatField('Obwód pasa/tailii', null=True)
     weight  = models.FloatField('Waga', null=False)
-    date    = models.DateField('Data', auto_now=True)    
+    date    = models.DateField('Data', default=datetime.datetime.now)    
     
     user    = models.ForeignKey(User)
         

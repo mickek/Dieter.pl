@@ -13,12 +13,17 @@ def profile_complete_required(f):
     update_wrapper(wrap, f)
     return wrap
 
-def today_tommrow():
-    
+def today():
     today = datetime.datetime.today()
+    return datetime.datetime(today.year, today.month,today.day)
+
+def tommorow():
+    return today() + datetime.timedelta(days=1)
+
+def yesterday():
+    return today() - datetime.timedelta(days=1)
     
-    today = datetime.datetime(today.year, today.month,today.day)
-    tommorow = today + datetime.timedelta(days=1)
     
-    return (today,tommorow,)    
-    
+class DieterException(Exception):
+    def __init__(self, message):
+        Exception.__init__(self, message)    
