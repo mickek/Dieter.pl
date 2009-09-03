@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-    
 from django.db import models
 from django.contrib.auth.models import User
+from dieter.utils import DieterException
 
 class DietManager(models.Manager):
     
     def create(self, **kwargs):
         
         new_diet = self.get_query_set().create(**kwargs)
-        for i in range(1,20):
+        for i in range(1,21):
             new_diet.dayplan_set.create(sequence_no=i)
             
         return new_diet
@@ -16,13 +17,10 @@ class DietManager(models.Manager):
         
         diet, created = self.get_query_set().get_or_create(**kwargs)
         if created:
-            for i in range(1,20): diet.dayplan_set.create(sequence_no=i)
+            for i in range(1,21): diet.dayplan_set.create(sequence_no=i)
             diet.save()
             
         return (diet, created,)
-            
-    
-    
     
 class Diet(models.Model):
     
@@ -39,7 +37,7 @@ class Diet(models.Model):
             max_day = max(self.dayplan_set.all())
             day = 1 if max_day is None else max_day.sequence_no+1 
         else:
-            raise "Adding days in between not Implemented"
+            raise DieterException("Adding days in between not implemented")
     
         self.dayplan_set.create(sequence_no=day)
         self.save()
@@ -47,7 +45,7 @@ class Diet(models.Model):
         
     def remove_day(self, sequence_no):
         
-        if len(self.dayplan_set.all())<2: return False
+        if len(self.dayplan_set.all())<2: raise DieterException("Can't remove all days from diet")
 
         """
         Remove day

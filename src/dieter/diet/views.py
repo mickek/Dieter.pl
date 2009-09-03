@@ -8,6 +8,7 @@ from dieter.diet.models import Diet, DayPlan, Food, Meal
 from django.contrib.auth.models import User
 from api import parse_quantity
 from django.http import HttpResponse
+from dieter.utils import DieterException
 
 
 @login_required
@@ -62,16 +63,17 @@ def del_day(request, diet_id, day = None):
     """
     Removes a day from selected diet and redirects to previous day
     """
-    
-    diet = get_object_or_404(Diet, pk=diet_id)    
-    status = diet.remove_day(int(day))
-    
-    if not status:
+    status = None
+    try:
+        diet = get_object_or_404(Diet, pk=diet_id)    
+        status = diet.remove_day(int(day))
+        request.user.message_set.create(message="Usunięto dzień")
+        
+    except DieterException:
         request.user.message_set.create(message="Nie można skasować wszystkich dni diety")
-        return redirect(reverse('edit_diet',kwargs={'diet_id':diet_id}))        
-    
-    request.user.message_set.create(message="Usunięto dzień")
-    return redirect(reverse('edit_diet',kwargs={'diet_id':diet_id, 'day': status}))
+        
+    return redirect(reverse('edit_diet',kwargs={'diet_id':diet_id, 'day': status}))                
+        
 
 @login_required
 def perform_action(request, diet_id, sequence_no):
@@ -121,7 +123,9 @@ def food_autocomplete(request):
     items.extend(Food.objects.filter(name__icontains = q).values_list('name',flat=True))
     items.extend(Meal.objects.filter(name__icontains = q).values_list('name',flat=True))
     items = [ item.lower() for item in items ]
+    
     distinct_items = set(items)
+    
     items = []
     items.extend(distinct_items)
     items.sort()
