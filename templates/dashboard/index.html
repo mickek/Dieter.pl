@@ -34,7 +34,7 @@
 
 	<div class="grid_10 alpha">
 		
-		<div class="grid_3 alpha" style="text-align:center;">
+		<div class="grid_3 alpha">
 			<h2>Moja waga dzisiaj</h2>
 			<a href="javascript:void(0)" id="weight_down">-</a>
 			{{weight_form.weight}}
@@ -46,7 +46,28 @@
 		</div>
 		
 		<div class="grid_10 alpha">
-			{% lorem 1 p%}	
+		
+			<div class="grid_5 alpha">
+			
+				<h3>Zmiany w ciągu tygodnia:</h3>
+				<ul>
+					<li>Waga: {{diff_weight_1_week}}</li>
+					<li>BMI: {{diff_bmi_1_week}}</li>
+				</ul>	
+			
+			
+			</div>
+			<div class="grid_5 alpha">
+			
+				<h3>Zmiany w ciągu miesiąca:</h3>
+				<ul>
+					<li>Waga: {{diff_weight_1_month}}</li>
+					<li>BMI: {{diff_bmi_1_month}}</li>
+				</ul>	
+			
+			
+			</div>
+		
 		</div>
 		
 		<div class="grid_10 alpha">

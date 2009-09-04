@@ -14,8 +14,8 @@ def profile_complete_required(f):
     return wrap
 
 def today():
-    today = datetime.datetime.today()
-    return datetime.datetime(today.year, today.month,today.day)
+    today = datetime.date.today()
+    return datetime.date(today.year, today.month,today.day)
 
 def tommorow():
     return today() + datetime.timedelta(days=1)

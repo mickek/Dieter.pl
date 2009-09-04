@@ -1,3 +1,4 @@
+from dieter.utils import today
 
 
 def approximate_user_data(user_data_list, field = 'weight'):
@@ -8,7 +9,7 @@ def approximate_user_data(user_data_list, field = 'weight'):
     Approximates only gaps in data, if there's no data in the beginning or in the end it leavs them
     """
     
-    user_data_list.sort()
+
     min_date = min(user_data_list).date
     max_date = max(user_data_list).date
     
@@ -18,7 +19,8 @@ def approximate_user_data(user_data_list, field = 'weight'):
     # build consistent value list with zeroes where there's no data
     for ud in user_data_list:
         index = (ud.date - min_date).days
-        values[index] = getattr(ud, field)
+        val = getattr(ud, field)
+        if val and val != 0: values[index] = val
     
     # determine consistent no values areas
     approximation_areas = []
@@ -63,3 +65,16 @@ def approximate_user_data(user_data_list, field = 'weight'):
             pass 
             
     return values
+
+def approximate_user_data_for_date(user_data_list, field = 'weight', day = today()):
+    
+    approximated_data = approximate_user_data(user_data_list, field)
+    
+    min_day = min(user_data_list).date
+    index = (day - min_day).days
+    
+    if index < 0: index = 0
+    if index > len(approximated_data)-1: index = len(approximated_data)-1 
+    
+    return approximated_data[index]
+    

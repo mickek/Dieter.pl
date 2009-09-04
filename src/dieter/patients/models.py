@@ -3,6 +3,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from dieter.utils import today
+from dieter.patients.utils import approximate_user_data_for_date
 import datetime
 
 class Profile(models.Model):
@@ -51,12 +52,41 @@ class Profile(models.Model):
             return data
         except UserData.DoesNotExist:
             # get the latest data
-            data = self.user.userdata_set.all().order_by('-date')[:1]
-            if data:
-                return UserData(user=self.user, weight=data[0].weight, waist=data[0].waist, date=day)
-            else:
-                return UserData(user=self.user, weight=0, waist=0, date=day) 
+            approximated_weight = approximate_user_data_for_date(self.user.userdata_set.all(),"weight",day)
+            return UserData(user=self.user, weight=approximated_weight, waist=0, date=day)
+            
+    def __getattr__(self, name):
+        """
+        >>> p = Profile()
+        >>> p.diff_weight_1_week
+        """
+        if name.startswith("diff"):
+            type, param, number, unit = name.split("_")
+            if type == "diff": return self.get_diff(today(), param, int(number), unit)
+        else:
+            return super.__getattr__(name)
         
+        
+    
+    def get_diff(self, end, param, number, unit):
+        
+        params = {}
+        
+        if unit.startswith("day"): params['days'] = number
+        if unit.startswith("week"): params['weeks'] = number
+        if unit.startswith("month"): 
+            params['days'] = number
+            number = number * 30
+        if unit.startswith("year"): 
+            params['days'] = number
+            number = number * 365
+        
+        start = end - datetime.timedelta(**params)
+        
+        start_val = approximate_user_data_for_date(self.user.userdata_set.all(),param,start)
+        end_val = approximate_user_data_for_date(self.user.userdata_set.all(),param,end)
+
+        return end_val - start_val
 
 class Coupon(models.Model):
     
@@ -71,8 +101,9 @@ class UserData(models.Model):
     
     user    = models.ForeignKey(User)
     
+    @property
     def bmi(self):
-        return self.weight / (self.user.get_profile().height/100.)**2
+        return (self.weight / (self.user.get_profile().height/100.)**2)
 
     def __cmp__(self, other):                       
         if isinstance(other, UserData):            
