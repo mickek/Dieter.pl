@@ -14,12 +14,14 @@
 				<tr>
 					<th>Email</th>
 					<th>Data rejestracji</th>
+					<th>Waga</th>
 					<th>Akcje</th>
 				</tr>
 				{% for p in patients %}
 				<tr>
 					<td>{{p.user.email}}</td>
 					<td>{{p.user.date_joined|naturalday}}</td>
+					<td>{{p.get_user_data.weight}}</td>
 					<td>
 						{% if p.has_diet %}
 							<a href="{% url edit_diet p.current_diet.id %}" title="Edytuj dietę">Edytuj dietę</a></td>

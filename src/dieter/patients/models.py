@@ -43,7 +43,7 @@ class Profile(models.Model):
         By default returns today's user data.
         If other date is set in day parameter tries to return that day user data.
         If no user data is created for this date it returns a new object, 
-        if no other user_data is in the db it sets weight and waist set to 0,
+        if no other user_data is in the db it sets weight and waist to 0,
         else it sets weigth and waist to values from the latest user_data 
         """
         try:
@@ -55,7 +55,7 @@ class Profile(models.Model):
             if data:
                 return UserData(user=self.user, weight=data[0].weight, waist=data[0].waist, date=day)
             else:
-                return UserData(user=self.user, weight=0, waist=0, date=day)
+                return UserData(user=self.user, weight=0, waist=0, date=day) 
         
 
 class Coupon(models.Model):
@@ -70,4 +70,17 @@ class UserData(models.Model):
     date    = models.DateField('Data', default=datetime.datetime.now)    
     
     user    = models.ForeignKey(User)
+    
+    def bmi(self):
+        return self.weight / (self.user.get_profile().height/100.)**2
+
+    def __cmp__(self, other):                       
+        if isinstance(other, UserData):            
+            return cmp(self.date, other.date)      
+        else:                                     
+            return cmp(self, other)
+
+    
+    def __unicode__(self):
+        return "%s: %s kg" % (self.date, self.weight)
         

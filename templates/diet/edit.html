@@ -17,7 +17,17 @@
 
 {% block content %}
 
-	<div class="grid_10 alpha">
+	<div class="grid_12 diet_header">
+		<h2>Dzień {{current_day.sequence_no}}</h2>
+		<div class="actions">
+			<a href="{%url diet_add_day diet.id%}">Dodaj dzień</a>
+			{% if can_delete %}
+				<a href="{%url diet_del_day diet.id current_day.sequence_no%}" onclick="return confirm('Czy napewno chcesz usunąć ten dzień?')">Usuń dzień</a>
+			{% endif %}
+		</div>
+	</div>
+
+	<div class="grid_12">
 		<ul id="diet_days">
 		{%for d in days%}
 			<li>
@@ -29,14 +39,6 @@
 			</li>
 		{%endfor%}
 		</ul>
-	</div>
-
-	<div class="grid_2 omega">
-		<a href="{%url diet_add_day diet.id%}">Dodaj dzień</a>
-		{% if can_delete %}
-			<br/>
-			<a href="{%url diet_del_day diet.id current_day.sequence_no%}" onclick="return confirm('Czy napewno chcesz usunąć ten dzień?')">Usuń dzień</a>
-		{% endif %}
 	</div>
 
 	<form action="{% url diet_perform_action diet.id current_day.sequence_no %}" method="post">

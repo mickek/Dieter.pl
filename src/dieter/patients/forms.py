@@ -8,7 +8,7 @@ from django import forms
 class ProfileForm(ModelForm):
 
     current_weight = forms.FloatField(label="Aktualna waga")
-    current_waist = forms.FloatField(label="Aktualny obwód pasa")  
+    current_waist = forms.FloatField(label="Aktualny obwód pasa", required=False)  
 
     class Meta:
         model = Profile

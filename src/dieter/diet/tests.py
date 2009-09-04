@@ -14,7 +14,7 @@ class ParseQuantityTest(TestCase):
         
         q, t = parse_quantity("2 szklanki")
         self.assertEquals(q,2)
-        self.assertEquals(t,"szklanka")
+        self.assertEquals(t,"szklanki")
         
         q, t = parse_quantity("2 kromka")
         self.assertEquals(q,2)
@@ -22,7 +22,7 @@ class ParseQuantityTest(TestCase):
         
         q, t = parse_quantity("2 kromki")
         self.assertEquals(q,2)
-        self.assertEquals(t,"kromka") 
+        self.assertEquals(t,"kromki") 
 
     def test_no_whitespace(self):
         
