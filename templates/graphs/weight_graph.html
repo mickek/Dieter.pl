@@ -1,0 +1,29 @@
+{% if data %}
+<div id="weight_graph"></div> 
+<script type="text/javascript"> 
+	google.load("visualization", "1", {packages:["annotatedtimeline"],'language' : 'pl'});
+	google.setOnLoadCallback(drawChart);
+
+	function drawChart(){
+	
+	     
+	    var data = new google.visualization.DataTable();
+	    data.addColumn('date', 'Date');
+	    data.addColumn('number', 'Waga');
+	    data.addRows({{rows}});
+	
+	    	
+	    /** query **/
+	    {% for row in data %}
+	    data.setValue({{forloop.counter}}-1, 0, new Date({{row.date|date:"Y"}},{{row.date|date:"m"}},{{row.date|date:"d"}},0));
+	    data.setValue({{forloop.counter}}-1, 1, {{row.weight}});
+	    {% endfor %}
+	
+	    var chart = new google.visualization.AnnotatedTimeLine(document.getElementById('weight_graph'));
+	    chart.draw(data, {displayAnnotations: true, 'min': {{min}}, 'max': {{max}} });
+	}
+        
+</script>
+{% else %}
+<h3>Brak danych</h3>
+{% endif %}

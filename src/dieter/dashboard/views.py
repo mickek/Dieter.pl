@@ -16,9 +16,7 @@ def index(request, year=None, month=None, day=None):
         profile = request.user.get_profile()
         
         today = get_today()
-        
         requested_day = datetime.date(int(year),int(month),int(day)) if ( year or month or day ) else today
-        
         if requested_day > today: raise DieterException("Can't show future")
     
         yesterday = requested_day - datetime.timedelta(days=1)
@@ -42,7 +40,7 @@ def index(request, year=None, month=None, day=None):
 def save_weight(request, year=None, month=None, day=None):
     
     try:
-        data = request.user.get_profile().get_user_data(datetime.datetime(int(year),int(month),int(day)))
+        data = request.user.get_profile().get_user_data(datetime.date(int(year),int(month),int(day)))
         data.weight = float(request.REQUEST['weight'])
         data.save()
         return HttpResponse('"ok"', mimetype="application/json")        

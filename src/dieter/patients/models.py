@@ -86,7 +86,9 @@ class Profile(models.Model):
         start_val = approximate_user_data_for_date(self.user.userdata_set.all(),param,start)
         end_val = approximate_user_data_for_date(self.user.userdata_set.all(),param,end)
 
-        return end_val - start_val
+        if end_val and start_val:
+            return end_val - start_val
+        else: return None
 
 class Coupon(models.Model):
     

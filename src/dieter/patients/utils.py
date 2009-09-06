@@ -1,7 +1,7 @@
 from dieter.utils import today
 
 
-def approximate_user_data(user_data_list, field = 'weight'):
+def approximate_user_data(user_data_list, field = 'weight', extend_left=None):
     """
     Gets a user data list witch doesn't have to be consistent and transforms it into
     consisten values list with either weight, bmi or waist values
@@ -9,6 +9,7 @@ def approximate_user_data(user_data_list, field = 'weight'):
     Approximates only gaps in data, if there's no data in the beginning or in the end it leavs them
     """
     
+    if len(user_data_list) == 0: return None
 
     min_date = min(user_data_list).date
     max_date = max(user_data_list).date
@@ -63,15 +64,23 @@ def approximate_user_data(user_data_list, field = 'weight'):
             weight = values[approximation_area[0]-1]
             for index in approximation_area: values[index] = weight
             pass 
+        
+    if extend_left and len(values) < extend_left:
+        extended_values = [ values[0] for i in range(extend_left-len(values)) ]
+        for v in values: extended_values.append(v)
+        print extended_values
+        return extended_values
+        
             
     return values
 
 def approximate_user_data_for_date(user_data_list, field = 'weight', day = today()):
     
-    approximated_data = approximate_user_data(user_data_list, field)
-    
+    if len(user_data_list) == 0: return None
+
     min_day = min(user_data_list).date
     index = (day - min_day).days
+    approximated_data = approximate_user_data(user_data_list, field)
     
     if index < 0: index = 0
     if index > len(approximated_data)-1: index = len(approximated_data)-1 

@@ -2,12 +2,14 @@
 
 {% load webdesign %} 
 {% load humanize %}
+{% load graphs %}
 
 {% block head %}
 	{{block.super}}
 	<link rel="stylesheet" href="{{MEDIA_URL}}css/dashboard.css" media="screen" type="text/css" />
  	<script>save_weight_url = '{% url dashboard_save_weight requested_day.year requested_day.month requested_day.day %}'</script>
  	<script type="text/javascript" src="{{MEDIA_URL}}js/dashboard.js"></script>
+	<script type="text/javascript" src="http://www.google.com/jsapi"></script> 	
 {% endblock %}
 
 
@@ -15,67 +17,64 @@
 
 	<div class="grid_10 alpha">
 	
-		<h2 style="float:left;">
-			<a href="{% url dashboard yesterday.year yesterday.month yesterday.day  %}">&lt;</a>
-
-			{{requested_day|naturalday}}
-
-			{% ifnotequal requested_day today %}
-			<a href="{% url dashboard %}">dzisiaj</a>
-			{% endifnotequal %}
-			
-			{% if tommorow %}
-			<a href="{% url dashboard tommorow.year tommorow.month tommorow.day  %}">&gt;</a>
-			{% endif %}
-		</h2>
-		<input style="float:right;" type="button" value="Spytaj się Dietetyka"/>	
-	</div>
-
-
-	<div class="grid_10 alpha">
-		
-		<div class="grid_3 alpha">
-			<h2>Moja waga dzisiaj</h2>
-			<a href="javascript:void(0)" id="weight_down">-</a>
-			{{weight_form.weight}}
-			<a href="javascript:void(0)" id="weight_up">+</a>			
-		</div>
-		
-		<div class="grid_7 omega">
-			<h2>Moja waga</h2>
-		</div>
-		
 		<div class="grid_10 alpha">
 		
-			<div class="grid_5 alpha">
+			<h2 style="float:left;">
+				<a href="{% url dashboard yesterday.year yesterday.month yesterday.day  %}">&lt;</a>
+	
+				{{requested_day|naturalday}}
+	
+				{% ifnotequal requested_day today %}
+				<a href="{% url dashboard %}">dzisiaj</a>
+				{% endifnotequal %}
+				
+				{% if tommorow %}
+				<a href="{% url dashboard tommorow.year tommorow.month tommorow.day  %}">&gt;</a>
+				{% endif %}
+			</h2>
+			<input style="float:right;" type="button" value="Spytaj się Dietetyka"/>	
+		</div>
+	
+	
+		<div class="grid_10 alpha">
 			
+			<div class="grid_3 alpha">
+				<h2>Moja waga dzisiaj</h2>
+				<div>
+					<a href="javascript:void(0)" id="weight_down">-</a>
+					{{weight_form.weight}}
+					<a href="javascript:void(0)" id="weight_up">+</a>
+				</div>
+
 				<h3>Zmiany w ciągu tygodnia:</h3>
 				<ul>
 					<li>Waga: {{diff_weight_1_week}}</li>
 					<li>BMI: {{diff_bmi_1_week}}</li>
 				</ul>	
-			
-			
-			</div>
-			<div class="grid_5 alpha">
-			
+				
 				<h3>Zmiany w ciągu miesiąca:</h3>
 				<ul>
 					<li>Waga: {{diff_weight_1_month}}</li>
 					<li>BMI: {{diff_bmi_1_month}}</li>
 				</ul>	
+							
+			</div>
 			
-			
+			<div class="grid_7 omega">
+				<h2>Ostatni miesiąc</h2>
+				{% weight_graph user today 30 %}
 			</div>
 		
-		</div>
+						
+		</div>		
 		
-		<div class="grid_10 alpha">
-			{% lorem 1 p%}
+		<div class="grid_10">
+			<br/>
+			{% lorem 1 %}
 		</div>
 	
 	</div>
-	
+
 	<div class="grid_2 omega" style="background-color: yellow; text-align: center;">
 	
 		<p>&nbsp;</p>
@@ -85,8 +84,16 @@
 		<p>&nbsp;</p>
 		<p>&nbsp;</p>
 		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>		
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+						
 	
 	</div>	
 	
+
+
 
 {% endblock %}
