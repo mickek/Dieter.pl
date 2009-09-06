@@ -24,10 +24,10 @@ def index(request, year=None, month=None, day=None):
         
         weight_form = WeightForm(instance = request.user.get_profile().get_user_data(requested_day))
         
-        diff_weight_1_week = profile.get_diff(requested_day,"weight",1,"week")
-        diff_bmi_1_week = profile.get_diff(requested_day,"bmi",1,"week")
-        diff_weight_1_month = profile.get_diff(requested_day,"weight",1,"month")
-        diff_bmi_1_month = profile.get_diff(requested_day,"bmi",1,"month")
+        diff_weight_1_week = profile.get_diff(today,"weight",1,"week")
+        diff_bmi_1_week = profile.get_diff(today,"bmi",1,"week")
+        diff_weight_1_month = profile.get_diff(today,"weight",1,"month")
+        diff_bmi_1_month = profile.get_diff(today,"bmi",1,"month")
         
         return direct_to_template(request, "dashboard/index.html",
                                   extra_context = locals())

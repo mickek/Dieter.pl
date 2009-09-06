@@ -68,9 +68,7 @@ def approximate_user_data(user_data_list, field = 'weight', extend_left=None):
     if extend_left and len(values) < extend_left:
         extended_values = [ values[0] for i in range(extend_left-len(values)) ]
         for v in values: extended_values.append(v)
-        print extended_values
         return extended_values
-        
             
     return values
 

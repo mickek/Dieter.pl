@@ -6,10 +6,21 @@
 
 {% block head %}
 	{{block.super}}
-	<link rel="stylesheet" href="{{MEDIA_URL}}css/dashboard.css" media="screen" type="text/css" />
- 	<script>save_weight_url = '{% url dashboard_save_weight requested_day.year requested_day.month requested_day.day %}'</script>
+	<link rel="stylesheet" href="{{MEDIA_URL}}css/dashboard.css" type="text/css" />
+ 	<script>
+ 		save_weight_url = '{% url dashboard_save_weight requested_day.year requested_day.month requested_day.day %}';
+ 		dashboard_url = '{% url dashboard %}';
+ 	</script>
  	<script type="text/javascript" src="{{MEDIA_URL}}js/dashboard.js"></script>
-	<script type="text/javascript" src="http://www.google.com/jsapi"></script> 	
+ 	<script type="text/javascript" src="{{MEDIA_URL}}js/date.format.js"></script>
+ 	
+	<!--[if IE]><script language="javascript" type="text/javascript" src="{{MEDIA_URL}}js/jqplot/excanvas.js"></script><![endif]-->
+	<script language="javascript" type="text/javascript" src="{{MEDIA_URL}}js/jqplot/jquery.jqplot.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}js/jqplot/plugins/jqplot.dateAxisRenderer.min.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}js/jqplot/plugins/jqplot.canvasTextRenderer.min.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}js/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>	
+	<script type="text/javascript" src="{{MEDIA_URL}}js/jqplot/plugins/jqplot.highlighter.js"></script>	
+	<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/jquery.jqplot.css" /> 	
 {% endblock %}
 
 
@@ -17,10 +28,9 @@
 
 	<div class="grid_10 alpha">
 	
-		<div class="grid_10 alpha">
-		
-			<h2 style="float:left;">
-				<a href="{% url dashboard yesterday.year yesterday.month yesterday.day  %}">&lt;</a>
+		<div class="grid_7 alpha date_nav">
+			<h2>
+				<a href="{% url dashboard yesterday.year yesterday.month yesterday.day  %}">&laquo;</a>
 	
 				{{requested_day|naturalday}}
 	
@@ -29,49 +39,48 @@
 				{% endifnotequal %}
 				
 				{% if tommorow %}
-				<a href="{% url dashboard tommorow.year tommorow.month tommorow.day  %}">&gt;</a>
+				<a href="{% url dashboard tommorow.year tommorow.month tommorow.day  %}">&raquo;</a>
 				{% endif %}
 			</h2>
-			<input style="float:right;" type="button" value="Spytaj się Dietetyka"/>	
+		</div>
+		
+		<div class="grid_3 omega date_nav">
+			<h2><a href="#">spytaj się dietetyka</a></h2>
 		</div>
 	
 	
 		<div class="grid_10 alpha">
 			
 			<div class="grid_3 alpha">
-				<h2>Moja waga dzisiaj</h2>
+				<h2>Moja waga:</h2>
 				<div>
 					<a href="javascript:void(0)" id="weight_down">-</a>
 					{{weight_form.weight}}
 					<a href="javascript:void(0)" id="weight_up">+</a>
 				</div>
 
-				<h3>Zmiany w ciągu tygodnia:</h3>
+				<h3>Ostatni tydzień:</h3>
 				<ul>
-					<li>Waga: {{diff_weight_1_week}}</li>
-					<li>BMI: {{diff_bmi_1_week}}</li>
+					<li>Waga: {{diff_weight_1_week|floatformat:2}} kg</li>
+					<li>BMI: {{diff_bmi_1_week|floatformat:2}}</li>
 				</ul>	
 				
-				<h3>Zmiany w ciągu miesiąca:</h3>
+				<h3>Ostatni miesiąc:</h3>
 				<ul>
-					<li>Waga: {{diff_weight_1_month}}</li>
-					<li>BMI: {{diff_bmi_1_month}}</li>
+					<li>Waga: {{diff_weight_1_month|floatformat:2}} kg</li>
+					<li>BMI: {{diff_bmi_1_month|floatformat:2}}</li>
 				</ul>	
 							
 			</div>
 			
 			<div class="grid_7 omega">
-				<h2>Ostatni miesiąc</h2>
-				{% weight_graph user today 30 %}
+				{% weight_graph user today 14 requested_day %}
 			</div>
 		
 						
 		</div>		
 		
-		<div class="grid_10">
-			<br/>
-			{% lorem 1 %}
-		</div>
+		<div class="grid_10"></div>
 	
 	</div>
 

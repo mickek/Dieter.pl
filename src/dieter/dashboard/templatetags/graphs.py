@@ -2,25 +2,28 @@
 
 from django import template
 from dieter.patients.utils import approximate_user_data
+from django.utils import simplejson
 import datetime
 
 register = template.Library()
 
 @register.simple_tag
-def weight_graph(user, end_day, length):
+def weight_graph(user, end_day, length, today):
     
     start_day = end_day - datetime.timedelta(days=length)
-    approximated_weight = approximate_user_data(user.userdata_set.filter(date__range=(start_day,end_day)), 'weight', extend_left=30)
+    approximated_weight = approximate_user_data(user.userdata_set.filter(date__range=(start_day,end_day)), 'weight', extend_left=length)
 
     if not approximated_weight: return {'data':None}
     
+    today_value = approximated_weight[(today - start_day).days-1]
+    
     data = []
     for i in range(len(approximated_weight)):
-        data.append({'weight':approximated_weight[i],'date':start_day+datetime.timedelta(days=i)})
-    
-    min_val = int(min(approximated_weight)*0.8)
-    max_val = int(max(approximated_weight)*1.1)
-    
-    return {'data':data, 'rows':len(data), 'min':min_val, 'max':max_val}
+        date = start_day+datetime.timedelta(days=i+1)
+        data.append(["%s-%s-%s" % (date.year,date.month,date.day), approximated_weight[i]])
+
+    return {'plot_data':simplejson.dumps(
+                                         [data, [["%s-%s-%s"%(today.year,today.month,today.day),today_value]]]
+                                         )}
     
 register.inclusion_tag('graphs/weight_graph.html')(weight_graph)

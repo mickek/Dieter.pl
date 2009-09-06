@@ -75,11 +75,9 @@ class Profile(models.Model):
         if unit.startswith("day"): params['days'] = number
         if unit.startswith("week"): params['weeks'] = number
         if unit.startswith("month"): 
-            params['days'] = number
-            number = number * 30
+            params['days'] = number*30            
         if unit.startswith("year"): 
-            params['days'] = number
-            number = number * 365
+            params['days'] = number*365
         
         start = end - datetime.timedelta(**params)
         

@@ -1,139 +1,201 @@
-var meal_types = ['breakfest','brunch','lunch','dinner'];
-
-function setup_tab_index(){
-
-	var index = 0;
+DietEditor = function(){
 	
-	$(".meals").each(function(i,el){
+	this.decorate_html = function(){
 
-		$(el).find("li input[type='text']").each(function(i,el){
-			$(el).attr('tabindex',++index);
+		thiz = this;		
+		
+		$(".sortable").sortable();
+
+		$(".meals ul li input[name='meal_name']").each(function(i,el){
+			thiz._setup_meal_input(el);
 		});
 		
-		$(el).find('a').attr('tabindex',++index);
+		$(".meals ul li input[name='meal_quantity']").each(function(i,el){
+			thiz._setup_quantity_input(el);
+		});
 		
-	});
+		$(".add_meal").each(function(i,el){
+			thiz._setup_add_meal(el);
+		});
 		
-	$('#save_day').attr('tabindex',++index);
-	$('#save_diet').attr('tabindex',++index);
-	$('#send_diet').attr('tabindex',++index);
+		$(".remove_meal").each(function(i,el){
+			thiz._setup_remove_button(el);
+		});				
+		
+	};
 	
-}
-
-function focus_first_input(){
-	if( typeof $(".meals ul li input[type='text']")[0] == "undefined" ){
-		add_meal('breakfest');
-	}else{
-		$(".meals ul li input[type='text']")[0].focus();
-	}
-}
-
-function remove_button_action(){
-
-	var parent = $(this).parent();
+	this.init = function(){
+		
+		var meals = $('.meals ul li');
+		if( meals.size() > 0 ) ($(".add_meal[rel='breakfest']")[0]).focus();
+		else this.add_meal('breakfest');
+		
+		this._setup_tab_index();
+	},
 	
-	/* get focus on first input before */
-	var previous = parent.prev().children()[1];
-	if( previous ) previous.focus();
-	else focus_first_input();
-
-	parent.remove();
-	setup_tab_index();
-}
-
-function remove_meal(li, focus){
+	this.meal_types = {
+		'breakfest': $('#breakfest'),
+		'brunch': $('#brunch'),
+		'lunch': $('#lunch'),
+		'dinner': $('#dinner')
+	},
 	
-	/* get focus on first input before */
-	var previous = li.prev().children()[1];
-	if( previous) previous.focus();
-	else focus_first_input();
-
-	li.remove();
-	setup_tab_index();
+	this.meal_types_seq = ['breakfest','brunch','lunch','dinner'];
 	
-}
+	this._setup_meal_input = function(el){
 
-function setup_autocomplete(el){
-	$(el).autocomplete(products_autocomplete_url, {
-		selectFirst: false
-	});
+		var thiz = this;
+		$(el).autocomplete(products_autocomplete_url, {
+			selectFirst: false
+		});
+		
+		$(el).blur(function(){
+			if($(this).attr('value')=='') {
+				var meal = $(this).parent();
+				console.log('onblur removing', meal);
+				thiz.remove_meal(meal);
+			}
+		});
+				
+	};
 	
-//	$(el).blur(function(e){
-//		if($(this).attr('value')==''){
-//			console.log(e)
-//			var current_meal_type = $(this).parent().parent().attr('id');
-//			remove_meal($(this).parent(),false);
-//			add_meal(meal_types[meal_types.indexOf(current_meal_type)+1]);
+	this._setup_quantity_input = function(el){
+		
+		thiz = this;
+		$(el).blur(function(){
+			var meal = $(this).parent();
+			console.log('blur',this,meal.next().size());
+
+			
+//			if( new Meal(meal).get_meal_name().attr('value') == '' ){
+//				thiz.remove_meal(meal);
+//			}
 //			
-//		}
-//	});
-}
-
-function setup_meal_quantity(el){
+			if( meal.next().size() == 0 ){
+				thiz.add_meal(meal.parent().attr('id'));
+			}
+		});		
+	};
 	
-	$(el).focus( function(){
-		if( $(this).prev().attr('value') == '' ){
-			var current_meal_type = $(this).parent().parent().attr('id');
-			remove_meal($(this).parent());
-			add_meal(meal_types[meal_types.indexOf(current_meal_type)+1]);
+	this._setup_remove_button = function(el){
+		var thiz = this;
+		$(el).click(function(){
+			thiz.remove_meal($(this).parent());
+		});
+	};
+	
+	this._setup_add_meal = function(el){
+		var thiz = this;
+		$(el).click(function(){
+			thiz.add_meal($(this).attr('rel'));
+		});
+		
+		$(el).focus(function(){
+			console.log('focus',el);
+		});
+	};
+	
+	this.add_meal = function(meal_type){
+		
+		var meal_input = null, meal_quantity = null, meal_remove = null;
+		$$('li',
+			$$('input',{'type':'hidden','value':meal_type, 'name':'meal_type'}),
+			meal_input = $$('input',{'type':'text','name':'meal_name','class':'meal_name'}),
+			' ',
+			meal_quantity = $$('input',{'type':'text','name':'meal_quantity','class':'meal_quantity'}),
+			' ',
+			meal_remove = $$('input.removal_meal',{'type':'button','name':'delete','value':'Usuń'})
+		).appendTo(this.meal_types[meal_type]);
+		
+		console.log(this.meal_types[meal_type]);
+		
+		this._setup_meal_input(meal_input);
+		this._setup_quantity_input(meal_quantity);
+		this._setup_remove_button(meal_remove);
+		meal_input.focus();
+		this._setup_tab_index();
+		
+	};
+	
+	this.remove_meal = function(meal){
+
+		var is_last = meal.next().size() == 0;
+		var meal_type = meal.parent().attr('id');
+		
+		tabindex = new Meal(meal).get_meal_name().attr('tabindex');
+		
+		
+		meal.remove();
+		
+		if( is_last ){
+			
+			var next_link = $('a[tabindex='+(parseInt(tabindex)+2)+']');
+			if( next_link.size() > 0) next_link.focus();
+			
+//			var next_seq = this.meal_types_seq.indexOf(meal_type)+1;
+//			if( next_seq < 4 ){
+//				var meals = this.get_meals(this.meal_types_seq[next_seq]);
+//				if( meals.length != 0) meals[0].get_meal_name().focus();
+//				else this.add_meal(this.meal_types_seq[next_seq]);
+//			}
 		}
-	});
-}
-
-function add_meal(meal_type){
-
-	var el = $('#'+meal_type);
-	var meal_name = null, meal_quantity = null;
-	$$('li',
-		$$('input',{'type':'hidden','value':meal_type, 'name':'meal_type'}),
-		meal_name = $$('input',{'type':'text','name':'meal_name','class':'meal_name'}),
-		' ',
-		meal_quantity = $$('input',{'type':'text','name':'meal_quantity','class':'meal_quantity'}),
-		' ',
-		$$('input.removal_meal',{'type':'button','name':'delete','value':'Usuń',click:remove_button_action})
-	).appendTo(el);
+		
+		this._setup_tab_index();
+	};
 	
+	this.get_meals = function(meal_type){
+
+		meals = [];
+		meals_node = this.meal_types[meal_type].children();
+		for(var i=0; i < meals_node.size(); i++) meals.push(new Meal(meals_node[i]));
+		
+		return meals;
+		
+	};
 	
-	setup_autocomplete(meal_name);
-	//setup_meal_quantity(meal_quantity);
-	meal_name.focus();
-	setup_tab_index();
+	this._setup_tab_index = function(){
+		
+		var index = 0;
+		
+		$(".meals").each(function(i,el){
 
-}
+			$(el).find('a').attr('tabindex',++index);			
+			
+			$(el).find("li input[type='text']").each(function(i,el){
+				$(el).attr('tabindex',++index);
+			});
+			
+		});
+			
+		$('#save_day').attr('tabindex',++index);
+		$('#save_diet').attr('tabindex',++index);
+		$('#send_diet').attr('tabindex',++index);
+		
+	};
 
+	
+};
+
+Meal = function(node){
+	this.node = node;
+};
+
+Meal.prototype = {
+	
+	get_meal_name : function(){
+		return $($(this.node).children()[1]);
+	},
+
+	get_meal_quantity : function(){
+		return $($(this.node).children()[2]);
+	}
+		
+};
 
 $(document).ready( function() {
-
-	$(".sortable").sortable();
 	
-	$(".remove_meal").click(remove_button_action);
-	
-	$(".meals ul li input[name='meal_name']").each(function(i,el){
-		setup_autocomplete(el);
-	});
-	
-	$(".meals ul li input[name='meal_quantity']").each(function(i,el){
-		//setup_meal_quantity(el);
-	});
-	
-	
-	$(".add_meal").click(function(){
-		add_meal($(this).attr('rel'));
-	});
-	
-	$(".add_meal").focus(function(){
-		
-		//if(typeof $('#'+$(this).attr('rel')).children()[0] == 'undefined'){
-			//add_meal($(this).attr('rel'));
-		//}else{
-			//$($('#'+$(this).attr('rel')).children()[0]).children()[0].focus()
-//		//}
-		
-		
-	});
-	
-	
-	setup_tab_index();
-	focus_first_input();
+	var editor = new DietEditor();
+	editor.decorate_html();
+	editor.init();
 	
 });
