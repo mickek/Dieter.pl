@@ -1,5 +1,9 @@
 DietEditor = function(){
 	
+	this.meal_types_seq = ['breakfest','brunch','lunch','dinner'];
+	this.meal_types = {};
+	for( cc in this.meal_types_seq ) this.meal_types[this.meal_types_seq[cc]] = $('#'+this.meal_types_seq[cc]);
+	
 	this.decorate_html = function(){
 
 		thiz = this;		
@@ -31,16 +35,7 @@ DietEditor = function(){
 		
 		this._setup_tab_index();
 	},
-	
-	this.meal_types = {
-		'breakfest': $('#breakfest'),
-		'brunch': $('#brunch'),
-		'lunch': $('#lunch'),
-		'dinner': $('#dinner')
-	},
-	
-	this.meal_types_seq = ['breakfest','brunch','lunch','dinner'];
-	
+		
 	this._setup_meal_input = function(el){
 
 		var thiz = this;
@@ -56,32 +51,34 @@ DietEditor = function(){
 			if(event.keyCode == 9){
 				
 				var meal = $(this).parent();
+				var meal_type = meal.parent().attr('id');				
 				
 				/**
 				 * Moving right
 				 */
 				if(!event.shiftKey){
 					
-					if( meal.next().size() == 0 ){
-						var meal_type = meal.parent().attr('id');
+					if( meal.next().size() == 0 ){	// no meals on right
 						if( new Meal(meal).get_meal_name().attr('value') == '' ){	// if meal name is empty removing meal
-							event.preventDefault();							
+
+							event.preventDefault();														
+							thiz.remove_meal(meal);
+
 							var next_seq = thiz.meal_types_seq.indexOf(meal_type)+1;
-							if( next_seq < 4 ){	// if there's next section ahead moving to it
-								
+							if( next_seq < thiz.meal_types_seq.length ){	// if there's next section ahead moving to it
+
+								var next_section = thiz.meal_types_seq[next_seq];
 								var meals = thiz.get_meals(thiz.meal_types_seq[next_seq]);
-								thiz.remove_meal(meal);
+
 								// if there are meals in next section we should focus on first meal
-								if(thiz.meal_types[thiz.meal_types_seq[next_seq]].children().size()!=0){
-									new Meal(thiz.meal_types[thiz.meal_types_seq[next_seq]].children()[0]).get_meal_name().focus();
-								}else{
-									console.log('should add new meal')
-									thiz.add_meal(thiz.meal_types_seq[next_seq]);
+								if(thiz.meal_types[next_section].children().size() !=0 ){
+									new Meal(thiz.meal_types[next_section].children()[0]).get_meal_name().focus();
+								}else{	// if no meals we should add one
+									thiz.add_meal(next_section);
 								}
 								
-								
 							}else{	// no next section moving focus to first meal
-								thiz.remove_meal(meal);
+								
 								if( $('input.meal_name').size() > 0){
 									$('input.meal_name')[0].focus();
 								}else{
@@ -95,14 +92,14 @@ DietEditor = function(){
 				 * Moving left
 				 */	
 				}else{
+
+					event.preventDefault();					
+					var next_seq = thiz.meal_types_seq.indexOf(meal_type)-1;
+					var has_previous_meals = meal.prev().size() != 0;
 					
 					if( new Meal(meal).get_meal_name().attr('value') == '' ){	// meal input is empty should remove it
-						event.preventDefault();
-						if( meal.prev().size() == 0 ){	// removing it and going to previous meal type
-							var meal_type = meal.parent().attr('id');
-							var next_seq = thiz.meal_types_seq.indexOf(meal_type)-1;
+						if( !has_previous_meals ){	// removing it and going to previous meal type
 							if( next_seq > -1 ){
-								var meals = thiz.get_meals(thiz.meal_types_seq[next_seq]);
 								thiz.remove_meal(meal);
 								thiz.add_meal(thiz.meal_types_seq[next_seq]);
 							}							
@@ -110,9 +107,13 @@ DietEditor = function(){
 							new Meal(meal.prev()).get_meal_name().focus();
 							thiz.remove_meal(meal);
 						}
-					}else if (meal.prev().size() != 0){	// this meal is not empty, focusing on previous meal name
-						event.preventDefault();
+						
+					}else if (has_previous_meals){	// this meal is not empty, focusing on previous meal name
 						(new Meal(meal.prev())).get_meal_name().focus();
+					}else if( next_seq > -1 ){	// no meals left moving focus to last meal in previous section
+						
+						var meals = thiz.get_meals(thiz.meal_types_seq[next_seq]);
+						meals[meals.length-1].get_meal_name().focus();
 					}
 					
 				}
@@ -133,35 +134,37 @@ DietEditor = function(){
 			if(event.keyCode == 9){
 				
 				var meal = $(this).parent();
+				var meal_type = meal.parent().attr('id');				
 				
 				/**
 				 * move right
 				 */
 				if(!event.shiftKey){
-					console.log('next',$(this).parent());
 					if( meal.next().size() == 0 ){ // no more meals on right ( last meal in section )
+
 						event.preventDefault();							
-						var meal_type = meal.parent().attr('id');
-						if( new Meal(meal).get_meal_name().attr('value') != '' ){	// this meal is filled, adding next meal in the same section
+
+						if( new Meal(meal).get_meal_name().attr('value') != '' ){	// this meal is corectly filled, adding next meal in the same section
 							thiz.add_meal(meal_type);
 						}else{	// this meal was empty removing it
+							
 							thiz.remove_meal(meal);
 							var next_seq = thiz.meal_types_seq.indexOf(meal_type)+1;
-							if( next_seq < 4 ){	// adding new meal in next section
+							if( next_seq < 4 ){	// moving focus to next section, either add a meal, or focus on existing one
 								var meals = thiz.get_meals(thiz.meal_types_seq[next_seq]);
 								
 								// if there are meals in next section we should focus on first meal
 								if(thiz.meal_types[thiz.meal_types_seq[next_seq]].children().size()!=0){
 									new Meal(thiz.meal_types[thiz.meal_types_seq[next_seq]].children()[0]).get_meal_name().focus();
-								}else{
+								}else{	// no meals in next section adding new one
 									thiz.add_meal(thiz.meal_types_seq[next_seq]);
 								}
 
-							}else{	// this meal was in last section, moving focus to first meal
-								if( $('input.meal_name').size() > 0){
+							}else{	// this was last meal in last section, moving focus to breakfest
+								if( $('input.meal_name').size() > 0){	// either focus on existing meal in breakfest or add a new one
 									$('input.meal_name')[0].focus();	// focus on existing meal
 								}else{
-									thiz.add_meal(thiz.meal_types_seq[0]);	// adding new meal
+									thiz.add_meal(thiz.meal_types_seq[0]);	// adding new meal to breakfest
 								}
 							}
 						}
