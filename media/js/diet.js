@@ -71,11 +71,11 @@ DietEditor = function(){
 								
 								var meals = thiz.get_meals(thiz.meal_types_seq[next_seq]);
 								thiz.remove_meal(meal);
-
 								// if there are meals in next section we should focus on first meal
-								if(thiz.meal_types[thiz.meal_types_seq[next_seq]].children()!=0){
+								if(thiz.meal_types[thiz.meal_types_seq[next_seq]].children().size()!=0){
 									new Meal(thiz.meal_types[thiz.meal_types_seq[next_seq]].children()[0]).get_meal_name().focus();
 								}else{
+									console.log('should add new meal')
 									thiz.add_meal(thiz.meal_types_seq[next_seq]);
 								}
 								
@@ -151,7 +151,7 @@ DietEditor = function(){
 								var meals = thiz.get_meals(thiz.meal_types_seq[next_seq]);
 								
 								// if there are meals in next section we should focus on first meal
-								if(thiz.meal_types[thiz.meal_types_seq[next_seq]].children()!=0){
+								if(thiz.meal_types[thiz.meal_types_seq[next_seq]].children().size()!=0){
 									new Meal(thiz.meal_types[thiz.meal_types_seq[next_seq]].children()[0]).get_meal_name().focus();
 								}else{
 									thiz.add_meal(thiz.meal_types_seq[next_seq]);
