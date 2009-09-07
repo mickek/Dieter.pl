@@ -27,8 +27,7 @@ DietEditor = function(){
 	this.init = function(){
 		
 		var meals = $('.meals ul li');
-		if( meals.size() > 0 ) ($(".add_meal[rel='breakfest']")[0]).focus();
-		else this.add_meal('breakfest');
+		if( meals.size() == 0 )  this.add_meal('breakfest');
 		
 		this._setup_tab_index();
 	},
@@ -48,12 +47,75 @@ DietEditor = function(){
 		$(el).autocomplete(products_autocomplete_url, {
 			selectFirst: false
 		});
-		
-		$(el).blur(function(){
-			if($(this).attr('value')=='') {
+				
+		/**
+		 * Overriding tab and shift-tab logic for meal name
+		 */
+		$(el).keydown(function(event){
+			
+			if(event.keyCode == 9){
+				
 				var meal = $(this).parent();
-				console.log('onblur removing', meal);
-				thiz.remove_meal(meal);
+				
+				/**
+				 * Moving right
+				 */
+				if(!event.shiftKey){
+					
+					if( meal.next().size() == 0 ){
+						var meal_type = meal.parent().attr('id');
+						if( new Meal(meal).get_meal_name().attr('value') == '' ){	// if meal name is empty removing meal
+							event.preventDefault();							
+							var next_seq = thiz.meal_types_seq.indexOf(meal_type)+1;
+							if( next_seq < 4 ){	// if there's next section ahead moving to it
+								
+								var meals = thiz.get_meals(thiz.meal_types_seq[next_seq]);
+								thiz.remove_meal(meal);
+
+								// if there are meals in next section we should focus on first meal
+								if(thiz.meal_types[thiz.meal_types_seq[next_seq]].children()!=0){
+									new Meal(thiz.meal_types[thiz.meal_types_seq[next_seq]].children()[0]).get_meal_name().focus();
+								}else{
+									thiz.add_meal(thiz.meal_types_seq[next_seq]);
+								}
+								
+								
+							}else{	// no next section moving focus to first meal
+								thiz.remove_meal(meal);
+								if( $('input.meal_name').size() > 0){
+									$('input.meal_name')[0].focus();
+								}else{
+									thiz.add_meal(thiz.meal_types_seq[0]);	// creating first meal
+								}
+							}
+						}
+					}
+					
+				/**
+				 * Moving left
+				 */	
+				}else{
+					
+					if( new Meal(meal).get_meal_name().attr('value') == '' ){	// meal input is empty should remove it
+						event.preventDefault();
+						if( meal.prev().size() == 0 ){	// removing it and going to previous meal type
+							var meal_type = meal.parent().attr('id');
+							var next_seq = thiz.meal_types_seq.indexOf(meal_type)-1;
+							if( next_seq > -1 ){
+								var meals = thiz.get_meals(thiz.meal_types_seq[next_seq]);
+								thiz.remove_meal(meal);
+								thiz.add_meal(thiz.meal_types_seq[next_seq]);
+							}							
+						}else{	// there are other meals on left, focusing on previous meal name, and removing empty meal
+							new Meal(meal.prev()).get_meal_name().focus();
+							thiz.remove_meal(meal);
+						}
+					}else if (meal.prev().size() != 0){	// this meal is not empty, focusing on previous meal name
+						event.preventDefault();
+						(new Meal(meal.prev())).get_meal_name().focus();
+					}
+					
+				}
 			}
 		});
 				
@@ -62,19 +124,55 @@ DietEditor = function(){
 	this._setup_quantity_input = function(el){
 		
 		thiz = this;
-		$(el).blur(function(){
-			var meal = $(this).parent();
-			console.log('blur',this,meal.next().size());
-
+		
+		/**
+		 * Overriding tab and shift-tab logic for meal quantity
+		 */
+		$(el).keydown(function(event){
 			
-//			if( new Meal(meal).get_meal_name().attr('value') == '' ){
-//				thiz.remove_meal(meal);
-//			}
-//			
-			if( meal.next().size() == 0 ){
-				thiz.add_meal(meal.parent().attr('id'));
+			if(event.keyCode == 9){
+				
+				var meal = $(this).parent();
+				
+				/**
+				 * move right
+				 */
+				if(!event.shiftKey){
+					console.log('next',$(this).parent());
+					if( meal.next().size() == 0 ){ // no more meals on right ( last meal in section )
+						event.preventDefault();							
+						var meal_type = meal.parent().attr('id');
+						if( new Meal(meal).get_meal_name().attr('value') != '' ){	// this meal is filled, adding next meal in the same section
+							thiz.add_meal(meal_type);
+						}else{	// this meal was empty removing it
+							thiz.remove_meal(meal);
+							var next_seq = thiz.meal_types_seq.indexOf(meal_type)+1;
+							if( next_seq < 4 ){	// adding new meal in next section
+								var meals = thiz.get_meals(thiz.meal_types_seq[next_seq]);
+								
+								// if there are meals in next section we should focus on first meal
+								if(thiz.meal_types[thiz.meal_types_seq[next_seq]].children()!=0){
+									new Meal(thiz.meal_types[thiz.meal_types_seq[next_seq]].children()[0]).get_meal_name().focus();
+								}else{
+									thiz.add_meal(thiz.meal_types_seq[next_seq]);
+								}
+
+							}else{	// this meal was in last section, moving focus to first meal
+								if( $('input.meal_name').size() > 0){
+									$('input.meal_name')[0].focus();	// focus on existing meal
+								}else{
+									thiz.add_meal(thiz.meal_types_seq[0]);	// adding new meal
+								}
+							}
+						}
+					}
+					
+				}
 			}
-		});		
+			
+		});
+		
+		
 	};
 	
 	this._setup_remove_button = function(el){
@@ -88,10 +186,6 @@ DietEditor = function(){
 		var thiz = this;
 		$(el).click(function(){
 			thiz.add_meal($(this).attr('rel'));
-		});
-		
-		$(el).focus(function(){
-			console.log('focus',el);
 		});
 	};
 	
@@ -107,13 +201,13 @@ DietEditor = function(){
 			meal_remove = $$('input.removal_meal',{'type':'button','name':'delete','value':'Usuń'})
 		).appendTo(this.meal_types[meal_type]);
 		
-		console.log(this.meal_types[meal_type]);
-		
 		this._setup_meal_input(meal_input);
 		this._setup_quantity_input(meal_quantity);
 		this._setup_remove_button(meal_remove);
-		meal_input.focus();
+		meal_input[0].focus();
 		this._setup_tab_index();
+		
+		return meal_input;
 		
 	};
 	
@@ -121,25 +215,7 @@ DietEditor = function(){
 
 		var is_last = meal.next().size() == 0;
 		var meal_type = meal.parent().attr('id');
-		
-		tabindex = new Meal(meal).get_meal_name().attr('tabindex');
-		
-		
 		meal.remove();
-		
-		if( is_last ){
-			
-			var next_link = $('a[tabindex='+(parseInt(tabindex)+2)+']');
-			if( next_link.size() > 0) next_link.focus();
-			
-//			var next_seq = this.meal_types_seq.indexOf(meal_type)+1;
-//			if( next_seq < 4 ){
-//				var meals = this.get_meals(this.meal_types_seq[next_seq]);
-//				if( meals.length != 0) meals[0].get_meal_name().focus();
-//				else this.add_meal(this.meal_types_seq[next_seq]);
-//			}
-		}
-		
 		this._setup_tab_index();
 	};
 	
@@ -159,8 +235,6 @@ DietEditor = function(){
 		
 		$(".meals").each(function(i,el){
 
-			$(el).find('a').attr('tabindex',++index);			
-			
 			$(el).find("li input[type='text']").each(function(i,el){
 				$(el).attr('tabindex',++index);
 			});
