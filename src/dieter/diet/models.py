@@ -2,6 +2,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from dieter.utils import DieterException
+import datetime
 
 class DietManager(models.Manager):
     
@@ -24,7 +25,7 @@ class DietManager(models.Manager):
     
 class Diet(models.Model):
     
-    start_date      = models.DateField('Data startu diety',auto_now=True)
+    start_date      = models.DateField('Data startu diety',null=True,blank=True)
     state           = models.CharField('Stan diety', unique=False, max_length=50)
     
     user            = models.ForeignKey(User)
@@ -68,6 +69,13 @@ class Diet(models.Model):
         if sequence_no > 1: sequence_no -= 1 
         return sequence_no
     
+    def end_day(self):
+        if self.start_date:
+            diet_length = len(self.dayplan_set.all())
+            return self.start_date + datetime.timedelta(days=diet_length)
+        else: return None
+        
+    
 class DayPlan(models.Model):
     
     sequence_no     = models.IntegerField('Liczba porządkowa')
@@ -78,6 +86,14 @@ class DayPlan(models.Model):
             return cmp(self.sequence_no, other.sequence_no)      
         else:                                     
             return cmp(self, other)
+        
+    def __getattr__(self, name):
+        if name.startswith("meal"):
+            _, meal = name.split("_")
+            return self.meal_set.filter(type=meal)
+        else:
+            return super.__getattr__(name)
+        
         
     class Meta:
         ordering = ["sequence_no"]    

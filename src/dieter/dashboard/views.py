@@ -4,6 +4,7 @@ from dieter.utils import profile_complete_required, DieterException, today as ge
 from django.views.generic.simple import direct_to_template, redirect_to
 from dieter.dashboard.forms import WeightForm
 from django.http import HttpResponse
+from dieter.diet.models import Diet
 import datetime
 from django.core.urlresolvers import reverse
 
@@ -12,12 +13,20 @@ from django.core.urlresolvers import reverse
 def index(request, year=None, month=None, day=None):
     
     try:
-        
-        profile = request.user.get_profile()
-        
+
         today = get_today()
         requested_day = datetime.date(int(year),int(month),int(day)) if ( year or month or day ) else today
         if requested_day > today: raise DieterException("Can't show future")
+        
+        profile = request.user.get_profile()
+        diet = None
+        dayplan = None
+        
+        try:
+            diet = Diet.objects.get(user=request.user)
+        except Diet.DoesNotExist: #@UndefinedVariable
+            pass
+        
     
         yesterday = requested_day - datetime.timedelta(days=1)
         tommorow = requested_day + datetime.timedelta(days=1) if requested_day < today else None
@@ -32,11 +41,13 @@ def index(request, year=None, month=None, day=None):
         return direct_to_template(request, "dashboard/index.html",
                                   extra_context = locals())
         
-    except ValueError, DieterException:
+    except ValueError:
+        return redirect_to(request, reverse('dashboard'))
+    except DieterException:
         return redirect_to(request, reverse('dashboard'))
 
 
-
+@login_required
 def save_weight(request, year=None, month=None, day=None):
     
     try:

@@ -3,6 +3,7 @@
 {% load webdesign %} 
 {% load humanize %}
 {% load graphs %}
+{% load diet %}
 
 {% block head %}
 	{{block.super}}
@@ -76,11 +77,9 @@
 			<div class="grid_7 omega">
 				{% weight_graph user today 14 requested_day %}
 			</div>
-		
 						
 		</div>		
 		
-		<div class="grid_10"></div>
 	
 	</div>
 
@@ -89,18 +88,30 @@
 		<p>&nbsp;</p>
 		<p>&nbsp;</p>
 		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>		
 		<p>Ads by google</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
 		<p>&nbsp;</p>
 		<p>&nbsp;</p>
 		<p>&nbsp;</p>		
 		<p>&nbsp;</p>
 		<p>&nbsp;</p>
-						
+	</div>
 	
-	</div>	
+	<div class="grid_12 alpha">
+		<h2>Dzisiejsze posiłki:</h2>
+		{% if not diet %}
+		<p>Nie masz jeszcze wprowadzonej diety, dietetyk niebawem powinien ją uzupełnić, w międzyczasie możesz zapoznać się z <a href="">serwisem...</a></p>
+		{% else %}
+			{% if not diet.start_date %}
+				<p>Nie wybrałeś jeszcze daty rozpoczęcia swojej diety, możesz to zrobić <a href="">tutaj</a>. Poniżej pokazujemy, pierwszy dzień diety</p>
+			{% endif %}
+			<div class="day_plan">
+				{% day_plan diet requested_day %}
+			</div>
+		{% endif %}
+	</div>
+		
 	
 
 

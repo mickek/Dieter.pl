@@ -1,0 +1,13 @@
+{% if meals %}
+<div class="meal_section">
+<h3>{{name}}</h3>
+<ul>
+	{% for meal in meals %}
+		<li>
+			{{meal.name}} {{meal.quantity|floatformat:-1}}
+			{% if meal.unit %}{{meal.unit_type}}{% endif %}
+		</li>
+	{% endfor %}
+</ul>
+</div>
+{% endif %}

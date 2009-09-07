@@ -1,0 +1,17 @@
+{% load diet %}
+
+{% if day_plan %}
+
+	{% meals_section_view day_plan.meal_breakfest "Śniadanie" %}
+	
+	{% meals_section_view day_plan.meal_brunch "Drugie Śniadanie" %}
+	
+	{% meals_section_view day_plan.meal_lunch "Obiad" %}
+	
+	{% meals_section_view day_plan.meal_dinner "Kolacja" %}
+
+{% else %}
+	<p>Ten dzień jest poza dietą, albo przed albo po jej zakończeniu.<br/>
+	Jeśli chcesz zmienić datę rozpoczęcia diety, możesz to zrobić <a>tutaj</a></p>
+{% endif %}
+

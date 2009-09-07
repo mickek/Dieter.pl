@@ -1,3 +1,7 @@
 #weight_graph{ height: 300px; width: 500px;}
 .date_nav h2{ margin:5px 0px 5px 0px; }
 
+.day_plan .meal_section li{ list-style: circle; padding: 2px 0px; }
+.day_plan .meal_section ul{ padding-left: 20px; margin: 0px; }
+.day_plan .meal_section{ float: left; width: 22%; margin-left:0px; margin-right: 20px;}
+
