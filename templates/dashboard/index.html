@@ -11,6 +11,8 @@
  	<script>
  		save_weight_url = '{% url dashboard_save_weight requested_day.year requested_day.month requested_day.day %}';
  		dashboard_url = '{% url dashboard %}';
+ 		{%if not diet.start_date%}set_diet_start_date_url = '{% url diet_start_date  diet.id%}';{%endif%}
+ 		requested_day = new Date({{requested_day.year}},{{requested_day.month}}-1,{{requested_day.day}});
  	</script>
  	<script type="text/javascript" src="{{MEDIA_URL}}js/dashboard.js"></script>
  	<script type="text/javascript" src="{{MEDIA_URL}}js/date.format.js"></script>
@@ -21,7 +23,8 @@
 	<script type="text/javascript" src="{{MEDIA_URL}}js/jqplot/plugins/jqplot.canvasTextRenderer.min.js"></script>
 	<script type="text/javascript" src="{{MEDIA_URL}}js/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>	
 	<script type="text/javascript" src="{{MEDIA_URL}}js/jqplot/plugins/jqplot.highlighter.js"></script>	
-	<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/jquery.jqplot.css" /> 	
+	<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/jquery.jqplot.css" />
+	
 {% endblock %}
 
 
@@ -29,7 +32,7 @@
 
 	<div class="grid_10 alpha">
 	
-		<div class="grid_7 alpha date_nav">
+		<div class="grid_6 alpha date_nav">
 			<h2>
 				<a href="{% url dashboard yesterday.year yesterday.month yesterday.day  %}">&laquo;</a>
 	
@@ -38,14 +41,18 @@
 				{% ifnotequal requested_day today %}
 				<a href="{% url dashboard %}">dzisiaj</a>
 				{% endifnotequal %}
+
+				<input type="hidden" name="requested_day_name" id="requested_day"/>
+				<a href="javascript:$('#requested_day').datepicker( 'show' )">wybierz dzień</a>
 				
 				{% if tommorow %}
 				<a href="{% url dashboard tommorow.year tommorow.month tommorow.day  %}">&raquo;</a>
 				{% endif %}
+				
 			</h2>
 		</div>
 		
-		<div class="grid_3 omega date_nav">
+		<div class="grid_4 omega date_nav" style="text-align: right;">
 			<h2><a href="#">spytaj się dietetyka</a></h2>
 		</div>
 	
@@ -99,21 +106,18 @@
 	</div>
 	
 	<div class="grid_12 alpha">
-		<h2>Dzisiejsze posiłki:</h2>
+		<h2>Dzisiejsze posiłki{%if day_plan %} ({{day_plan.sequence_no}} dzień diety){%endif%}</h2>
 		{% if not diet %}
 		<p>Nie masz jeszcze wprowadzonej diety, dietetyk niebawem powinien ją uzupełnić, w międzyczasie możesz zapoznać się z <a href="">serwisem...</a></p>
 		{% else %}
 			{% if not diet.start_date %}
-				<p>Nie wybrałeś jeszcze daty rozpoczęcia swojej diety, możesz to zrobić <a href="">tutaj</a>. Poniżej pokazujemy, pierwszy dzień diety</p>
+				<p>Nie wybrałeś jeszcze daty rozpoczęcia swojej diety, możesz to zrobić <a class="open_set_start_day_dialog" href="#">tutaj</a>. Poniżej pokazujemy, pierwszy dzień diety</p>
 			{% endif %}
-			<div class="day_plan">
-				{% day_plan diet requested_day %}
-			</div>
+
+			{% day_plan diet requested_day %}
 		{% endif %}
 	</div>
-		
 	
-
-
+	<div id="set_start_date"></div>
 
 {% endblock %}

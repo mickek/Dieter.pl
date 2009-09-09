@@ -2,7 +2,6 @@ going_up = false;
 going_down = false;
 
 function save_weight(){
-	
 	var current_weight = parseFloat($('#id_weight').attr('value'));
 	$.post(save_weight_url, {'weight': current_weight}, function(){
 		$.jGrowl("Zapisano wagę", { life: 500 });
@@ -10,38 +9,29 @@ function save_weight(){
 }
 
 function go_up(){
-
 	if(going_up){
 		current_weight = parseFloat($('#id_weight').attr('value'));
 		$('#id_weight').attr('value', (current_weight+0.1).toFixed(1));
 		setTimeout(go_up, 100);
 	}
-	
 }
 
 function go_down(){
-
 	if(going_down){
 		current_weight = parseFloat($('#id_weight').attr('value'));
 		$('#id_weight').attr('value', (current_weight-0.1).toFixed(1));
 		setTimeout(go_down, 100);
 	}
-	
 }
 
-
 function start_weight_up(){
-
 	going_up = true;
-	go_up();
-	
+	go_up();	
 }
 
 function start_weight_down(){
-
 	going_down = true;
 	go_down();
-	
 }
 
 $(document).ready( function() {
@@ -64,5 +54,32 @@ $(document).ready( function() {
 		save_weight();
 	});	
 	
+	$("#requested_day").datepicker({
+		defaultDate: requested_day,
+		gotoCurrent: true,
+		maxDate: '+0d',
+		dateFormat: 'yy/mm/dd',
+		onSelect: function(dateText, inst) {
+			window.location=dashboard_url+dateText;
+		}
+	});
 	
+	$("#set_start_date").dialog({
+		title: "Ustal datę startu diety",
+		modal: true,
+		autoOpen: false,
+		height: 500,
+		width: 500,
+		open: function() {
+			$("#set_start_date").load( set_diet_start_date_url );
+		},
+		close: function(event, ui) {
+			$("#id_start_date").datepicker('hide');
+		}
+    }); 
+	
+	$('.open_set_start_day_dialog').click(function(){
+		$('#set_start_date').dialog("open");
+	});
+		
 });

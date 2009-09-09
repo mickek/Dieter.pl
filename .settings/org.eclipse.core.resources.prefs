@@ -1,7 +1,10 @@
-#Sun Sep 06 15:23:48 CEST 2009
+#Wed Sep 09 10:01:47 CEST 2009
 eclipse.preferences.version=1
 encoding//src/dieter/dashboard/forms.py=utf-8
 encoding//src/dieter/dashboard/templatetags/graphs.py=utf-8
+encoding//src/dieter/diet/forms.py=utf-8
+encoding//src/dieter/diet/migrations/0001_initial.py=utf-8
+encoding//src/dieter/diet/migrations/0002_diet_start_date_null.py=utf-8
 encoding//src/dieter/diet/models.py=utf-8
 encoding//src/dieter/diet/tests.py=utf-8
 encoding//src/dieter/diet/views.py=utf-8

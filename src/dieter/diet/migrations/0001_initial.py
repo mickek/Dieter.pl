@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-    
 
 from south.db import db
-from django.db import models
-from dieter.diet.models import *
+from django.db import models #@UnusedImport
+from dieter.diet.models import * #@UnusedWildImport
 
 class Migration:
     
     def forwards(self, orm):
         
         # Adding model 'Meal'
-        db.create_table('diet_meal', (
+        db.create_table('diet_meal', ( #@UndefinedVariable
             ('name', orm['diet.Meal:name']),
             ('sequence_no', orm['diet.Meal:sequence_no']),
             ('day', orm['diet.Meal:day']),
@@ -18,33 +18,33 @@ class Migration:
             ('id', orm['diet.Meal:id']),
             ('quantity', orm['diet.Meal:quantity']),
         ))
-        db.send_create_signal('diet', ['Meal'])
+        db.send_create_signal('diet', ['Meal']) #@UndefinedVariable
         
         # Adding model 'Diet'
-        db.create_table('diet_diet', (
+        db.create_table('diet_diet', ( #@UndefinedVariable
             ('user', orm['diet.Diet:user']),
             ('state', orm['diet.Diet:state']),
             ('id', orm['diet.Diet:id']),
             ('start_date', orm['diet.Diet:start_date']),
         ))
-        db.send_create_signal('diet', ['Diet'])
+        db.send_create_signal('diet', ['Diet']) #@UndefinedVariable
         
         # Adding model 'Food'
-        db.create_table('diet_food', (
+        db.create_table('diet_food', ( #@UndefinedVariable
             ('unit_type', orm['diet.Food:unit_type']),
             ('calories', orm['diet.Food:calories']),
             ('id', orm['diet.Food:id']),
             ('name', orm['diet.Food:name']),
         ))
-        db.send_create_signal('diet', ['Food'])
+        db.send_create_signal('diet', ['Food']) #@UndefinedVariable
         
         # Adding model 'DayPlan'
-        db.create_table('diet_dayplan', (
+        db.create_table('diet_dayplan', ( #@UndefinedVariable
             ('sequence_no', orm['diet.DayPlan:sequence_no']),
             ('id', orm['diet.DayPlan:id']),
             ('diet', orm['diet.DayPlan:diet']),
         ))
-        db.send_create_signal('diet', ['DayPlan'])
+        db.send_create_signal('diet', ['DayPlan']) #@UndefinedVariable
         
     
     

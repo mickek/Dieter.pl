@@ -14,16 +14,18 @@ def index(request, year=None, month=None, day=None):
     
     try:
 
+        diet = None
+        day_plan = None
+
         today = get_today()
         requested_day = datetime.date(int(year),int(month),int(day)) if ( year or month or day ) else today
         if requested_day > today: raise DieterException("Can't show future")
         
         profile = request.user.get_profile()
-        diet = None
-        dayplan = None
         
         try:
             diet = Diet.objects.get(user=request.user)
+            day_plan = diet.current_day_plan(requested_day)
         except Diet.DoesNotExist: #@UndefinedVariable
             pass
         

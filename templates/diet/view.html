@@ -1,0 +1,48 @@
+{% extends 'loggedin-base.html' %}
+
+{% load webdesign %} 
+{% load humanize %}
+{% load graphs %}
+{% load diet %}
+
+{% block head %}
+	{{block.super}}
+	<link rel="stylesheet" href="{{MEDIA_URL}}css/dashboard.css" type="text/css" />
+{% endblock %}
+
+
+{% block content %}
+
+
+	<div class="grid_10 alpha">	
+
+		<div class="grid_10 alpha date_nav" style="text-align: right;">
+			<h2>
+				<a href="#">rozpocznij dietę</a>
+				&nbsp;|&nbsp;
+				<a href="#">wydrukuj</a>
+			</h2>
+		</div>
+	
+		<div class="grid_12 alpha">
+			&nbsp;
+		</div>
+	
+	</div>
+
+	<div class="grid_2 omega" style="background-color: yellow; text-align: center;">
+	
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>		
+		<p>Ads by google</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>		
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+	</div>
+	
+{% endblock %}

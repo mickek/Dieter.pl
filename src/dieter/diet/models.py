@@ -71,13 +71,30 @@ class Diet(models.Model):
     
     def end_day(self):
         if self.start_date:
-            diet_length = len(self.dayplan_set.all())
+            diet_length = len(self.dayplan_set.all())-1
             return self.start_date + datetime.timedelta(days=diet_length)
         else: return None
+        
+    def current_day_plan(self, day):
+
+        day_plan = None
+        if self.start_date:
+            if day >= self.start_date and day <= self.end_day():
+                day_no = (day - self.start_date).days+1
+                
+                day_plan = self.dayplan_set.get(sequence_no=day_no) 
+        else:
+            day_plan = self.dayplan_set.get(sequence_no=1)
+
+        return day_plan
+        
         
     
 class DayPlan(models.Model):
     
+    """
+    Sequence number starts from 1
+    """
     sequence_no     = models.IntegerField('Liczba porządkowa')
     diet            = models.ForeignKey(Diet)
     
@@ -92,8 +109,7 @@ class DayPlan(models.Model):
             _, meal = name.split("_")
             return self.meal_set.filter(type=meal)
         else:
-            return super.__getattr__(name)
-        
+            return super.__getattr__(name)        
         
     class Meta:
         ordering = ["sequence_no"]    

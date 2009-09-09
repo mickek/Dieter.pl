@@ -1,0 +1,117 @@
+{% extends 'loggedin-base.html' %}
+
+{% load webdesign %} 
+{% load humanize %}
+{% load graphs %}
+{% load diet %}
+
+{% block head %}
+	{{block.super}}
+	<link rel="stylesheet" href="{{MEDIA_URL}}css/dashboard.css" type="text/css" />
+ 	<script>
+ 		diet_url = '{% url diet %}';
+ 		set_diet_start_date_url = '{% url diet_start_date  diet.id%}';
+ 		$(document).ready(function(){
+ 			$("#requested_day").datepicker({
+ 				defaultDate: new Date({{requested_day.year}},{{requested_day.month}}-1,{{requested_day.day}}),
+ 				gotoCurrent: true,
+ 				dateFormat: 'yy/mm/dd',
+				onSelect: function(dateText, inst) {
+ 					window.location=diet_url+dateText;
+				}
+ 			});
+
+ 			$("#set_start_date").dialog({
+ 				title: "Ustal datę startu diety",
+ 				modal: true,
+ 				autoOpen: false,
+ 				height: 500,
+ 				width: 500,
+ 				open: function() {
+ 					$("#set_start_date").load( set_diet_start_date_url );
+ 				},
+ 				close: function(event, ui) {
+ 					$("#id_start_date").datepicker('hide');
+ 				}
+ 		    }); 
+ 			
+ 			$('.open_set_start_day_dialog').click(function(){
+ 				$('#set_start_date').dialog("open");
+ 			}); 			
+ 		})
+ 	</script>	
+{% endblock %}
+
+
+{% block content %}
+
+		<div class="grid_5 alpha date_nav">
+			<h2>
+				<a href="{% url diet yesterday.year yesterday.month yesterday.day  %}">&laquo;</a>
+	
+				{{requested_day|naturalday}}
+	
+				{% ifnotequal requested_day today %}
+				<a href="{% url diet %}">dzisiaj</a>
+				{% endifnotequal %}
+				
+				<input type="hidden" name="requested_day_name" id="requested_day"/>
+				<a href="javascript:$('#requested_day').datepicker( 'show' )">wybierz dzień</a>
+				
+				{% if tommorow %}
+				<a href="{% url diet tommorow.year tommorow.month tommorow.day  %}">&raquo;</a>
+				{% endif %}
+			</h2>
+		</div>
+		
+		<div class="grid_5 omega date_nav">
+			<h2>
+				<a class="open_set_start_day_dialog" href="#">zmień datę rozpoczęcia diety</a>
+				&nbsp;|&nbsp;
+				<a href="#">wydrukuj</a>
+			</h2>
+		</div>
+
+	<div class="grid_10 alpha">
+
+		<div class="day_plan">
+		
+			{% if not no_diet %}
+			
+				{% for day, day_plan in days %}
+					{% if day_plan %}
+						<h2>{{day|naturalday|capfirst}}&nbsp;({{day_plan.sequence_no}} dzień diety)</h2>
+						{% day_plan diet day %}
+						<br style="clear:both;"/>
+					{% endif %}
+				{% endfor %}
+			{% else %}
+			
+				<p>Tych dni dieta nie obejmuje :-(</p>
+				
+			{% endif %}
+			
+		
+		</div>
+		
+
+	</div>
+
+	<div class="grid_2 omega" style="background-color: yellow; text-align: center;">
+	
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>		
+		<p>Ads by google</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>		
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+	</div>
+	
+	<div id="set_start_date"></div>
+	
+{% endblock %}

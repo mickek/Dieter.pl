@@ -8,8 +8,53 @@ from dieter.diet.models import Diet, DayPlan, Food, Meal
 from django.contrib.auth.models import User
 from api import parse_quantity
 from django.http import HttpResponse
-from dieter.utils import DieterException
+from dieter.utils import DieterException, profile_complete_required, today as get_today
+from dieter.diet.forms import SetDietStartDateForm
+import datetime
 
+@login_required
+@profile_complete_required
+def index(request, year=None, month=None, day=None):
+    
+    try:
+        
+        today = get_today()
+        requested_day = datetime.date(int(year),int(month),int(day)) if ( year or month or day ) else today
+        yesterday = requested_day - datetime.timedelta(days=1)
+        tommorow = requested_day + datetime.timedelta(days=1)
+        
+        diet = Diet.objects.get(user=request.user)        
+        days = [ (requested_day + datetime.timedelta(days=i),
+                  diet.current_day_plan(requested_day + datetime.timedelta(days=i)),) for i in range(3) ]
+        no_diet = not any(( dayplan for day, dayplan in days ))
+
+    except Diet.DoesNotExist: #@UndefinedVariable
+        return direct_to_template(request, 'diet/no-diet-yet.html', locals())
+    except DieterException:
+        return redirect(reverse('diet'))
+
+    if diet.start_date:
+        return direct_to_template(request, 'diet/index.html', locals())
+    else:
+        return direct_to_template(request, 'diet/view.html', locals()) 
+    
+@login_required
+def diet_start_date(request, diet_id):
+    
+    diet = Diet.objects.get(pk=diet_id)
+    form = SetDietStartDateForm(instance=diet)
+    
+    if request.method == 'POST':
+        
+        form = SetDietStartDateForm(request.POST, instance=diet)
+        if form.is_valid():
+            print request.POST
+            print form.cleaned_data['start_date']
+            request.user.message_set.create(message="Ustalono datę rozpoczęcia diety")
+            form.save()
+            return HttpResponse('ok', mimetype="application/json")
+    
+    return direct_to_template(request, 'diet/diet_start_date_form.html', locals())
 
 @login_required
 def create(request, user_id):

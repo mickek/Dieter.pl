@@ -73,3 +73,5 @@ AWS_SECRET_ACCESS_KEY = ""
 LOGIN_REDIRECT_URL = "/logged_in"
 
 AUTH_PROFILE_MODULE = 'patients.profile'
+
+DATE_FORMAT="l, j N Y"

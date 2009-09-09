@@ -1,0 +1,34 @@
+<form id="start_date_form" action="{%url diet_start_date diet_id%}" method="post">
+{{form.as_p}}
+</form>
+<script>
+
+	var handle_submit = function(){		
+		console.log(this)
+		$.post(set_diet_start_date_url, $("#start_date_form").serialize(), function(data){
+			if(data == 'ok'){  
+				window.location.reload();
+			}else{ 
+				$('#set_start_date').html(data);
+			}
+		},"html");
+		
+		return false;
+	}
+		 
+
+	$("#id_start_date").datepicker({
+		dateFormat: 'yy-mm-dd',
+		onSelect: function(dateText, inst) {
+			$('#id_start_date').attr('value',dateText);
+			handle_submit();
+		}
+	});
+
+	$('#id_start_date').datepicker('show')
+
+	$("#start_date_form").submit(handle_submit)
+
+	
+
+</script>

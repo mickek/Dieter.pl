@@ -4,4 +4,7 @@
 .day_plan .meal_section li{ list-style: circle; padding: 2px 0px; }
 .day_plan .meal_section ul{ padding-left: 20px; margin: 0px; }
 .day_plan .meal_section{ float: left; width: 22%; margin-left:0px; margin-right: 20px;}
+.day_plan { clear: both; }
+
+#ui-datepicker-div{ z-index: 10000; }
 
