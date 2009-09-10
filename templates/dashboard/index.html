@@ -13,7 +13,7 @@
  	<script>
  		save_weight_url = '{% url dashboard_save_weight requested_day.year requested_day.month requested_day.day %}';
  		dashboard_url = '{% url dashboard %}';
- 		set_diet_start_date_url = '{% url diet_start_date  diet.id%}';
+ 		{% if diet %}set_diet_start_date_url = '{% url diet_start_date  diet.id%}';{% endif %}
  		requested_day = new Date({{requested_day.year}},{{requested_day.month}}-1,{{requested_day.day}});
  	</script>
  	<script type="text/javascript" src="{{MEDIA_URL}}js/dashboard/dashboard.js"></script>

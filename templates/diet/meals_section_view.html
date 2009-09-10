@@ -5,7 +5,7 @@
 	{% for meal in meals %}
 		<li>
 			{{meal.name}} {{meal.quantity|floatformat:-1}}
-			{% if meal.unit %}{{meal.unit_type}}{% endif %}
+			{{meal.unit_type}}
 		</li>
 	{% endfor %}
 </ul>

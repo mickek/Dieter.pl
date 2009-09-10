@@ -2,6 +2,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from dieter.utils import DieterException
+from dieter.console import strfix
 import datetime
 
 class DietManager(models.Manager):
@@ -137,7 +138,11 @@ class Meal(models.Model):
             return cmp(self, other)
         
     class Meta:
-        ordering = ["sequence_no"]    
+        ordering = ["sequence_no"]
+        
+    def __str__(self):
+        return self.name
+            
     
         
 class Food(models.Model):
@@ -145,3 +150,6 @@ class Food(models.Model):
     name            = models.CharField('Typ posiłku', max_length=100, null=False)
     calories        = models.FloatField('Liczba kalorii', default=1)
     unit_type       = models.CharField('Typ jednostki',max_length=50)
+    
+    def __str__(self):
+        return self.name

@@ -50,6 +50,7 @@ INSTALLED_APPS = (
     'dieter.diet',    
     'dieter.home',
     'dieter.patients',
+    'dieter.shopping',
     'dieter.registration',
 )
 

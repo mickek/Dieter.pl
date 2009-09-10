@@ -55,7 +55,6 @@ def print_diet(request, diet_id=None):
         return direct_to_template(request, 'diet/print.html', locals())
     except Diet.DoesNotExist: #@UndefinedVariable
         return HttpResponseNotFound('<h1>Nie znaleziono diety</h1>')
-        pass
     
 @login_required
 def diet_start_date(request, diet_id):
@@ -67,8 +66,6 @@ def diet_start_date(request, diet_id):
         
         form = SetDietStartDateForm(request.POST, instance=diet)
         if form.is_valid():
-            print request.POST
-            print form.cleaned_data['start_date']
             request.user.message_set.create(message="Ustalono datę rozpoczęcia diety")
             form.save()
             return HttpResponse('ok', mimetype="application/json")

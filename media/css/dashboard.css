@@ -8,3 +8,6 @@
 
 #ui-datepicker-div{ z-index: 10000; }
 
+.shopping_list table tr, .shopping_list table td, .shopping_list table th{ border: 1px solid black; }
+.shopping_list table th { text-align: center; }
+.shopping_list table td { text-align: right; } 

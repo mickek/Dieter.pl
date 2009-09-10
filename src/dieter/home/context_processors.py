@@ -1,3 +1,4 @@
+from dieter.diet.models import Diet
 def tabs(request):
 
     top_tab = 'dashboard'
@@ -21,9 +22,17 @@ def tabs(request):
         top_tab = 'messages'        
     elif path == '/patients/' or path.startswith('/diet/edit/'):
         top_tab = 'patients'                
+    
+    user_has_diet = False
+    try:   
+        if request.user.is_authenticated(): 
+            user_has_diet = Diet.objects.get(user=request.user) is not None
+    except Diet.DoesNotExist: #@UndefinedVariable
+        pass
         
-        
+    
     return {
         'top_tab':top_tab,
+        'user_has_diet': user_has_diet
     }
     

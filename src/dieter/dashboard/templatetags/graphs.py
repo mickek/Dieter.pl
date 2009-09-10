@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-    
 
 from django import template
-from dieter.patients.utils import approximate_user_data
 from django.utils import simplejson
+from dieter.patients import approximate_user_data
 import datetime
 
 register = template.Library()

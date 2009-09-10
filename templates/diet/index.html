@@ -30,6 +30,8 @@
 
 {% block content %}
 
+	<div class="grid_10 alpha">
+
 		<div class="grid_5 alpha date_nav">
 			<h2>
 				<a href="{% url diet yesterday.year yesterday.month yesterday.day  %}">&laquo;</a>
@@ -56,31 +58,33 @@
 				<a target="blank" href="{%url diet_print_diet%}">wydrukuj</a>
 			</h2>
 		</div>
-
-	<div class="grid_10 alpha">
-
-		<div class="day_plan">
-		
-			{% if not no_diet %}
+	
+		<div class="grid_10 alpha">
+	
+			<div class="day_plan">
 			
-				{% for day_plan in days %}
-					{% if day_plan %}
-						<h2>{{day_plan.expected_day|naturalday|capfirst}}&nbsp;({{day_plan.sequence_no}} dzień diety)</h2>
-						{% day_plan diet day_plan %}
-						<br style="clear:both;"/>
-					{% endif %}
-				{% endfor %}
+				{% if not no_diet %}
 				
-			{% else %}
-			
-				<p>Tych dni dieta nie obejmuje.</p>
+					{% for day_plan in days %}
+						{% if day_plan %}
+							<h2>{{day_plan.expected_day|naturalday|capfirst}}&nbsp;({{day_plan.sequence_no}} dzień diety)</h2>
+							{% day_plan diet day_plan %}
+							<br style="clear:both;"/>
+						{% endif %}
+					{% endfor %}
+					
+				{% else %}
 				
-			{% endif %}
+					<p>Tych dni dieta nie obejmuje.</p>
+					
+				{% endif %}
+				
 			
-		
+			</div>
+			
+	
 		</div>
 		
-
 	</div>
 
 	<div class="grid_2 omega" style="background-color: yellow; text-align: center;">

@@ -1,7 +1,7 @@
 from unittest import TestCase
-from dieter.patients.utils import approximate_user_data,\
-    approximate_user_data_for_date
 from dieter.patients.models import UserData, Profile
+from dieter.patients import approximate_user_data,\
+    approximate_user_data_for_date
 import datetime
 
 

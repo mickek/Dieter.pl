@@ -3,7 +3,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from dieter.utils import today
-from dieter.patients.utils import approximate_user_data_for_date
+from dieter.patients import approximate_user_data_for_date
 import datetime
 
 class Profile(models.Model):
