@@ -44,19 +44,19 @@
 	<form action="{% url diet_perform_action diet.id current_day.sequence_no %}" method="post">
 
 		<div class="grid_12 meals">
-			{% meals_section 'breakfest' 'Śniadanie' breakfest %}
+			{% meals_section 'breakfest' 'Śniadanie' current_day.meals_breakfest %}
 		</div>
 		
 		<div class="grid_12 meals">
-			{% meals_section 'brunch' 'Drugie Śniadanie' brunch %}		
+			{% meals_section 'brunch' 'Drugie Śniadanie' current_day.meals_brunch %}		
 		</div>
 		
 		<div class="grid_12 meals">
-			{% meals_section 'lunch' 'Obiad' lunch %}		
+			{% meals_section 'lunch' 'Obiad' current_day.meals_lunch %}		
 		</div>
 		
 		<div class="grid_12 meals">
-			{% meals_section 'dinner' 'Kolacja' dinner %}
+			{% meals_section 'dinner' 'Kolacja' current_day.meals_dinner %}
 		</div>	
 		
 		<div class="grid_12" style="text-align:right;">

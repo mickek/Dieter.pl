@@ -16,6 +16,8 @@ urlpatterns = patterns('',
     # diet dashboard
     url(r'^$','dieter.diet.views.index',name="diet"),
     url(r'^(\d{4})/(\d{1,2})/(\d{1,2})/$','dieter.diet.views.index', name='diet'),
+    url(r'^print_diet/(?P<diet_id>[0-9]+)/$','dieter.diet.views.print_diet', name='diet_print_diet'),
+    url(r'^print_diet/$','dieter.diet.views.print_diet', name='diet_print_diet'),
     url(r'^diet_start_day/(?P<diet_id>[0-9]+)/$','dieter.diet.views.diet_start_date', name='diet_start_date'),
     
 )

@@ -12,34 +12,19 @@
  		diet_url = '{% url diet %}';
  		set_diet_start_date_url = '{% url diet_start_date  diet.id%}';
  		$(document).ready(function(){
- 			$("#requested_day").datepicker({
- 				defaultDate: new Date({{requested_day.year}},{{requested_day.month}}-1,{{requested_day.day}}),
- 				gotoCurrent: true,
- 				dateFormat: 'yy/mm/dd',
+	 		$("#requested_day").datepicker({
+				defaultDate: new Date({{requested_day.year}},{{requested_day.month}}-1,{{requested_day.day}}),
+				gotoCurrent: true,
+				dateFormat: 'yy/mm/dd',
 				onSelect: function(dateText, inst) {
- 					window.location=diet_url+dateText;
+					window.location=diet_url+dateText;
 				}
- 			});
-
- 			$("#set_start_date").dialog({
- 				title: "Ustal datę startu diety",
- 				modal: true,
- 				autoOpen: false,
- 				height: 500,
- 				width: 500,
- 				open: function() {
- 					$("#set_start_date").load( set_diet_start_date_url );
- 				},
- 				close: function(event, ui) {
- 					$("#id_start_date").datepicker('hide');
- 				}
- 		    }); 
- 			
- 			$('.open_set_start_day_dialog').click(function(){
- 				$('#set_start_date').dialog("open");
- 			}); 			
- 		})
+			});
+ 		});
+ 		
  	</script>	
+ 	<script type="text/javascript" src="{{MEDIA_URL}}js/dashboard/dashboard.js"></script>
+ 	<script type="text/javascript" src="{{MEDIA_URL}}js/dashboard/common.js"></script> 	
 {% endblock %}
 
 
@@ -68,7 +53,7 @@
 			<h2>
 				<a class="open_set_start_day_dialog" href="#">zmień datę rozpoczęcia diety</a>
 				&nbsp;|&nbsp;
-				<a href="#">wydrukuj</a>
+				<a target="blank" href="{%url diet_print_diet%}">wydrukuj</a>
 			</h2>
 		</div>
 
@@ -78,16 +63,17 @@
 		
 			{% if not no_diet %}
 			
-				{% for day, day_plan in days %}
+				{% for day_plan in days %}
 					{% if day_plan %}
-						<h2>{{day|naturalday|capfirst}}&nbsp;({{day_plan.sequence_no}} dzień diety)</h2>
-						{% day_plan diet day %}
+						<h2>{{day_plan.expected_day|naturalday|capfirst}}&nbsp;({{day_plan.sequence_no}} dzień diety)</h2>
+						{% day_plan diet day_plan %}
 						<br style="clear:both;"/>
 					{% endif %}
 				{% endfor %}
+				
 			{% else %}
 			
-				<p>Tych dni dieta nie obejmuje :-(</p>
+				<p>Tych dni dieta nie obejmuje.</p>
 				
 			{% endif %}
 			

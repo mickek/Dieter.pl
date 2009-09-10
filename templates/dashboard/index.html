@@ -7,14 +7,18 @@
 
 {% block head %}
 	{{block.super}}
+	
 	<link rel="stylesheet" href="{{MEDIA_URL}}css/dashboard.css" type="text/css" />
+ 	
  	<script>
  		save_weight_url = '{% url dashboard_save_weight requested_day.year requested_day.month requested_day.day %}';
  		dashboard_url = '{% url dashboard %}';
- 		{%if not diet.start_date%}set_diet_start_date_url = '{% url diet_start_date  diet.id%}';{%endif%}
+ 		set_diet_start_date_url = '{% url diet_start_date  diet.id%}';
  		requested_day = new Date({{requested_day.year}},{{requested_day.month}}-1,{{requested_day.day}});
  	</script>
- 	<script type="text/javascript" src="{{MEDIA_URL}}js/dashboard.js"></script>
+ 	<script type="text/javascript" src="{{MEDIA_URL}}js/dashboard/dashboard.js"></script>
+ 	<script type="text/javascript" src="{{MEDIA_URL}}js/dashboard/common.js"></script>
+ 	
  	<script type="text/javascript" src="{{MEDIA_URL}}js/date.format.js"></script>
  	
 	<!--[if IE]><script language="javascript" type="text/javascript" src="{{MEDIA_URL}}js/jqplot/excanvas.js"></script><![endif]-->
@@ -108,12 +112,11 @@
 	<div class="grid_12 alpha">
 		<h2>Dzisiejsze posiłki{%if day_plan %} ({{day_plan.sequence_no}} dzień diety){%endif%}</h2>
 		{% if not diet %}
-		<p>Nie masz jeszcze wprowadzonej diety, dietetyk niebawem powinien ją uzupełnić, w międzyczasie możesz zapoznać się z <a href="">serwisem...</a></p>
+		<p>Nie masz jeszcze wprowadzonej diety, dietetyk niebawem powinien ją uzupełnić, w międzyczasie możesz zapoznać się z <a class="open_set_start_day_dialog" href="#">serwisem.</a></p>
 		{% else %}
 			{% if not diet.start_date %}
-				<p>Nie wybrałeś jeszcze daty rozpoczęcia swojej diety, możesz to zrobić <a class="open_set_start_day_dialog" href="#">tutaj</a>. Poniżej pokazujemy, pierwszy dzień diety</p>
+				<p>Nie wybrałeś jeszcze daty rozpoczęcia swojej diety, możesz to zrobić <a class="open_set_start_day_dialog" href="#">tutaj</a>. Poniżej pokazujemy, pierwszy dzień diety.</p>
 			{% endif %}
-
 			{% day_plan diet requested_day %}
 		{% endif %}
 	</div>

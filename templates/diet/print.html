@@ -1,0 +1,23 @@
+{% extends 'print-base.html' %}
+
+{% load diet %}
+
+{% block head %}
+	{{block.super}}
+	<link rel="stylesheet" href="{{MEDIA_URL}}css/dashboard.css" type="text/css" />
+{% endblock %}
+
+{% block content %}
+
+	<div class="grid_12">
+		
+		{% for day in days %}
+			<h2>{{day.sequence_no}} dzień diety</h2>
+			{% day_plan diet day %}
+			<br style="clear:both;"/>
+		{% endfor %}
+		
+	</div>
+
+
+{% endblock %}

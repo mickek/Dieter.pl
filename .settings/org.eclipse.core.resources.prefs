@@ -1,5 +1,6 @@
-#Wed Sep 09 10:01:47 CEST 2009
+#Thu Sep 10 08:58:45 CEST 2009
 eclipse.preferences.version=1
+encoding//libs/django/contrib/localflavor/no/no_municipalities.py=utf-8
 encoding//src/dieter/dashboard/forms.py=utf-8
 encoding//src/dieter/dashboard/templatetags/graphs.py=utf-8
 encoding//src/dieter/diet/forms.py=utf-8

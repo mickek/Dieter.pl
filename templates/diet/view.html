@@ -8,6 +8,12 @@
 {% block head %}
 	{{block.super}}
 	<link rel="stylesheet" href="{{MEDIA_URL}}css/dashboard.css" type="text/css" />
+ 	<script>
+ 		set_diet_start_date_url = '{% url diet_start_date  diet.id%}';
+ 		requested_day = new Date();
+ 	</script>	
+ 	<script type="text/javascript" src="{{MEDIA_URL}}js/dashboard/dashboard.js"></script>
+ 	<script type="text/javascript" src="{{MEDIA_URL}}js/dashboard/common.js"></script>	
 {% endblock %}
 
 
@@ -18,14 +24,22 @@
 
 		<div class="grid_10 alpha date_nav" style="text-align: right;">
 			<h2>
-				<a href="#">rozpocznij dietę</a>
+				<a class="open_set_start_day_dialog" href="#">rozpocznij dietę</a>
 				&nbsp;|&nbsp;
-				<a href="#">wydrukuj</a>
+				<a target="blank" href="{%url diet_print_diet%}">wydrukuj</a>
 			</h2>
 		</div>
 	
-		<div class="grid_12 alpha">
-			&nbsp;
+		<div class="grid_10 alpha">
+			
+			<p>Nie wybrałeś jeszcze dnia rozpoczęcia diety, więc prezentujemy całą dietę do przejrzenia:</p>
+			
+			{% for day in days %}
+				<h2>{{day.sequence_no}} dzień diety</h2>
+				{% day_plan diet day %}
+				<br style="clear:both;"/>
+			{% endfor %}
+			
 		</div>
 	
 	</div>
@@ -44,5 +58,7 @@
 		<p>&nbsp;</p>
 		<p>&nbsp;</p>
 	</div>
+	
+	<div id="set_start_date"></div>
 	
 {% endblock %}

@@ -109,7 +109,13 @@ class DayPlan(models.Model):
             _, meal = name.split("_")
             return self.meal_set.filter(type=meal)
         else:
-            return super.__getattr__(name)        
+            return super.__getattr__(name)
+        
+    def expected_day(self):
+        if self.diet.start_date:
+            print self.diet.start_date
+            return self.diet.start_date + datetime.timedelta(days=self.sequence_no-1)
+        else: return None        
         
     class Meta:
         ordering = ["sequence_no"]    

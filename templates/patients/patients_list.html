@@ -24,9 +24,9 @@
 					<td>{{p.get_user_data.weight}}</td>
 					<td>
 						{% if p.has_diet %}
-							<a href="{% url edit_diet p.current_diet.id %}" title="Edytuj dietę">Edytuj dietę</a></td>
+							<a href="{% url edit_diet p.current_diet.id %}" title="Edytuj dietę">Edytuj dietę</a>
 						{%else%}
-							<a href="{% url create_diet p.user.id %}" title="Utwórz nową dietę">Utwórz nową dietę</a></td>
+							<a href="{% url create_diet p.user.id %}" title="Utwórz nową dietę">Utwórz nową dietę</a>
 						{%endif%}
 					</td>									
 				</tr>
