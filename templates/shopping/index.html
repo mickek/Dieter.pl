@@ -40,29 +40,38 @@
 	
 		<div class="grid_10 alpha shopping_list">
 			
-			<h2>Produkty:</h2>
-			
-			<table>
-				<tr>
-					<th>Nazwa produktu</th>
-					<th>Ile</th>
-				</tr>
-				{% for name, quantity, unit_type in shooping_list %}
-				<tr>
-					<td>{{name|capfirst}}</td>
-					<td>{{quantity|floatformat:-1}}{% if unit_type %}&nbsp;{{unit_type}}{%else%}&nbsp;{%endif%}</td>
-				</tr>
+			{% if shooping_list or shopping_list_other %}
+				<h2>Produkty:</h2>
+				
+				<table>
+					<tr>
+						<th>Nazwa produktu</th>
+						<th>Ile</th>
+					</tr>
+					{% for name, quantity, unit_type in shooping_list %}
+					<tr>
+						<td>{{name|capfirst}}</td>
+						<td>{{quantity|floatformat:-1}}{% if unit_type %}&nbsp;{{unit_type}}{%else%}&nbsp;{%endif%}</td>
+					</tr>
+					{% endfor %}
+				</table>	
+	
+				{% if shopping_list_other %}			
+				<h2>Pozostałe:</h2>
+				<ul>
+				{% for name in shopping_list_other %}
+					<li>{{name}}</li>
 				{% endfor %}
-			</table>	
-
-			{% if shopping_list_other %}			
-			<h2>Pozostałe:</h2>
-			<ul>
-			{% for name in shopping_list_other %}
-				<li>{{name}}</li>
-			{% endfor %}
-			</ul>
-			{%endif %}
+				</ul>
+				{%endif %}
+			
+			{% else %}
+				{%ifequal mode 'day'%}
+				<p>Nie ma żadnych zakupów do zrobienia na dzisiaj</p>
+				{%else%}
+				<p>Nie ma żadnych zakupów do zrobienia w przeciągu następnego tygodnia</p>
+				{%endifequal%}
+			{% endif %}
 
 		</div>
 	

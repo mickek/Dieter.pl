@@ -3,7 +3,7 @@
 	<li class="ui-state-default ui-corner-top {% ifequal top_tab 'dashboard'%}ui-tabs-selected ui-state-active{%endifequal%}"><a href="{% url dashboard %}">Start</a></li>
 	{% if user_has_diet %}<li class="ui-state-default ui-corner-top {% ifequal top_tab 'diet'%}ui-tabs-selected ui-state-active{%endifequal%}"><a href="{% url diet %}">Dieta</a></li>{%endif%}
 	<li class="ui-state-default ui-corner-top {% ifequal top_tab 'graphs'%}ui-tabs-selected ui-state-active{%endifequal%}"><a href="">Wykresy</a></li>
-	{% if user_has_diet %}<li class="ui-state-default ui-corner-top {% ifequal top_tab 'shopping'%}ui-tabs-selected ui-state-active{%endifequal%}"><a href="{% url shopping %}">Zakupy</a></li>{%endif%}
+	{% if user_has_diet and user_diet_started %}<li class="ui-state-default ui-corner-top {% ifequal top_tab 'shopping'%}ui-tabs-selected ui-state-active{%endifequal%}"><a href="{% url shopping %}">Zakupy</a></li>{%endif%}
 	<li class="ui-state-default ui-corner-top {% ifequal top_tab 'contact'%}ui-tabs-selected ui-state-active{%endifequal%}"><a href="">Dietetyk</a></li>
 	<li class="ui-state-default ui-corner-top {% ifequal top_tab 'settings'%}ui-tabs-selected ui-state-active{%endifequal%}"><a href="{%url settings%}">Ustawienia</a></li>
 {% endblock %}

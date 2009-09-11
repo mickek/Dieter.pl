@@ -88,7 +88,6 @@ def edit(request, diet_id, day = None):
     """
     Diet edit screen
     """
-    
     diet = get_object_or_404(Diet, pk=diet_id)
     
     try:

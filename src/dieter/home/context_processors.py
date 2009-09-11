@@ -24,15 +24,19 @@ def tabs(request):
         top_tab = 'patients'                
     
     user_has_diet = False
+    user_diet_started = False
     try:   
         if request.user.is_authenticated(): 
-            user_has_diet = Diet.objects.get(user=request.user) is not None
+            diet = Diet.objects.get(user=request.user) 
+            user_has_diet = diet is not None
+            user_diet_started = diet.start_date is not None
     except Diet.DoesNotExist: #@UndefinedVariable
         pass
         
     
     return {
         'top_tab':top_tab,
-        'user_has_diet': user_has_diet
+        'user_has_diet': user_has_diet,
+        'user_diet_started' : user_diet_started
     }
     
