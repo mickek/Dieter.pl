@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     url(r'^del_day/(?P<diet_id>[0-9]+)/(?P<day>[0-9]+)/$','dieter.diet.views.del_day', name='diet_del_day'),
     url(r'^action/(?P<diet_id>[0-9]+)/(?P<sequence_no>[0-9]+)/$','dieter.diet.views.perform_action', name='diet_perform_action'),
     url(r'^food/$','dieter.diet.views.food_autocomplete',name="diet_food_autocomplete"),
+    url(r'^send_diet/(?P<diet_id>[0-9]+)/$','dieter.diet.views.send_diet', name='diet_send_form'),
     
     # diet dashboard
     url(r'^$','dieter.diet.views.index',name="diet"),
@@ -19,5 +20,6 @@ urlpatterns = patterns('',
     url(r'^print_diet/(?P<diet_id>[0-9]+)/$','dieter.diet.views.print_diet', name='diet_print_diet'),
     url(r'^print_diet/$','dieter.diet.views.print_diet', name='diet_print_diet'),
     url(r'^diet_start_day/(?P<diet_id>[0-9]+)/$','dieter.diet.views.diet_start_date', name='diet_start_date'),
+    
     
 )

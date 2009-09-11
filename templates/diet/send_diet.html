@@ -1,0 +1,25 @@
+{% extends 'admin-base.html' %}
+
+{% load humanize %}
+{% load webdesign %} 
+{% load i18n %}
+
+{% load diet %}
+
+{% block head %}
+	{{block.super}}
+{% endblock %}
+
+{% block content %}
+
+	<div class="grid_12">
+	
+		<form action="{%url diet_send_form diet.id%}" method="POST">
+			{{form.as_p}}
+			<input type="submit" value="Wyślij"/>
+		</form>	
+
+	</div>
+
+
+{% endblock %}

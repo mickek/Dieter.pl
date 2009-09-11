@@ -9,7 +9,9 @@ from django.contrib.auth.models import User
 from api import parse_quantity
 from django.http import HttpResponse, HttpResponseNotFound
 from dieter.utils import DieterException, profile_complete_required, today as get_today
-from dieter.diet.forms import SetDietStartDateForm
+from dieter.diet.forms import SetDietStartDateForm, SendDietForm
+from django.contrib.comments.models import Comment
+from django.conf import settings
 import datetime
 
 @login_required
@@ -160,11 +162,36 @@ def perform_action(request, diet_id, sequence_no):
             
         if 'save_diet' in request.POST:
             request.user.message_set.create(message="Zapisano dietę")
+            return redirect(reverse('patients_list'))
             
         if 'send_diet' in request.POST:
-            request.user.message_set.create(message="Wysłano dietę ( TODO )")
+            return redirect(reverse('diet_send_form',kwargs={'diet_id':diet_id}))
             
-    return redirect(reverse('edit_diet',kwargs={'diet_id':diet_id, 'day': sequence_no}))    
+    return redirect(reverse('edit_diet',kwargs={'diet_id':diet_id, 'day': sequence_no}))
+
+def send_diet(request, diet_id):
+    
+    diet = get_object_or_404(Diet, pk = diet_id)
+    form = SendDietForm(request.POST)
+    if request.method == 'POST' and form.is_valid():
+        comment = Comment( content_object= diet.user,
+                           user_name    = request.user.username,
+                           user_email   = request.user.email,
+                           comment      = form.cleaned_data["message"],
+                           submit_date  = datetime.datetime.now(),
+                           site_id      = settings.SITE_ID,
+                           is_public    = True,
+                           is_removed   = False,
+                          )
+        comment.save()
+        diet.state='sent'
+        diet.save()
+        
+        request.user.message_set.create(message="Zapisano dietę i wysłano wiadomość do pacjenta")
+        
+        return redirect(reverse('patients_list'))
+
+    return direct_to_template(request, 'diet/send_diet.html', locals())
     
 def food_autocomplete(request):
     """
