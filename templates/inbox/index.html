@@ -1,0 +1,54 @@
+{% extends 'loggedin-base.html' %}
+
+{% load webdesign %} 
+{% load humanize %}
+{% load graphs %}
+{% load diet %}
+{% load comments %}
+
+{% block head %}
+	{{block.super}}
+	<link rel="stylesheet" href="{{MEDIA_URL}}css/dashboard.css" type="text/css" />
+{% endblock %}
+
+
+{% block content %}
+
+	<div class="grid_10 alpha">
+	
+		{% get_comment_list for user as inbox_messages %}
+		{% if inbox_messages %}
+		
+			<h2>Twoje wiadomości:</h2>
+		    <dl class="messages">
+				{% for message in inbox_messages %}
+			    	<li id="{{message.id}}">
+			    		<h3>{{message.user_email}} {{message.submit_date|date:"l, j N Y"}} napisał/a:</h3>
+			    		<div class="body">
+			    		{{message.comment}}
+			    		</div>
+			    	</li>
+				{% endfor %}
+		    </dl>
+		{% endif %}
+		
+		{% render_comment_form for user %}
+				
+	</div>
+
+	<div class="grid_2 omega" style="background-color: yellow; text-align: center;">
+	
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>		
+		<p>Ads by google</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>		
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+	</div>
+	
+{% endblock %}

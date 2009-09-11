@@ -12,7 +12,10 @@ urlpatterns = patterns('',
     url(r'^accounts/', include('dieter.registration.urls')),
     url(r'^diet/', include('dieter.diet.urls')),
     url(r'^shopping/', include('dieter.shopping.urls')),
-    url(r'^graphs/', include('dieter.graphs.urls')),    
+    url(r'^graphs/', include('dieter.graphs.urls')),
+    url(r'^inbox/', include('dieter.inbox.urls')),
+    
+    url(r'^comments/', include('django.contrib.comments.urls')),    
     url(r'^admin/(.*)', admin.site.root),
 )
 

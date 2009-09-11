@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'django.contrib.webdesign',
     'django.contrib.humanize',
     'django.contrib.flatpages',
+    'django.contrib.comments',
     
     'south',        
     
@@ -55,6 +56,7 @@ INSTALLED_APPS = (
     'dieter.patients',
     'dieter.shopping',
     'dieter.graphs',
+    'dieter.inbox',
     'dieter.registration',
 )
 
@@ -80,3 +82,5 @@ LOGIN_REDIRECT_URL = "/logged_in"
 AUTH_PROFILE_MODULE = 'patients.profile'
 
 DATE_FORMAT="l, j N Y"
+
+COMMENT_MAX_LENGTH=30000

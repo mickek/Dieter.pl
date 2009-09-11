@@ -1,0 +1,23 @@
+{% load comments %}
+<h2>Nowa wiadomość:</h2>
+<form class="" action="{% comment_form_target %}" method="POST">
+  {% for field in form %}
+    {% if field.is_hidden %}
+      {{ field }}
+    {% else %}
+      <p
+        {% if field.errors %} class="error"{% endif %}
+        {% ifequal field.name "name" %} style="display:none;"{% endifequal %}
+        {% ifequal field.name "honeypot" %} style="display:none;"{% endifequal %}
+        {% ifequal field.name "email" %} style="display:none;"{% endifequal %}
+        {% ifequal field.name "url" %} style="display:none;"{% endifequal %}
+                >
+        {% if field.errors %}{{ field.errors }}{% endif %}
+        {{ field }}
+      </p>
+    <input type="hidden" name="name" value="placeholder"/>
+	<input type="hidden" name="next" value="{{comment_redirect}}"/>
+    {% endif %}
+  {% endfor %}
+   <input type="submit" name="submit" class="submit-post" value="Wyślij wiadomość" />
+</form>

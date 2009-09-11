@@ -13,12 +13,12 @@ def tabs(request):
         top_tab = 'graphs'
     elif path.startswith('/shopping'):
         top_tab = 'shopping'
-    elif path.startswith('/contact'):
-        top_tab = 'contact'
+    elif path.startswith('/inbox') or path.startswith('/comments'):
+        top_tab = 'inbox'
     elif path.startswith('/patients/settings') or path.startswith('/accounts/password/change/'):
         top_tab = 'settings'
     
-    if path.startswith('/patients/messages'):
+    if path.startswith('/patients/inbox'):
         top_tab = 'messages'        
     elif path == '/patients/' or path.startswith('/diet/edit/'):
         top_tab = 'patients'                

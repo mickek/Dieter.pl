@@ -3,6 +3,7 @@
 {% load humanize %}
 {% load webdesign %} 
 {% load i18n %}
+{% load comments %}
 
 {% block content %}
 
@@ -28,6 +29,9 @@
 						{%else%}
 							<a href="{% url create_diet p.user.id %}" title="Utwórz nową dietę">Utwórz nową dietę</a>
 						{%endif%}
+						&nbsp;|&nbsp;
+						{% get_comment_count for p.user as comment_count %}
+						<a href="{% url patients_inbox p.user.id %}" title="Przeglądaj wiadomości">Przeglądaj wiadomości ({{comment_count}})</a>
 					</td>									
 				</tr>
 				{% endfor %}

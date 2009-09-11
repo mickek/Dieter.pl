@@ -1,0 +1,34 @@
+{% extends 'admin-base.html' %}
+
+{% load humanize %}
+{% load webdesign %} 
+{% load i18n %}
+{% load comments %}
+
+{% block content %}
+
+	<div id="patient_list" class="grid_12">
+
+		{% get_comment_list for owner as inbox_messages %}
+		{% if inbox_messages %}
+		
+			<h2>Wiadomości od <i>{{owner.email}}</i>:</h2>
+		    <dl class="messages">
+				{% for message in inbox_messages %}
+			    	<li id="{{message.id}}">
+			    		<h3>{{message.user_email}} {{message.submit_date|date:"l, j N Y"}} napisał/a:</h3>
+			    		<div class="body">
+			    		{{message.comment}}
+			    		</div>
+			    	</li>
+				{% endfor %}
+		    </dl>
+		{% endif %}
+		
+		{% render_comment_form for owner %}
+		
+	</div>
+	
+	
+
+{% endblock %}
