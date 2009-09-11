@@ -1,0 +1,43 @@
+{% extends 'print-base.html' %}
+
+{% load diet %}
+
+{% block head %}
+	{{block.super}}
+	<link rel="stylesheet" href="{{MEDIA_URL}}css/dashboard.css" type="text/css" />
+{% endblock %}
+
+{% block content %}
+
+	<div class="grid_12 shopping_list">
+		
+		<h2>Produkty:</h2>
+		
+		<table>
+			<tr>
+				<th>Nazwa produktu</th>
+				<th>Ile</th>
+				<th>Kupione?</th>
+			</tr>
+			{% for name, quantity, unit_type in shooping_list %}
+			<tr>
+				<td>{{name|capfirst}}</td>
+				<td>{{quantity|floatformat:-1}}{% if unit_type %}&nbsp;{{unit_type}}{%else%}&nbsp;{%endif%}</td>
+				<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			</tr>
+			{% endfor %}
+		</table>	
+
+		{% if shopping_list_other %}			
+		<h2>Pozostałe:</h2>
+		<ul>
+		{% for name in shopping_list_other %}
+			<li>{{name}}</li>
+		{% endfor %}
+		</ul>
+		{%endif %}
+				
+	</div>
+
+
+{% endblock %}

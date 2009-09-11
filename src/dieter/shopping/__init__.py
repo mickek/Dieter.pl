@@ -40,3 +40,23 @@ def agregate_meal_data( meals ):
             'debug':matches_debug
     }
 
+def agregate_and_preprocess_meal_data(meals):
+    
+        aggregated_data = agregate_meal_data(meals)
+        
+        shooping_list = []
+        shopping_list_other = []
+        
+        for food, quantity in aggregated_data['recognized']:
+            if quantity: shooping_list.append((food.name, quantity, food.unit_type ))
+            else: shopping_list_other.append(food.name)
+            
+        for food_name, data in aggregated_data['not_recognized']:
+            if data['quantity']: 
+                shooping_list.append((food_name, data['quantity'], data['unit_type']))
+            else: shopping_list_other.append(food_name)
+        
+        shooping_list.sort(cmp=lambda a,b: cmp(a[0], b[0]))
+        shopping_list_other.sort()   
+        
+        return shooping_list, shopping_list_other         

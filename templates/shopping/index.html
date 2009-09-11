@@ -34,7 +34,7 @@
 		
 		<div class="grid_5 omega date_nav" style="text-align:right;">
 			<h2>
-				<a target="blank" href="{%url diet_print_diet%}">wydrukuj</a>
+				<a target="blank" href="{%url shopping_print_list mode%}">wydrukuj</a>
 			</h2>
 		</div>
 	
@@ -50,8 +50,7 @@
 				{% for name, quantity, unit_type in shooping_list %}
 				<tr>
 					<td>{{name|capfirst}}</td>
-					<td>{{quantity|floatformat:-1}}</td>
-					<td>{% if unit_type %}{{unit_type}}{%else%}&nbsp;{%endif%}</td>
+					<td>{{quantity|floatformat:-1}}{% if unit_type %}&nbsp;{{unit_type}}{%else%}&nbsp;{%endif%}</td>
 				</tr>
 				{% endfor %}
 			</table>	
