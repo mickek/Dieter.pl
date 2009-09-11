@@ -1,5 +1,5 @@
 {% if plot_data %}
-<div id="weight_graph"></div> 
+<div id="{{type}}_graph"></div> 
 <script type="text/javascript">
 
 	$.jqplot.eventListenerHooks.push(['jqplotClick', function(ev, gridpos, datapos, neighbor, plot){
@@ -9,7 +9,7 @@
 		}
 	}]);
 
-	$.jqplot('weight_graph', {{plot_data|safe}}, {
+	$.jqplot('{{type}}_graph', {{plot_data|safe}}, {
 		axes:{
 			xaxis:{
 				renderer: $.jqplot.DateAxisRenderer,

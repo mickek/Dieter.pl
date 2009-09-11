@@ -1,0 +1,83 @@
+{% extends 'loggedin-base.html' %}
+
+{% load webdesign %} 
+{% load humanize %}
+{% load graphs %}
+{% load diet %}
+
+{% block head %}
+	{{block.super}}
+	<script>
+		dashboard_url = '{% url dashboard %}';
+	</script>
+	<link rel="stylesheet" href="{{MEDIA_URL}}css/dashboard.css" type="text/css" />
+	
+	<!--[if IE]><script language="javascript" type="text/javascript" src="{{MEDIA_URL}}js/jqplot/excanvas.js"></script><![endif]-->
+	<script language="javascript" type="text/javascript" src="{{MEDIA_URL}}js/jqplot/jquery.jqplot.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}js/jqplot/plugins/jqplot.dateAxisRenderer.min.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}js/jqplot/plugins/jqplot.canvasTextRenderer.min.js"></script>
+	<script type="text/javascript" src="{{MEDIA_URL}}js/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>	
+	<script type="text/javascript" src="{{MEDIA_URL}}js/jqplot/plugins/jqplot.highlighter.js"></script>	
+	<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}css/jquery.jqplot.css" />
+ 	<script type="text/javascript" src="{{MEDIA_URL}}js/date.format.js"></script>	
+	
+{% endblock %}
+
+
+{% block content %}
+
+	<div class="grid_10 alpha">
+	
+		<div class="grid_10 alpha date_nav">
+			<h2>
+				Wykresy: 
+				{% ifequal mode 'week' %}
+				z ostatniego tygodnia
+				{%else%}
+				<a href="{%url graphs 'week'%}">z ostatniego tygodnia</a>
+				{%endifequal%}
+				&nbsp;|&nbsp;
+				{% ifequal mode 'month' %}
+				z ostatniego miesiąca
+				{%else%}
+				<a href="{%url graphs 'month'%}">z ostatniego miesiąca</a>
+				{%endifequal%}
+				&nbsp;|&nbsp;
+				{% ifequal mode 'all' %}
+				od daty rejestracji
+				{%else%}
+				<a href="{%url graphs 'all'%}">od daty rejestracji</a>
+				{%endifequal%}
+				
+			
+			</h2>
+		</div>
+			
+		<div class="grid_10 alpha graphs">
+			<h2>Wykres wagi</h2>
+			{% weight_graph user today graph_length today %}
+			<h2>Wykres bmi</h2>
+			{% bmi_graph user today graph_length today %}
+			
+		</div>
+			
+
+	
+	</div>
+
+	<div class="grid_2 omega" style="background-color: yellow; text-align: center;">
+	
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>		
+		<p>Ads by google</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>		
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+	</div>
+	
+{% endblock %}

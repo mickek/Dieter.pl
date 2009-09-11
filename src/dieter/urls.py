@@ -11,7 +11,8 @@ urlpatterns = patterns('',
     url(r'^patients/', include('dieter.patients.urls')),      
     url(r'^accounts/', include('dieter.registration.urls')),
     url(r'^diet/', include('dieter.diet.urls')),
-    url(r'^shopping/', include('dieter.shopping.urls')),    
+    url(r'^shopping/', include('dieter.shopping.urls')),
+    url(r'^graphs/', include('dieter.graphs.urls')),    
     url(r'^admin/(.*)', admin.site.root),
 )
 

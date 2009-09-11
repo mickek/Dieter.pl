@@ -19,6 +19,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.doc.XViewMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'dieter.middleware.SpacelessMiddleware',
 )
 
 TEMPLATE_DIRS = (
@@ -43,6 +45,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.webdesign',
     'django.contrib.humanize',
+    'django.contrib.flatpages',
     
     'south',        
     
@@ -51,6 +54,7 @@ INSTALLED_APPS = (
     'dieter.home',
     'dieter.patients',
     'dieter.shopping',
+    'dieter.graphs',
     'dieter.registration',
 )
 

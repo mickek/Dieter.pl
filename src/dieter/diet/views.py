@@ -33,7 +33,6 @@ def index(request, year=None, month=None, day=None):
         if diet.start_date: # there's a diet and the starting day has been choosen
             
             days = [ diet.current_day_plan(requested_day + datetime.timedelta(days=i)) for i in range(3) ]
-            print days
             no_diet = not any(days)
             
             return direct_to_template(request, 'diet/index.html', locals())

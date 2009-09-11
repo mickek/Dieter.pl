@@ -8,6 +8,8 @@ from django.core.urlresolvers import reverse
 from django.views.generic.simple import redirect_to, direct_to_template
 from dieter.patients.forms import ProfileForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.flatpages.models import FlatPage
+
 
 def index(request):
     
@@ -47,6 +49,13 @@ def complete_profile(request):
             request.user.save()
             
             request.user.message_set.create(message="Uzupełniono profil")
-            return redirect_to(request, reverse('dashboard'))
+            
+            try:
+                FlatPage.objects.get(url='/wprowadzenie/')
+                return redirect_to(request, '/wprowadzenie/')
+            except FlatPage.DoesNotExist: #@UndefinedVariable
+                return redirect_to(reverse('dashboard'), '/wprowadzenie/')
+            
+
     
     return direct_to_template(request, "home/complete_profile.html", extra_context= {'form':form })

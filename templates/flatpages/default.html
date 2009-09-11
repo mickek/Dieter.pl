@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	{{ block.super }}&nbsp;-&nbsp;
+	{{ flatpage.title }}
+{% endblock %}
+
+{% block content %}
+
+	<div class="grid_12 alpha">
+	{{ flatpage.content }}
+	</div>
+		
+{% endblock %}
