@@ -79,6 +79,10 @@ def approximate_user_data(user_data_list, field = 'weight', extend_to=None, curr
     return values
 
 def approximate_user_data_for_date(user_data_list, field = 'weight', day = today()):
+    """
+    Gets an approximation of user weight on a particular date.
+    Either it returns true weight, or estimated one
+    """
     
     if len(user_data_list) == 0: return None
 

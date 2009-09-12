@@ -6,72 +6,15 @@ from django.shortcuts import redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from dieter.diet.models import Diet, DayPlan, Food, Meal
 from django.contrib.auth.models import User
-from api import parse_quantity
-from django.http import HttpResponse, HttpResponseNotFound
-from dieter.utils import DieterException, profile_complete_required, today as get_today
-from dieter.diet.forms import SetDietStartDateForm, SendDietForm
+from dieter.diet.forms import SendDietForm
 from django.contrib.comments.models import Comment
 from django.conf import settings
+from dieter.utils import DieterException
+from dieter.diet import parse_quantity
+from django.http import HttpResponse
 import datetime
 
-@login_required
-@profile_complete_required
-def index(request, year=None, month=None, day=None):
-    """
-    Diet index may be in three distinct states:
-     * there's no diet introduced yet
-     * there's a diet, but the starting day haven't been choosen
-     * there's a diet and the starting day has been choosen  
-    """
-    try:
-        
-        today = get_today()
-        requested_day = datetime.date(int(year),int(month),int(day)) if ( year or month or day ) else today
-        yesterday = requested_day - datetime.timedelta(days=1)
-        tommorow = requested_day + datetime.timedelta(days=1)
-        
-        diet = Diet.objects.get(user=request.user)        
 
-        if diet.start_date: # there's a diet and the starting day has been choosen
-            
-            days = [ diet.current_day_plan(requested_day + datetime.timedelta(days=i)) for i in range(3) ]
-            no_diet = not any(days)
-            
-            return direct_to_template(request, 'diet/index.html', locals())
-        else:   # there's a diet, but the starting day haven't been choosen
-            
-            days = diet.dayplan_set.all()
-            return direct_to_template(request, 'diet/view.html', locals())
-    
-    except Diet.DoesNotExist: #@UndefinedVariable  # there's no diet introduced yet
-        return direct_to_template(request, 'diet/no-diet-yet.html')
-    
-@login_required
-@profile_complete_required
-def print_diet(request, diet_id=None):
-    
-    try:
-        diet = Diet.objects.get(pk=diet_id) if diet_id else Diet.objects.get(user=request.user)
-        days = diet.dayplan_set.all()
-        return direct_to_template(request, 'diet/print.html', locals())
-    except Diet.DoesNotExist: #@UndefinedVariable
-        return HttpResponseNotFound('<h1>Nie znaleziono diety</h1>')
-    
-@login_required
-def diet_start_date(request, diet_id):
-    
-    diet = Diet.objects.get(pk=diet_id)
-    form = SetDietStartDateForm(instance=diet)
-    
-    if request.method == 'POST':
-        
-        form = SetDietStartDateForm(request.POST, instance=diet)
-        if form.is_valid():
-            request.user.message_set.create(message="Ustalono datę rozpoczęcia diety")
-            form.save()
-            return HttpResponse('ok', mimetype="application/json")
-    
-    return direct_to_template(request, 'diet/diet_start_date_form.html', locals())
 
 @login_required
 def create(request, user_id):
