@@ -6,6 +6,8 @@
 	{% if user_has_diet %}<li class="ui-state-default ui-corner-top {% ifequal top_tab 'diet'%}ui-tabs-selected ui-state-active{%endifequal%}"><a href="{% url diet %}">Dieta</a></li>{%endif%}
 	<!-- inbox -->
 	<li class="ui-state-default ui-corner-top {% ifequal top_tab 'inbox'%}ui-tabs-selected ui-state-active{%endifequal%}"><a href="{%url inbox%}">Dietetyk</a></li>
+	<!-- wykresy -->
+	<li class="ui-state-default ui-corner-top {% ifequal top_tab 'graphs'%}ui-tabs-selected ui-state-active{%endifequal%}"><a href="{%url graphs%}">Wykresy</a></li>
 	<!-- zakupy -->	
 	{% if user_has_diet and user_diet_started %}<li class="ui-state-default ui-corner-top {% ifequal top_tab 'shopping'%}ui-tabs-selected ui-state-active{%endifequal%}"><a href="{% url shopping %}">Zakupy</a></li>{%endif%}
 	<!-- ustawienia -->
