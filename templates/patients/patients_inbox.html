@@ -18,7 +18,7 @@
 			    	<li id="{{message.id}}">
 			    		<h3>{{message.user_email}} {{message.submit_date|date:"l, j N Y"}} napisał/a:</h3>
 			    		<div class="body">
-			    		{{message.comment}}
+			    		{{message.comment|safe}}
 			    		</div>
 			    	</li>
 				{% endfor %}

@@ -8,6 +8,8 @@
 
 {% block head %}
 	{{block.super}}
+	<script type="text/javascript" src="{{MEDIA_URL}}ckeditor/ckeditor.js"></script>
+	<script>$(document).ready(function(){CKEDITOR.replace('id_message')});</script>	
 {% endblock %}
 
 {% block content %}
@@ -20,6 +22,7 @@
 		</form>	
 
 	</div>
+	
 
 
 {% endblock %}

@@ -1,4 +1,5 @@
 {% load comments %}
+
 <h2>Nowa wiadomość:</h2>
 <form class="" action="{% comment_form_target %}" method="POST">
   {% for field in form %}
@@ -21,3 +22,6 @@
   {% endfor %}
    <input type="submit" name="submit" class="submit-post" value="Wyślij wiadomość" />
 </form>
+
+<script type="text/javascript" src="{{MEDIA_URL}}ckeditor/ckeditor.js"></script>
+<script>$(document).ready(function(){CKEDITOR.replace( 'id_comment')});</script>
