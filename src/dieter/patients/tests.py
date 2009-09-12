@@ -3,7 +3,7 @@ from dieter.patients.models import UserData, Profile
 from dieter.patients import approximate_user_data,\
     approximate_user_data_for_date
 from dieter.utils import today
-from dieter.dashboard.templatetags.graphs import weight_graph
+from dieter.graphs.templatetags.graphs import weight_graph
 import datetime
 from django.contrib.auth.models import User
 
@@ -93,8 +93,9 @@ class ValueDifferenceTests(TestCase):
         
 class ProfileTests(TestCase):
     
+    fixtures = ['users.json','full_diet.json']    
+    
     def test_custom_diff_getters(self):
         
-        p = Profile()
-        
-        print p.diff_weight_1_week
+        p = Profile.objects.get(user__email='mklujszo@gmail.com')
+        p.diff_weight_1_week

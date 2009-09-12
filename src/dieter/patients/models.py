@@ -56,17 +56,11 @@ class Profile(models.Model):
             return UserData(user=self.user, weight=approximated_weight, waist=0, date=day)
             
     def __getattr__(self, name):
-        """
-        >>> p = Profile()
-        >>> p.diff_weight_1_week
-        """
         if name.startswith("diff"):
             type, param, number, unit = name.split("_")
             if type == "diff": return self.get_diff(today(), param, int(number), unit)
         else:
             return super.__getattr__(name)
-        
-        
     
     def get_diff(self, end, param, number, unit):
         

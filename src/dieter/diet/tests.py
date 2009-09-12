@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*- 
 
 from unittest import TestCase
-from dieter.diet.api import parse_quantity
+from dieter.diet import parse_quantity
 
 
 class ParseQuantityTest(TestCase):
