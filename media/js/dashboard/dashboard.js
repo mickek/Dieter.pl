@@ -34,6 +34,10 @@ function start_weight_down(){
 	go_down();
 }
 
+function show_datepicker(id){
+	$(id).datepicker( 'show' );
+}
+
 $(document).ready( function() {
 	
 	$('#weight_up').mousedown( function(){

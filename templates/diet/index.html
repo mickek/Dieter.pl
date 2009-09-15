@@ -43,7 +43,7 @@
 				{% endifnotequal %}
 				
 				<input type="hidden" name="requested_day_name" id="requested_day"/>
-				<a href="javascript:$('#requested_day').datepicker( 'show' );return false;">wybierz dzień</a>
+				<a href="javascript:return show_datepicker('#requested_day');">wybierz dzień</a>
 				
 				{% if tommorow %}
 				<a href="{% url diet tommorow.year tommorow.month tommorow.day  %}">&raquo;</a>
