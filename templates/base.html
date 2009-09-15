@@ -27,14 +27,14 @@
     <body class="container_12">
 		
 		<!-- Start logo -->
-		<div class="grid_9">
+		<div class="grid_4 logo">
 			<h1><a href="/" title="Dieter.pl">
-				<img height="60" src="{{MEDIA_URL}}images/dieter.png" alt="Dieter.pl"/>
+				<img height="60" src="{{MEDIA_URL}}images/dieter.jpg" alt="Dieter.pl"/>
 			</a></h1>
 		</div>
 		<!-- End logo -->
 		<!-- Start links -->
-		<div class="grid_3" id="top-links" style="text-align: right">
+		<div class="grid_8" id="top-links" style="text-align: right">
 			{% block top-links %}
 			
 				{% if user.is_authenticated %}
@@ -48,19 +48,28 @@
 							<a href="/admin">admin</a>
 						{% endif %}
 					</div>
+				{%else%}
+				
+				<form class="top_login" action="{% url auth_login %}" method="post">
+					<p>
+						<label for="id_username">Email:&nbsp;</label><input id="id_username" type="text" name="username" maxlength="30" />&nbsp;
+						<label for="id_password">Hasło:&nbsp;</label><input type="password" name="password" id="id_password" />
+						&nbsp;
+						<input type="submit" class="submit" value="Zaloguj" />
+					</p>
+				</form>
+				
+				
 				{% endif %}			
 			
 			{%endblock%}
 		</div>
 		<!-- End links -->
 
-		<!-- Start tabs -->
-		<div id="top-tabs" class="grid_12 ui-tabs ui-widget ui-widget-content ui-corner-all">
-			<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
-				{% block main-tabs %}<li><a href="/" class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active">Dieter.pl</a></li>{% endblock %}
-			</ul>			
-		</div>	
-		<!-- End tabs -->
+		{% block main-tabs %}
+			<hr style="clear:both;width:100%;"/>
+		{% endblock %}
+		
 		<div class="grid_12">&nbsp;</div>
 				
 		<!-- Start content -->

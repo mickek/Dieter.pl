@@ -5,17 +5,30 @@ body {
 #top-tabs ul li{ list-style: none;}
 #footer { text-align: center; border-top: 1px solid black; padding-top: .5em; margin-top: 1em; padding-bottom: 1em;}
 
-h1{ padding: 0px; margin: 0px; }
+.logo h1{ padding: 0px; margin: 0px; }
 
 /* Misc */
 a,a:VISITED,a:HOVER { color: blue; }
-.error { color:red; }
-
+.error, .errorlist { color:red; font-weight: bold; }
+ul.errorlist{ padding: 0px; margin: 0px; }
+ul.errorlist li{list-style:none;}
 
 /* Forms */
 label { display: block; padding-bottom: 0.5em; }
+form input{ padding: 0.2em; font-weight: bold; }
 
+
+/* home page */
+.introduction{ margin-top: -1em; }
+
+.top_login{ margin-top: 1em; }
+.top_login label{ display: inline; }
+
+
+/* registration */
 .register{ margin-bottom: 1em; }
 .register label{ float:left; padding-bottom: 1.5em;}
-.register input{ float:right; padding: 0.2em; font-weight: bold;}
+.register input{ float:right; }
 .register li, .register p{ clear: both; }
+
+.replaced{ width: 540px; padding: 0.5em; background-color: gray; }

@@ -1,44 +1,60 @@
 {% extends 'base.html' %}
 
+{% block head %}
+	{{block.super}}
+	<link rel="stylesheet" href="{{MEDIA_URL}}css/galleria.css" type="text/css" />
+	<script type="text/javascript" src="{{MEDIA_URL}}js/jquery.galleria.js"></script>
+	<script>
+		$(document).ready(function(){
+			$('ul.gallery').galleria();
+		})
+	</script>
+{% endblock %}
+
 {% block content %}
 
-	<div class="grid_6 alpha">
-		<h2>Chcesz prowadzić zdrowszy tryb życia?</h2>
+	<div class="grid_5 alpha introduction">
+		<h1>Chcesz prowadzić zdrowszy tryb życia?</h1>
 		<p>Dieter.pl pozwoli Ci codziennie monitorować swoją wagę i pomoże w prowadzeniu diety</p>
 
-		<h2>Dla pierwszych 50 użytkowników dieter będzie darmowy!</h2>
+		<h1>Dla pierwszych 50 użytkowników dieter będzie darmowy!</h1>
 		<p>Podczas trwania beta testów dietera ( kilka miesięcy ) pierwszych 50 użytkowników, otrzyma darmowy dostęp do serwisu.</p>
 		
-		<p style="text-align:center"><a href="{% url registration_register %}">Załóż nowe konto</a></p>
-	</div>
-
-	<div class="grid_3 omega">
-		<h2>Możliwości dietera?</h2>
+		<h1>Możliwości dietera?</h1>
 		<ul>
 			<li>Tworzenie własnej diety</li>
 			<li>Monitorowanie wagi</li>
 			<li>Wykresy i zestawienia</li>
 			<li>Planowanie zakupów</li>
 		</ul>
+		
+		<p style="text-align:center;padding:0.5em;background-color: gray;"><a style="color: white;" href="{% url registration_register %}">Załóż nowe konto</a></p>		
+		
 	</div>
 
-	<div class="grid_3 omega">
-		<h2>Logowanie:</h2>
-		<form action="{% url auth_login %}" method="post">
-			{{form.as_p}}
-			<p><input type="submit" class="submit" value="Zaloguj" />
-			<p><a href="{% url auth_password_reset %}" title="Forgot your password?">Zapomniałeś hasła?</a></p>						
-		</form>
-	</div>
+
+	<div class="grid_7 omega">
+
+		<ul class="gallery">
+			<li class="active"><img  title="Ekran główny" style="width:540px;" src="{{MEDIA_URL}}images/home/dashboard.jpg" alt="dashboard"/></li>
+			<li><img title="Przeglądanie diety"  style="width:540px;" src="{{MEDIA_URL}}images/home/diet.jpg" alt="diet"/></li>
+		</ul>
 		
-	<div style="clear:both;"></div>
-	
-	<div class="grid_6 alpha" style="">
-		<img src="{{MEDIA_URL}}images/home/dashboard.jpg" style="background-color: grey; width:450px;padding:5px;border:1px black solid;"/>
 	</div>
+
+	<div style="clear:both;"></div>
+
+	<div class="grid_12">
 	
+	</div>
+			
+		
+	
+	
+	<!-- 	
 	<div class="grid_6 omega" style="text-align: center;">
 		<img src="{{MEDIA_URL}}images/home/diet.jpg" style="background-color: grey; width:450px;padding:5px;border:1px black solid;"/>	
 	</div>
+	 -->
 	
 {% endblock %}
