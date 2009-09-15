@@ -354,11 +354,11 @@ $.extend({galleria : {
 		}
 	},
 	next : function() {
-		var _next = $($$.nextSelector($('.galleria img[@rel="'+$.galleria.current+'"]').parents('li'))).find('img').attr('rel');
+		var _next = $($$.nextSelector($('.galleria img[rel="'+$.galleria.current+'"]').parents('li'))).find('img').attr('rel');
 		$.galleria.activate(_next);
 	},
 	prev : function() {
-		var _prev = $($$.previousSelector($('.galleria img[@rel="'+$.galleria.current+'"]').parents('li'))).find('img').attr('rel');
+		var _prev = $($$.previousSelector($('.galleria img[rel="'+$.galleria.current+'"]').parents('li'))).find('img').attr('rel');
 		$.galleria.activate(_prev);
 	}
 }

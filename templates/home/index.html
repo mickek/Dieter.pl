@@ -5,9 +5,51 @@
 	<link rel="stylesheet" href="{{MEDIA_URL}}css/galleria.css" type="text/css" />
 	<script type="text/javascript" src="{{MEDIA_URL}}js/jquery.galleria.js"></script>
 	<script>
-		$(document).ready(function(){
-			$('ul.gallery').galleria();
+		jQuery(function($) {
+			$('ul.galleria').galleria({
+				history   : false, 
+				clickNext : true,
+				onImage   : function(image,caption,thumb) { // let's add some image effects for demonstration purposes
+
+								// fade in the image & caption
+								if(! ($.browser.mozilla && navigator.appVersion.indexOf("Win")!=-1) ) { // FF/Win fades large images terribly slow
+									image.css('display','none').fadeIn(1000);
+								}
+								caption.css('display','none').fadeIn(1000);
+
+								// fetch the thumbnail container
+								var _li = thumb.parents('li');
+
+								// fade out inactive thumbnail
+								_li.siblings().children('img.selected').fadeTo(500,0.3);
+
+								// fade in active thumbnail
+								thumb.fadeTo('fast',1).addClass('selected');
+
+								// add a title for the clickable image
+								image.attr('title','Next image >>');
+							},
+							onThumb : function(thumb) { // thumbnail effects goes here
+
+								// fetch the thumbnail container
+								var _li = thumb.parents('li');
+
+								// if thumbnail is active, fade all the way.
+								var _fadeTo = _li.is('.active') ? '1' : '0.3';
+
+								// fade in the thumbnail when finnished loading
+								thumb.css({display:'none',opacity:_fadeTo}).fadeIn(1500);
+
+								// hover effects
+								thumb.hover(
+									function() { thumb.fadeTo('fast',1); },
+									function() { _li.not('.active').children('img').fadeTo('fast',0.3); } // don't fade out if the parent is active
+								)
+							}
+			});
+			$.galleria.activate('{{MEDIA_URL}}images/home/dashboard.jpg');
 		})
+		
 	</script>
 {% endblock %}
 
@@ -35,26 +77,22 @@
 
 	<div class="grid_7 omega">
 
-		<ul class="gallery">
+		<ul class="galleria">
 			<li class="active"><img  title="Ekran główny" style="width:540px;" src="{{MEDIA_URL}}images/home/dashboard.jpg" alt="dashboard"/></li>
+			<li><img title="Tworzenie diety"  style="width:540px;" src="{{MEDIA_URL}}images/home/edit-diet.jpg" alt="edit-diet"/></li>			
 			<li><img title="Przeglądanie diety"  style="width:540px;" src="{{MEDIA_URL}}images/home/diet.jpg" alt="diet"/></li>
+			<li><img title="Wykresy"  style="width:540px;" src="{{MEDIA_URL}}images/home/graphs.jpg" alt="wykresy"/></li>
+			<li><img title="Komunikacja z dietetykiem"  style="width:540px;" src="{{MEDIA_URL}}images/home/inbox.jpg" alt="komunikacja z dietetykiem"/></li>	
+			<li><img title="Lista zakupów"  style="width:540px;" src="{{MEDIA_URL}}images/home/shopping.jpg" alt="lista zakupów"/></li>		
+			
 		</ul>
 		
 	</div>
 
-	<div style="clear:both;"></div>
-
-	<div class="grid_12">
+	<div class="grid_12" style="clear:both;"> 
 	
 	</div>
 			
 		
-	
-	
-	<!-- 	
-	<div class="grid_6 omega" style="text-align: center;">
-		<img src="{{MEDIA_URL}}images/home/diet.jpg" style="background-color: grey; width:450px;padding:5px;border:1px black solid;"/>	
-	</div>
-	 -->
 	
 {% endblock %}

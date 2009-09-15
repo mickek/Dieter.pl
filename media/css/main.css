@@ -23,7 +23,8 @@ form input{ padding: 0.2em; font-weight: bold; }
 
 .top_login{ margin-top: 1em; }
 .top_login label{ display: inline; }
-
+ul.galleria{ width: 600px;}
+.galleria li{float:left !important;}
 
 /* registration */
 .register{ margin-bottom: 1em; }
