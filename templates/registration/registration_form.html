@@ -1,59 +1,39 @@
 {% extends "base.html" %}
 {% block title %}Zarejestruj się{% endblock %}
 
+{% block head %}
+<script>$(document).ready(function(){$('#id_email').focus()})</script>
+{% endblock %}
+
 {% load webdesign %} 
 
 {% block content %}
 
-	<div class="grid_5 alpha">
+	<div class="grid_6 alpha register">
 	
 		<form method="post" action="">
 			<h2>Utwórz konto</h2>
-			{{ form.as_p }}
-			<input type="submit" value="Zarejestruj się" />
+			{{ form.as_ul }}
+			<p><input type="submit" value="Zarejestruj się" /></p>
 		</form>
 	</div>
 	
-	<div class="grid_5">
-	
+	<div class="grid_6 omega">
 		<h2>Jak założyć konto?</h2>
-	
-		{%lorem 2 p%}
-	</div>
-	
-	<div class="grid_2 omega" style="background-color: yellow; text-align: center;">
-	
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>Ads by google</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-	
+		<p>Aby korzystać z Dietera musisz nam podać swój aktualny adres email, po rejestracji dostaniesz instrukcje jak aktywować konto.</p>
+		<p>Musisz również zaakceptować <a href="/regulamin">regulamin</a> serwisu zaznaczając odpowiedni boks na dole formularza</p>
+		<p>Przez okres beta testów Dieter będzie serwisem zupełnie darmowym.</p>
 	</div>
 	
 	<div class="clear"></div>
 	
-	<div class="grid_6 alpha" style="background-color: aqua; text-align: center;">
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>Monitorowanie wagi, ładny screenshot</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
+	<div class="grid_6 alpha" style="">
+		<img src="{{MEDIA_URL}}images/home/dashboard.jpg" style="background-color: grey; width:450px;padding:5px;border:1px black solid;"/>
 	</div>
 	
-	<div class="grid_6 omega" style="background-color: gray; text-align: center;">
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>Baza produktów / Planowanie zakupów</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-			
+	<div class="grid_6 omega" style="text-align: center;">
+		<img src="{{MEDIA_URL}}images/home/diet.jpg" style="background-color: grey; width:450px;padding:5px;border:1px black solid;"/>	
 	</div>
+
 	
 {% endblock %}

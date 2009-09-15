@@ -2,54 +2,43 @@
 
 {% block content %}
 
-	<div class="grid_5 alpha">
-		<h2>Masz już konto?</h2>
+	<div class="grid_6 alpha">
+		<h2>Chcesz prowadzić zdrowszy tryb życia?</h2>
+		<p>Dieter.pl pozwoli Ci codziennie monitorować swoją wagę i pomoże w prowadzeniu diety</p>
+
+		<h2>Dla pierwszych 50 użytkowników dieter będzie darmowy!</h2>
+		<p>Podczas trwania beta testów dietera ( kilka miesięcy ) pierwszych 50 użytkowników, otrzyma darmowy dostęp do serwisu.</p>
+		
+		<p style="text-align:center"><a href="{% url registration_register %}">Załóż nowe konto</a></p>
+	</div>
+
+	<div class="grid_3 omega">
+		<h2>Możliwości dietera?</h2>
+		<ul>
+			<li>Tworzenie własnej diety</li>
+			<li>Monitorowanie wagi</li>
+			<li>Wykresy i zestawienia</li>
+			<li>Planowanie zakupów</li>
+		</ul>
+	</div>
+
+	<div class="grid_3 omega">
+		<h2>Logowanie:</h2>
 		<form action="{% url auth_login %}" method="post">
 			{{form.as_p}}
-			<p><input type="submit" class="submit" value="Zaloguj się" />
-			<p><a href="{% url auth_password_reset %}" title="Forgot your password?">Zapomniałeś hasła?</a></p>
+			<p><input type="submit" class="submit" value="Zaloguj" />
+			<p><a href="{% url auth_password_reset %}" title="Forgot your password?">Zapomniałeś hasła?</a></p>						
 		</form>
 	</div>
+		
+	<div style="clear:both;"></div>
 	
-	<div class="grid_5">
-		<h2>Nie masz konta?</h2>
-		<p><a href="{% url registration_register %}">Załóż nowe konto</a></p>
-		<p>Czym jest dieter?<br/>Ile kosztuje?</p>
+	<div class="grid_6 alpha" style="">
+		<img src="{{MEDIA_URL}}images/home/dashboard.jpg" style="background-color: grey; width:450px;padding:5px;border:1px black solid;"/>
 	</div>
 	
-	<div class="grid_2 omega" style="background-color: yellow; text-align: center;">
-	
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>Ads by google</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-	
-	</div>
-	
-	<div class="clear"></div>
-	
-	<div class="grid_6 alpha" style="background-color: aqua; text-align: center;">
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>Monitorowanie wagi, ładny screenshot</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-	</div>
-	
-	<div class="grid_6 omega" style="background-color: gray; text-align: center;">
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>Baza produktów / Planowanie zakupów</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-			
+	<div class="grid_6 omega" style="text-align: center;">
+		<img src="{{MEDIA_URL}}images/home/diet.jpg" style="background-color: grey; width:450px;padding:5px;border:1px black solid;"/>	
 	</div>
 	
 {% endblock %}

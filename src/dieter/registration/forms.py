@@ -18,7 +18,7 @@ class RegistrationForm(forms.Form):
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=u'Hasło (powtórz):')
     
-    coupon  = forms.RegexField(regex="[0-9]+", label=u'Kupon promocyjny', required=False)
+    #coupon  = forms.RegexField(regex="[0-9]+", label=u'Kupon promocyjny', required=False)
     
     tos = forms.BooleanField(widget=forms.CheckboxInput(attrs=attrs_dict), label='Przeczytałem i zgadzam się na regulamin serwisu:')
 

@@ -3,7 +3,9 @@ body {
 }
 
 #top-tabs ul li{ list-style: none;}
-#footer { text-align: center; border-top: 1px solid black; padding-top: .5em; margin-top: .5em;}
+#footer { text-align: center; border-top: 1px solid black; padding-top: .5em; margin-top: 1em; padding-bottom: 1em;}
+
+h1{ padding: 0px; margin: 0px; }
 
 /* Misc */
 a,a:VISITED,a:HOVER { color: blue; }
@@ -12,3 +14,8 @@ a,a:VISITED,a:HOVER { color: blue; }
 
 /* Forms */
 label { display: block; padding-bottom: 0.5em; }
+
+.register{ margin-bottom: 1em; }
+.register label{ float:left; padding-bottom: 1.5em;}
+.register input{ float:right; padding: 0.2em; font-weight: bold;}
+.register li, .register p{ clear: both; }
