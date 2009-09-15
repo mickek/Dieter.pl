@@ -31,4 +31,4 @@ form input{ padding: 0.2em; font-weight: bold; }
 .register input{ float:right; }
 .register li, .register p{ clear: both; }
 
-.replaced{ width: 540px; padding: 0.5em; background-color: gray; }
+.replaced{ width: 540px; height: 385px; padding: 0.5em; background-color: gray; }
