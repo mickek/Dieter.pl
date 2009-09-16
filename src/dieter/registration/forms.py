@@ -41,7 +41,7 @@ class RegistrationForm(forms.Form):
         
         Profile.objects.get_or_create(user=new_user)        
         
-        if self.cleaned_data['coupon']:
+        if 'coupon' in self.cleaned_data and self.cleaned_data['coupon']:
             coupon = Coupon(user=new_user,coupon=self.cleaned_data['coupon'])
             coupon.save()
         
