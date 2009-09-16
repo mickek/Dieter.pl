@@ -21,7 +21,7 @@
 								var _li = thumb.parents('li');
 
 								// fade out inactive thumbnail
-								_li.siblings().children('img.selected').fadeTo(500,0.3);
+								_li.siblings().children('img.selected').fadeTo('fast',0.8);
 
 								// fade in active thumbnail
 								thumb.fadeTo('fast',1).addClass('selected');
@@ -35,7 +35,7 @@
 								var _li = thumb.parents('li');
 
 								// if thumbnail is active, fade all the way.
-								var _fadeTo = _li.is('.active') ? '1' : '0.3';
+								var _fadeTo = _li.is('.active') ? '1' : '0.8';
 
 								// fade in the thumbnail when finnished loading
 								thumb.css({display:'none',opacity:_fadeTo}).fadeIn(1500);
@@ -43,7 +43,7 @@
 								// hover effects
 								thumb.hover(
 									function() { thumb.fadeTo('fast',1); },
-									function() { _li.not('.active').children('img').fadeTo('fast',0.3); } // don't fade out if the parent is active
+									function() { _li.not('.active').children('img').fadeTo('fast',0.8); } // don't fade out if the parent is active
 								)
 							}
 			});
@@ -57,10 +57,10 @@
 
 	<div class="grid_5 alpha introduction">
 		<h1>Chcesz prowadzić zdrowszy tryb życia?</h1>
-		<p>Dieter.pl pozwoli Ci codziennie monitorować swoją wagę i pomoże w prowadzeniu diety</p>
+		<p>Dieter.pl pozwoli Ci codziennie monitorować swoją wagę i przebieg diety. Z Dieterem w prosty sposób utworzysz listę zakupów i sprawdzisz co dzisiaj jest na śniadanie.</p>
 
-		<h1>Dla pierwszych 50 użytkowników dieter będzie darmowy!</h1>
-		<p>Podczas trwania beta testów dietera ( kilka miesięcy ) pierwszych 50 użytkowników, otrzyma darmowy dostęp do serwisu.</p>
+		<h1>Podczas beta testów Dieter będzie całkowicie darmowy</h1>
+		<p>Przez pierwsze kilka miesięcy podczas trwania beta testów korzystanie z Dietera będzie zupełnie darmowe.</p>
 		
 		<h1>Możliwości dietera?</h1>
 		<ul>

@@ -4,4 +4,5 @@ Kliknij poniższy link aby aktywować swoje konto:
 http://{{site.domain}}/accounts/activate/{{activation_key}}
 
 --
+kontakt@dieter.pl
 {{site.domain}}
