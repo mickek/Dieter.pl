@@ -1,7 +1,7 @@
 from django.conf import settings
-from django.conf.urls.defaults import patterns, url, include
 from django.contrib import admin
 import os
+from django.conf.urls.defaults import *
 
 admin.autodiscover()
 
