@@ -6,7 +6,9 @@ from dieter.console import strfix
 import datetime
 
 class DietManager(models.Manager):
-    
+    """
+    When creating diet we should also create dayplan objects.
+    """
     def create(self, **kwargs):
         
         new_diet = self.get_query_set().create(**kwargs)
@@ -27,9 +29,13 @@ class DietManager(models.Manager):
 class Diet(models.Model):
     
     start_date      = models.DateField('Data startu diety',null=True,blank=True)
-    state           = models.CharField('Stan diety', unique=False, max_length=50)
+    state           = models.CharField('Stan diety', unique=False, max_length=50)   # may be active / inactive
+    
+    description     = models.CharField('Opis diety', max_length=50000, null=True, blank=True)
+    type            = models.CharField('Typ diety', max_length=50, null=True, blank=True) # may be 'user_created', 'nutronist_created', 'for_sale'
     
     user            = models.ForeignKey(User)
+    parent          = models.ForeignKey(Diet, null=True, blank=True)
     
     objects         = DietManager()
     
