@@ -7,9 +7,7 @@ from dieter.patients.models import UserData
 @profile_complete_required
 def index(request, mode = 'week'):
 
-
     today = get_today()
-    
     max_length = len(UserData.objects.all())
     
     if mode == 'week':

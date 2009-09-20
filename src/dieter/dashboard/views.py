@@ -28,7 +28,6 @@ def index(request, year=None, month=None, day=None):
             day_plan = diet.current_day_plan(requested_day)
         except Diet.DoesNotExist: #@UndefinedVariable
             pass
-        
     
         yesterday = requested_day - datetime.timedelta(days=1)
         tommorow = requested_day + datetime.timedelta(days=1) if requested_day < today else None

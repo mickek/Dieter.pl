@@ -18,8 +18,6 @@ class RegistrationForm(forms.Form):
     password2 = forms.CharField(widget=forms.PasswordInput(attrs=attrs_dict, render_value=False),
                                 label=u'Hasło (powtórz):')
     
-    #coupon  = forms.RegexField(regex="[0-9]+", label=u'Kupon promocyjny', required=False)
-    
     tos = forms.BooleanField(widget=forms.CheckboxInput(attrs=attrs_dict), label='Przeczytałem i zgadzam się na regulamin serwisu:')
 
     def clean_email(self):
@@ -30,7 +28,7 @@ class RegistrationForm(forms.Form):
     def clean_tos(self):
         if self.cleaned_data.get('tos', False):
             return self.cleaned_data['tos']
-        raise forms.ValidationError(u'Muisz wyrazić zgoę aby się zarejestrować')
+        raise forms.ValidationError(u'Muisz wyrazić zgodę aby się zarejestrować')
     
     
     def save(self, profile_callback=None):
