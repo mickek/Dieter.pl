@@ -4,6 +4,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from dieter.utils import today
 from dieter.patients import approximate_user_data_for_date
+from dieter.nutritionist.models import PrivatePractice
 import datetime
 
 class Profile(models.Model):
@@ -18,6 +19,8 @@ class Profile(models.Model):
     target_weight   = models.FloatField('Waga docelowa',null=True, blank=False)
     
     user            = models.ForeignKey(User, unique=True)
+    
+    practice        = models.ForeignKey(PrivatePractice, nullable=True, blank=True)
     
     def has_diet(self):
         return len(self.user.diet_set.all())
