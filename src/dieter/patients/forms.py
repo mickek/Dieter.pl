@@ -13,3 +13,12 @@ class ProfileForm(ModelForm):
     class Meta:
         model = Profile
         exclude = ('user',)
+        
+class ProfileSettingsForm(ModelForm):
+
+    class Meta:
+        model = Profile
+        exclude = ('user',)
+        
+        
+        

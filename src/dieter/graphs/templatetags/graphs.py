@@ -25,7 +25,8 @@ def graph(user, end_day, length, today, type):
     
     approximated_weight = approximate_user_data(user.userdata_set.filter(date__range=(start_day,end_day)), type, extend_to=length, current_date = today)
 
-    if not approximated_weight: return {'data':None}
+    if not approximated_weight: return {'plot_data':None}
+    
     modifier = 0
     if len(approximated_weight) == (today - start_day).days: modifier = 1
     
