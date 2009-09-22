@@ -1,7 +1,13 @@
-Witamy w {{site.domain}}!
+Witamy w wersji beta Dieter.pl!
 
 Kliknij poniższy link aby aktywować swoje konto:
 http://{{site.domain}}/accounts/activate/{{activation_key}}
+
+Dieter pomoże Ci w:
+ - Prowadzeniu diety, przypomnie Ci posiłki na dzisiaj
+ - Monitorowaniu swojej wagi
+ - Przeglądaniu wykresów i ocenianiu postępów diety
+ - Planowaniu zakupów
 
 --
 kontakt@dieter.pl
