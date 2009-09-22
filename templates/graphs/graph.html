@@ -1,0 +1,30 @@
+{% if plot_data %}
+<div id="{{type}}_graph"></div> 
+<script type="text/javascript">
+
+	$.jqplot.eventListenerHooks.push(['jqplotClick', function(ev, gridpos, datapos, neighbor, plot){
+		if(neighbor){
+			var date = new Date(neighbor.data[0])
+			window.location=dashboard_url+date.format("yyyy/m/d")+"/";
+		}
+	}]);
+
+	$.jqplot('{{type}}_graph', {{plot_data|safe}}, {
+		axes:{
+			xaxis:{
+				renderer: $.jqplot.DateAxisRenderer,
+				rendererOptions:{
+					tickRenderer:$.jqplot.CanvasAxisTickRenderer,
+					tickOptions:{angle:-30, fontWeight:'normal'}
+            	}				
+			}
+		},
+		highlighter: {sizeAdjust: 7}
+	});
+</script>
+{% else %}
+<div style="text-align:center;">
+<h3>Brak danych</h3>
+<p>Wprowadź swoją wagę aby rozpocząć przeglądać wykresy</p>
+</div>
+{% endif %}

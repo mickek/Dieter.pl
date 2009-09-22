@@ -42,5 +42,5 @@ def graph(user, end_day, length, today, type):
                                          ),
                                          'type':type}
     
-register.inclusion_tag('graphs/weight_graph.html')(weight_graph)
-register.inclusion_tag('graphs/weight_graph.html')(bmi_graph)
+register.inclusion_tag('graphs/graph.html')(weight_graph)
+register.inclusion_tag('graphs/graph.html')(bmi_graph)

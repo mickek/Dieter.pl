@@ -6,7 +6,7 @@ from django.contrib.auth.forms import AuthenticationForm
 
 from django.core.urlresolvers import reverse
 from django.views.generic.simple import redirect_to, direct_to_template
-from dieter.patients.forms import ProfileForm
+from dieter.patients.forms import CompleteProfileForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.flatpages.models import FlatPage
 
@@ -36,10 +36,10 @@ def complete_profile(request):
     p = request.user.get_profile()
     if p.is_profile_complete(): return redirect_to(request, reverse('dashboard'))
 
-    form = ProfileForm(instance = p)
+    form = CompleteProfileForm(instance = p)
     if request.method == 'POST':
     
-        form = ProfileForm(request.POST, instance=p)
+        form = CompleteProfileForm(request.POST, instance=p)
         if form.is_valid():
             
             request.user.userdata_set.create(

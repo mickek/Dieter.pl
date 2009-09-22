@@ -5,7 +5,7 @@ from dieter.patients.models import Profile
 from django import forms
 
 
-class ProfileForm(ModelForm):
+class CompleteProfileForm(ModelForm):
 
     current_weight = forms.FloatField(label="Aktualna waga")
     current_waist = forms.FloatField(label="Aktualny obwód pasa", required=False)  
