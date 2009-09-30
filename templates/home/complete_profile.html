@@ -4,32 +4,42 @@
 
 {% block content %}
 
-	<div class="grid_10 alpha">
+	<div class="grid_12 alpha">
 		
 		<form action="{% url complete_profile %}" method="post">
 		
-			<div class="grid_10 alpha">
+			<div class="grid_12 alpha">
 				<h2>Uzupełnij dane</h2>
 			</div>
-			<div class="grid_5 alpha">
+			
+			<div class="grid_9 alpha">
+			
+				<div class="grid_4 alpha">
+					
+					<ul>
+						<li><label for="id_sex">{{form.sex.label}}: {{form.sex}}</label>{{form.sex.errors}}</li>
+						<li><label for="id_current_weight">{{form.current_weight.label}}: {{form.current_weight}}</label>{{form.current_weight.errors}}</li>
+						<li><label for="id_height">{{form.height.label}}: {{form.height}}</label>{{form.height.errors}}</li>
+					</ul>
+					
+				</div>
 				
-				<ul>
-					<li><label for="id_sex">{{form.sex.label}}: {{form.sex}}</label>{{form.sex.errors}}</li>
-					<li><label for="id_current_weight">{{form.current_weight.label}}: {{form.current_weight}}</label>{{form.current_weight.errors}}</li>
-					<li><label for="id_height">{{form.height.label}}: {{form.height}}</label>{{form.height.errors}}</li>
-				</ul>
+				<div class="grid_5 omega">
+					<ul>
+						<li><label for="id_target_weight">{{form.target_weight.label}}: {{form.target_weight}}</label>{{form.target_weight.errors}}</li>
+						<li><label for="id_waist">{{form.current_waist.label}}: {{form.current_waist}}</label>{{form.current_waist.errors}}</li>
+					</ul>
+				</div>
+				
+				<div class="grid_9">
+					<input type="submit" value="Zapisz Dane"/>
+				</div>
 				
 			</div>
 			
-			<div class="grid_5 omega">
-				<ul>
-					<li><label for="id_target_weight">{{form.target_weight.label}}: {{form.target_weight}}</label>{{form.target_weight.errors}}</li>
-					<li><label for="id_waist">{{form.current_waist.label}}: {{form.current_waist}}</label>{{form.current_waist.errors}}</li>
-				</ul>
-			</div>
-			
-			<div class="grid_10">
-				<input type="submit" value="Zapisz Dane"/>
+			<div class="grid_3 omega">
+				<p>Aby móc korzystać z serwisu potrzebujemy wiedzieć o Tobie więcej.</p>
+				<p>Jeśli nie znasz swojego obwodu/talii pasa możesz uzupełnić te pole później w ustawieniach.</p>
 			</div>
 		
 		</form>

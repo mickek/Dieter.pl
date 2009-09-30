@@ -5,25 +5,38 @@
 
 {% block content %}
 
-	<div class="grid_5 alpha">
-		<h2>{% trans 'Password change' %}</h2>
+	<div class="grid_4 alpha">
+	
+		<h2>Zmień swoje dane</h2>
 		
-		<p>{% trans "Please enter your old password, for security's sake, and then enter your new password twice so we can verify you typed it in correctly." %}</p>
+		<form action="{% url patients_save_settings %}" method="post">
+			{{profile_form.as_p}}
+			<p><input type="submit" value="Zapisz dane"/></p>
+		</form>
+	
+	</div>
+
+
+	<div class="grid_3">
+		<h2>{% trans 'Password change' %}</h2>
 		
 		<form action="{%url auth_password_change%}" method="post">
 		
-		{% if form.old_password.errors %}{{ form.old_password.errors }}{% endif %}
-		<p class="aligned wide"><label for="id_old_password">{% trans 'Old password:' %}</label>{{ form.old_password }}</p>
-		{% if form.new_password1.errors %}{{ form.new_password1.errors }}{% endif %}
-		<p class="aligned wide"><label for="id_new_password1">{% trans 'New password:' %}</label>{{ form.new_password1 }}</p>
-		{% if form.new_password2.errors %}{{ form.new_password2.errors }}{% endif %}
-		<p class="aligned wide"><label for="id_new_password2">{% trans 'Confirm password:' %}</label>{{ form.new_password2 }}</p>
-		
-		<p><input type="submit" value="{% trans 'Change my password' %}" /></p>
+			{% if password_form.old_password.errors %}{{ password_form.old_password.errors }}{% endif %}
+			<p class="aligned wide"><label for="id_old_password">{% trans 'Old password:' %}</label>{{ password_form.old_password }}</p>
+			{% if password_form.new_password1.errors %}{{ password_form.new_password1.errors }}{% endif %}
+			<p class="aligned wide"><label for="id_new_password1">{% trans 'New password:' %}</label>{{ password_form.new_password1 }}</p>
+			{% if password_form.new_password2.errors %}{{ password_form.new_password2.errors }}{% endif %}
+			<p class="aligned wide"><label for="id_new_password2">{% trans 'Confirm password:' %}</label>{{ password_form.new_password2 }}</p>
+			
+			<p><input type="submit" value="{% trans 'Change my password' %}" /></p>
 		</form>	
+	</div>	
+	
+	<div class="grid_4 omega">
+	<h1>Zmiany ustawień</h1>
+	<p>Aby zmienić hasło podaj swoje stare hasło i dwa razy nowe.</p>
+	<p>Zmiana wzrostu spowoduje uaktualnienie sposobu wyliczania Twojego współczynnika BMI</p>
 	</div>
-	
-	<div class="grid_5">&nbsp;</div>
-	
 
 {% endblock %}

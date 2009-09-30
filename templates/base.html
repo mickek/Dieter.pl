@@ -29,7 +29,7 @@
 		<!-- Start logo -->
 		<div class="grid_4 logo">
 			<h1><a href="/" title="Dieter.pl">
-				<img height="60" src="{{MEDIA_URL}}images/dieter.jpg" alt="Dieter.pl"/>
+				<img height="80" src="{{MEDIA_URL}}images/dieter.png" alt="Dieter.pl"/>
 			</a></h1>
 		</div>
 		<!-- End logo -->
@@ -47,6 +47,7 @@
 				{%else%}
 				
 				<form class="top_login" action="{% url auth_login %}" method="post">
+					<p style="margin:0px 0px 1em 0px;padding:0px;"><b>Zaloguj się:</b></p>
 					<p>
 						<label for="id_username">Email:&nbsp;</label><input id="id_username" type="text" name="username" maxlength="30" />&nbsp;
 						<label for="id_password">Hasło:&nbsp;</label><input type="password" name="password" id="id_password" />
@@ -92,15 +93,16 @@
 		{% if messages %}
 			<script>
 			$(document).ready( function() {
-		    {% for message in messages %}
-		    	$.jGrowl("{{message}}");
-		    {% endfor %}
+			    {% for message in messages %}
+			    	$.jGrowl("{{message}}");
+			    {% endfor %}
 			})
 			</script>
 		{% endif %}
 		
 		{% google_analytics_code %}
 		
+		<script>$(document).ready(function(){$('#id_username').focus();})</script>
 
 	</body>
 </html>
