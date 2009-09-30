@@ -1,3 +1,5 @@
 *.pyc
 **/*.pyc
 DJANGO_SETTINGS_MODULE
+.DS_Store
+**/.DS_Store
