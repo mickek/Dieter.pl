@@ -55,21 +55,19 @@ class ValueDifferenceTests(TestCase):
         
         from django.utils import simplejson
         
-        day = today()
+        day = datetime.date(2009, 9, 4)
         user = User.objects.get(email='mklujszo@gmail.com')
         data =  weight_graph(user, day, 14, day)
+             
         
-        print 'today', day, 'length', len(simplejson.loads(data['plot_data'])[0])
+        self.failIf(not data['plot_data'], 'plot_data can\'t be None')
         
         for d in simplejson.loads(data['plot_data'])[0]:
             year,month,day = d[0].split("-")
             value = UserData.objects.filter( user=user, date = datetime.date(int(year), int(month), int(day) ) )
-            
-            print d, value 
+             
             if len(value) > 0: self.assertEqual( float(d[1]), value[0].weight )
-            
-        print 'today', simplejson.loads(data['plot_data'])[1]
-        
+                    
     def test_data_weight_graph_no_extend_right(self):
         
         from django.utils import simplejson
@@ -79,17 +77,11 @@ class ValueDifferenceTests(TestCase):
         user = User.objects.get(email='mklujszo@gmail.com')
         data =  weight_graph(user, day, 14, day)
         
-        print 'today', day, 'length', len(simplejson.loads(data['plot_data'])[0])
-        
         for d in simplejson.loads(data['plot_data'])[0]:
             year,month,day = d[0].split("-")
             value = UserData.objects.filter( user=user, date = datetime.date(int(year), int(month), int(day) ) )
-            
-            print d, value 
+             
             if len(value) > 0: self.assertEqual( float(d[1]), value[0].weight )
-            
-        print 'today', simplejson.loads(data['plot_data'])[1]        
-
         
 class ProfileTests(TestCase):
     
