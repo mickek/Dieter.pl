@@ -2,7 +2,6 @@ from django.contrib.auth.decorators import login_required
 from dieter.utils import profile_complete_required, DieterException, today as get_today
     
 from django.views.generic.simple import direct_to_template, redirect_to
-from dieter.dashboard.forms import WeightForm
 from django.http import HttpResponse
 from dieter.diet.models import Diet
 import datetime
