@@ -1,1 +1,1 @@
-./manage.py test patients --settings=dieter.settings.test
+./manage.py test patients diet --settings=dieter.settings.test

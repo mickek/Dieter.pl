@@ -15,6 +15,7 @@ def approximate_user_data(user_data_list, field = 'weight', extend_to=None, curr
     max_date = max(user_data_list).date
     
     extend_right = (current_date - max_date).days
+    if extend_right < 0: extend_to = extend_to + abs(extend_right)
         
     days = (max_date - min_date).days+1
     values = [ 0 for i in range(days) ]
@@ -41,7 +42,7 @@ def approximate_user_data(user_data_list, field = 'weight', extend_to=None, curr
 
     # adding last area
     if current_area != []: approximation_areas.append(current_area)
-
+    
     min_index = 0 
     max_index = days-1
     
@@ -67,16 +68,34 @@ def approximate_user_data(user_data_list, field = 'weight', extend_to=None, curr
             for index in approximation_area: values[index] = weight
             pass 
         
+    # appending approximated values after last value
     if extend_right and len(values) < extend_to:
         extended_values = [ values[len(values)-1] for i in range(extend_right) ]
         values.extend(extended_values)
-        
+    
+    # appending approximated values before first value    
     if extend_to and len(values) < extend_to:
         extended_values = [ values[0] for i in range(extend_to-len(values)) ]
         for v in values: extended_values.append(v)
         values =  extended_values
-            
-    return values
+    
+    '''
+    We have entire approximated history in values variable and we must return extend_to long sequence ending in requested day so:
+    if the sequence is too long ( user has more data in his history then we want to show ) we nead to return a subsequence of values
+    '''
+    if len(values) >= extend_to and extend_to:
+        if extend_right < 0:
+            '''
+            End day is somewhere inside the sequence 
+            '''
+            return values[max(0,len(values)-extend_to+extend_right):len(values)+extend_right]
+        else:
+            '''
+            End day is the end of the sequence
+            '''
+            return values[len(values)-extend_to:]
+    else:
+        return values
 
 def approximate_user_data_for_date(user_data_list, field = 'weight', day = today()):
     """
