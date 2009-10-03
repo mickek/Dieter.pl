@@ -56,6 +56,7 @@ class Profile(models.Model):
         except UserData.DoesNotExist:
             # get the latest data
             approximated_weight = approximate_user_data_for_date(self.user.userdata_set.all(),"weight",day)
+            if not approximated_weight: approximated_weight = 0
             return UserData(user=self.user, weight=approximated_weight, waist=0, date=day)
             
     def __getattr__(self, name):
@@ -111,4 +112,11 @@ class UserData(models.Model):
     
     def __unicode__(self):
         return "%s: %s kg" % (self.date, self.weight)
+    
+    
+def user_post_save(sender, instance, **kwargs):
+    Profile.objects.get_or_create(user=instance)
+
+models.signals.post_save.connect(user_post_save, sender=User)
+
         

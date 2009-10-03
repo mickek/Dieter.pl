@@ -9,10 +9,13 @@
 	{{block.super}}
 	
 	<link rel="stylesheet" href="{{MEDIA_URL}}css/dashboard.css" type="text/css" />
- 	
+	
+	<script type="text/javascript" src="{{MEDIA_URL}}js/jquery.dom-builder.js"></script>
+ 	<script type="text/javascript" src="{{MEDIA_URL}}js/dashboard/weight_knob.js"></script>
  	<script>
  		save_weight_url = '{% url dashboard_save_weight requested_day.year requested_day.month requested_day.day %}';
  		dashboard_url = '{% url dashboard %}';
+ 		current_weight = {{current_weight}}
  		{% if diet %}set_diet_start_date_url = '{% url diet_start_date  diet.id%}';{% endif %}
  		requested_day = new Date({{requested_day.year}},{{requested_day.month}}-1,{{requested_day.day}});
  	</script>
@@ -29,6 +32,7 @@
  	<script type="text/javascript" src="{{MEDIA_URL}}js/date.format.js"></script>	
 	
 {% endblock %}
+
 
 
 {% block content %}
@@ -64,11 +68,8 @@
 			
 			<div class="grid_3 alpha">
 				<h2>Moja waga:</h2>
-				<div>
-					<a href="javascript:void(0)" id="weight_down">-</a>
-					{{weight_form.weight}}
-					<a href="javascript:void(0)" id="weight_up">+</a>
-				</div>
+				
+				<div id="weight_knob"></div>
 
 				<h3>Ostatni tydzień:</h3>
 				<ul>

@@ -2,7 +2,14 @@
 
 from unittest import TestCase
 from dieter.diet import parse_quantity
+from dieter.patients.models import user_post_save
+from django.contrib.auth.models import User
+from django.db import models
 
+'''
+Required or the user_post_save signall will cause column user_id is not unique error
+'''
+models.signals.post_save.disconnect(user_post_save, User)
 
 class ParseQuantityTest(TestCase):
     

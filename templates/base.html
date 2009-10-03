@@ -15,7 +15,7 @@
 		<link rel="stylesheet" href="{{MEDIA_URL}}css/jquery-ui-1.7.1.css" type="text/css" />
 		<link rel="stylesheet" href="{{MEDIA_URL}}css/jquery.jgrowl.css" type="text/css" />
 				
-		<link rel="Shortcut Icon" type="image/ico" href="{{MEDIA_URL}}images/favicon.ico" />
+		<link rel="Shortcut Icon" type="image/ico" href="{{MEDIA_URL}}images/favicon.png" />
 		
 		{% jquery %}
 		
@@ -29,7 +29,7 @@
 		<!-- Start logo -->
 		<div class="grid_4 logo">
 			<h1><a href="/" title="Dieter.pl">
-				<img height="80" src="{{MEDIA_URL}}images/dieter.png" alt="Dieter.pl"/>
+				<img src="{{MEDIA_URL}}images/dieter.png" alt="Dieter.pl"/>
 			</a></h1>
 		</div>
 		<!-- End logo -->
@@ -46,7 +46,7 @@
 					</div>
 				{%else%}
 				
-				<form class="top_login" action="{% url auth_login %}" method="post">
+				<form class="top-login" action="{% url auth_login %}" method="post">
 					<p style="margin:0px 0px 1em 0px;padding:0px;"><b>Zaloguj się:</b></p>
 					<p>
 						<label for="id_username">Email:&nbsp;</label><input id="id_username" type="text" name="username" maxlength="30" />&nbsp;

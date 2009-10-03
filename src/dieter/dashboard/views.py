@@ -2,7 +2,6 @@ from django.contrib.auth.decorators import login_required
 from dieter.utils import profile_complete_required, DieterException, today as get_today
     
 from django.views.generic.simple import direct_to_template, redirect_to
-from dieter.dashboard.forms import WeightForm
 from django.http import HttpResponse
 from dieter.diet.models import Diet
 import datetime
@@ -32,7 +31,7 @@ def index(request, year=None, month=None, day=None):
         yesterday = requested_day - datetime.timedelta(days=1)
         tommorow = requested_day + datetime.timedelta(days=1) if requested_day < today else None
         
-        weight_form = WeightForm(instance = request.user.get_profile().get_user_data(requested_day))
+        current_weight = request.user.get_profile().get_user_data(requested_day).weight
         
         diff_weight_1_week = profile.get_diff(today,"weight",1,"week")
         diff_bmi_1_week = profile.get_diff(today,"bmi",1,"week")
