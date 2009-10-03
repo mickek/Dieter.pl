@@ -4,7 +4,7 @@
 
 {% block content %}
 
-	<div class="grid_12 alpha">
+	<div class="grid_12 alpha complete_profile">
 		
 		<form action="{% url complete_profile %}" method="post">
 		
@@ -12,26 +12,26 @@
 				<h2>Uzupełnij dane</h2>
 			</div>
 			
-			<div class="grid_9 alpha">
+			<div class="grid_8 alpha">
 			
 				<div class="grid_4 alpha">
 					
 					<ul>
-						<li><label for="id_sex">{{form.sex.label}}: {{form.sex}}</label>{{form.sex.errors}}</li>
-						<li><label for="id_current_weight">{{form.current_weight.label}}: {{form.current_weight}}</label>{{form.current_weight.errors}}</li>
-						<li><label for="id_height">{{form.height.label}}: {{form.height}}</label>{{form.height.errors}}</li>
+						<li>{{form.sex.errors}}<label for="id_sex">{{form.sex.label}}: {{form.sex}}</label></li>
+						<li>{{form.current_weight.errors}}<label for="id_current_weight">{{form.current_weight.label}}: {{form.current_weight}}</label></li>
+						<li>{{form.height.errors}}<label for="id_height">{{form.height.label}}: {{form.height}}</label></li>
 					</ul>
 					
 				</div>
 				
-				<div class="grid_5 omega">
+				<div class="grid_4 omega">
 					<ul>
-						<li><label for="id_target_weight">{{form.target_weight.label}}: {{form.target_weight}}</label>{{form.target_weight.errors}}</li>
-						<li><label for="id_waist">{{form.current_waist.label}}: {{form.current_waist}}</label>{{form.current_waist.errors}}</li>
+						<li>{{form.target_weight.errors}}<label for="id_target_weight">{{form.target_weight.label}}: {{form.target_weight}}</label></li>
+						<li>{{form.current_waist.errors}}<label for="id_waist">{{form.current_waist.label}}: {{form.current_waist}}</label></li>
 					</ul>
 				</div>
 				
-				<div class="grid_9">
+				<div class="grid_8">
 					<input type="submit" value="Zapisz Dane"/>
 				</div>
 				

@@ -36,3 +36,6 @@ ul.galleria li{float:left !important;}
 .replaced{ width: 540px; height: 385px; padding: 0.5em; background-color: gray; }
 
 /* logged in */
+
+/* completeing profile data */
+.complete_profile input{ width: 75px; }

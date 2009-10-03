@@ -3,7 +3,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from registration.models import RegistrationProfile
-from dieter.patients.models import Coupon, Profile
+from dieter.patients.models import Coupon
 import re
 
 attrs_dict = { 'class': 'required' }
@@ -38,8 +38,6 @@ class RegistrationForm(forms.Form):
         new_user = RegistrationProfile.objects.create_inactive_user(username= re.sub(r"[@\-+.]", "_", self.cleaned_data['email']),
                                                                     password= self.cleaned_data['password1'],
                                                                     email= self.cleaned_data['email'])
-        
-        Profile.objects.get_or_create(user=new_user)        
         
         if 'coupon' in self.cleaned_data and self.cleaned_data['coupon']:
             coupon = Coupon(user=new_user,coupon=self.cleaned_data['coupon'])
