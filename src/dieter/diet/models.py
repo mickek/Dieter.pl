@@ -2,7 +2,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 from dieter.utils import DieterException
-from dieter.console import strfix
 import datetime
 
 class DietManager(models.Manager):
@@ -35,7 +34,16 @@ class Diet(models.Model):
     type            = models.CharField('Typ diety', max_length=50, null=True, blank=True) # may be 'user_created', 'nutronist_created', 'for_sale'
     
     user            = models.ForeignKey(User)
+    
+    '''
+    Dieta na podstawie, której powstała ta dieta.
+    Podczas wyboru / kupna diety ustawimy odpowiednia wartosc 
+    '''
     parent          = models.ForeignKey(Diet, null=True, blank=True)
+    '''
+    Cena diety, powinna byc ustalona tylko jesli dieta jest typu: for_sale
+    '''
+    price           = models.FloatField('Cena', null=True, blank=True)
     
     objects         = DietManager()
     
