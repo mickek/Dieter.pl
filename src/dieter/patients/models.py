@@ -20,7 +20,7 @@ class Profile(models.Model):
     
     user            = models.ForeignKey(User, unique=True)
     
-    practice        = models.ForeignKey(PrivatePractice, nullable=True, blank=True)
+    practice        = models.ForeignKey(PrivatePractice, null=True, blank=True)
     
     def has_diet(self):
         return len(self.user.diet_set.all())

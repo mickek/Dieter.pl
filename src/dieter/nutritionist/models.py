@@ -8,21 +8,21 @@ class PrivatePractice(models.Model):
     '''
     Used when user registrating for this private practice
     '''
-    registration_code = models.CharField('Kod affiliate', max_lenth=10, nullable=True, blank=True)
+    registration_code = models.CharField('Kod affiliate', max_length=10, null=True, blank=True)
     
     '''
     Address data
     '''
-    address = models.CharField('Adres',max_length=100, nullable=True, blank=True)
-    postal_code = models.CharField('Kod Pocztowy',max_length=6, nullable=True, blank=True)
-    city = models.CharField('Miasto',max_length=100, nullable=True, blank=True)
-    province = models.CharField('Województwo',max_length=50, nullable=True, blank=True)
+    address = models.CharField('Adres',max_length=100, null=True, blank=True)
+    postal_code = models.CharField('Kod Pocztowy',max_length=6, null=True, blank=True)
+    city = models.CharField('Miasto',max_length=100, null=True, blank=True)
+    province = models.CharField('Województwo',max_length=50, null=True, blank=True)
 
     '''
     Dane firmy wymagane do wystawiania faktur
     '''
-    nip = models.CharField('NIP', max_length=13, nullable=True, blank=True)
-    regon = models.CharField('Regon', max_length=15, nullable=True, blank=True)
+    nip = models.CharField('NIP', max_length=13, null=True, blank=True)
+    regon = models.CharField('Regon', max_length=15, null=True, blank=True)
     
     # todo rozwiązać kwestie uprawnień, regionem będą gabinety i sam serwis
     

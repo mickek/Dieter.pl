@@ -58,7 +58,7 @@ INSTALLED_APPS = (
     'dieter.shopping',
     'dieter.graphs',
     'dieter.inbox',
-    'dieter.nutritionist'
+    'dieter.nutritionist',
     'dieter.registration',
 )
 

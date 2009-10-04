@@ -39,7 +39,7 @@ class Diet(models.Model):
     Dieta na podstawie, której powstała ta dieta.
     Podczas wyboru / kupna diety ustawimy odpowiednia wartosc 
     '''
-    parent          = models.ForeignKey(Diet, null=True, blank=True)
+    parent          = models.ForeignKey('self', null=True, blank=True, related_name='parent_diet')
     '''
     Cena diety, powinna byc ustalona tylko jesli dieta jest typu: for_sale
     '''
