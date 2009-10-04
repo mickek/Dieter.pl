@@ -86,6 +86,21 @@ class TestRegistration(TestCase):
         Wejście na dasboard
         '''
         self.client.get('/dashboard/')
+
+        '''
+        Sprawdzenie podstawowych funkcji
+        '''
+        self.client.get("/dashboard/")
+        self.client.get("/diet/")
+        self.client.get("/inbox/")
+        self.client.get("/graphs/")
+        self.client.get("/graphs/week/")
+        self.client.get("/graphs/month/")
+        self.client.get("/graphs/all/")
+        self.client.get("/shopping/")
+        self.client.get("/shopping/week/")
+        self.client.get("/settings/")
+        
     
         
     
