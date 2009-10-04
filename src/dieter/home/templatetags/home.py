@@ -23,7 +23,7 @@ pageTracker._trackPageview();
 def jquery():
     
     uncompressed = 'false'
-    if settings.DEBUG: 
+    if True: 
         return """<script src="%sjs/jquery-1.3.2.js"></script>
 <script src="%sjs/jquery-ui-1.7.2.js"></script>
 <script src="%sjs/jquery.ui.datepicker-pl.js"></script>""" % (settings.MEDIA_URL, settings.MEDIA_URL, settings.MEDIA_URL)
