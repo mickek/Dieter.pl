@@ -14,7 +14,7 @@ Required or the user_post_save signall will cause column user_id is not unique e
 '''
 models.signals.post_save.disconnect(user_post_save, User)
 
-class ValueDifferenceTests(TestCase):
+class DataApproximationTests(TestCase):
     
     fixtures = ['users.json','full_diet.json']    
     
@@ -25,16 +25,20 @@ class ValueDifferenceTests(TestCase):
         
         date_to = datetime.date(day=14,month=1,year=2009)
         date_from = date_to - datetime.timedelta(days=23)
+        day = datetime.date(2009, 1, 15)
         
         udl = []
                 
         for i in [1,2,3,4,11,12,13,14,20,21,22,23,24,25,26]:
 
             udl.append(UserData(
-                                weight=0 if i in [1,2,24,25,26] else 90 - i*0.5,
+                                weight=0 if i in [1,2,24,25,26] else 90 - i*0.5,    # zero means lack of data
                                 date=date_from+datetime.timedelta(days=i))
             )
+            
         self.assertEqual(26, len(approximate_user_data(udl,extend_to=26)))
+        self.assertEqual(2, len(approximate_user_data(udl, current_date = day)))
+        
         
     def test_approximate_user_data_for_day(self):
         '''
@@ -66,13 +70,8 @@ class ValueDifferenceTests(TestCase):
         day = datetime.date(2009, 9, 4)
         user = User.objects.get(email='mklujszo@gmail.com')
         data =  weight_graph(user, day, 21, day)
-             
         
         self.failIf(not data['plot_data'], 'plot_data can\'t be None')
-        db_data = []
-        db_data.extend(UserData.objects.filter( user=user).all())
-        db_data.sort()
-
         
         for d in simplejson.loads(data['plot_data'])[0]:
             year,month,day = d[0].split("-")
@@ -99,8 +98,8 @@ class ValueDifferenceTests(TestCase):
         for d in simplejson.loads(data['plot_data'])[0]:
             year,month,day = d[0].split("-")
             value = UserData.objects.filter( user=user, date = datetime.date(int(year), int(month), int(day) ) )
-             
-            if len(value) > 0: self.assertEqual( float(d[1]), value[0].weight )
+            
+            if len(value) > 0: self.failIf(float(d[1]) != value[0].weight, 'weight mismatch on: %s-%s-%s' % (year, month, day)) 
         
 class ProfileTests(TestCase):
     
@@ -109,4 +108,4 @@ class ProfileTests(TestCase):
     def test_custom_diff_getters(self):
         
         p = Profile.objects.get(user__email='mklujszo@gmail.com')
-        p.diff_weight_1_week
+        self.failIf( not isinstance(p.diff_weight_1_week, float), 'diff must return some value') 
