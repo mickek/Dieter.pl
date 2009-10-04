@@ -1,7 +1,7 @@
 from dieter.utils import today
 
 
-def approximate_user_data(user_data_list, field = 'weight', extend_to=None, current_date = today()):
+def approximate_user_data(user_data_list, field = 'weight', extend_to=0, current_date = today()):
     """
     Gets a user data list witch doesn't have to be consistent and transforms it into
     consisten values list with either weight, bmi or waist values

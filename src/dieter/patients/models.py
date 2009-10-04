@@ -117,6 +117,9 @@ class UserData(models.Model):
 def user_post_save(sender, instance, **kwargs):
     Profile.objects.get_or_create(user=instance)
 
+'''
+Wymagane jesli chcemy byc wstanie tworzyc konta uzytkownikow przez panel administracyjny
+'''
 models.signals.post_save.connect(user_post_save, sender=User)
 
         

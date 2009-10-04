@@ -97,7 +97,7 @@
 	<div class="grid_2 omega"><img src="{{MEDIA_URL}}/images/adsense-small.png" alt="adsense example"></div>
 	
 	<div class="grid_12 alpha">
-		<h2>Dzisiejsze posiłki{%if day_plan %} ({{day_plan.sequence_no}} dzień diety){%endif%}</h2>
+		<h2>Dzisiejsze posiłki{%if day_plan %} ({{day_plan.sequence_no}} dzień diety{% if days_left %}, pozostało jeszcze {{days_left}} dni{% endif %}){%endif%}</h2>
 		{% if not diet %}
 		<p>Nie masz jeszcze wprowadzonej diety, dietetyk niebawem powinien ją uzupełnić, w międzyczasie możesz zapoznać się z <a class="open_set_start_day_dialog" href="#">serwisem.</a></p>
 		{% else %}

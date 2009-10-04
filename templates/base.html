@@ -20,6 +20,7 @@
 		{% jquery %}
 		
  		<script type="text/javascript" src="{{MEDIA_URL}}js/jquery.jgrowl.js"></script>
+		{% if not user.is_authenticated %}<script>$(document).ready(function(){$('#id_username').focus();})</script>{% endif %} 		
  				
 		{% block head %}{%endblock%}
     </head>
@@ -101,8 +102,5 @@
 		{% endif %}
 		
 		{% google_analytics_code %}
-		
-		<script>$(document).ready(function(){$('#id_username').focus();})</script>
-
 	</body>
 </html>

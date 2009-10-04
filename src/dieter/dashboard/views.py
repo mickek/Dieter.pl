@@ -25,6 +25,7 @@ def index(request, year=None, month=None, day=None):
         try:
             diet = Diet.objects.get(user=request.user)
             day_plan = diet.current_day_plan(requested_day)
+            days_left = (diet.end_day() - today).days
         except Diet.DoesNotExist: #@UndefinedVariable
             pass
     

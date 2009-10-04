@@ -24,4 +24,8 @@
 </form>
 
 <script type="text/javascript" src="{{MEDIA_URL}}ckeditor/ckeditor.js"></script>
-<script>$(document).ready(function(){CKEDITOR.replace( 'id_comment')});</script>
+<script>
+$(document).ready(function(){
+	var ckeditor = CKEDITOR.replace('id_comment');
+});
+</script>

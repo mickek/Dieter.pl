@@ -11,6 +11,7 @@ from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import mimetypes
 import os
 import re
+import socket
 import stat
 import sys
 import urllib
@@ -690,6 +691,24 @@ class AdminMediaHandler(object):
                     fp.close()
         start_response(status, headers.items())
         return output
+    
+class StoppableWSGIServer(WSGIServer):
+    """WSGIServer with short timeout, so that server thread can stop this server."""
+
+    def server_bind(self):
+        """Sets timeout to 1 second."""
+        WSGIServer.server_bind(self)
+        self.socket.settimeout(1)
+
+    def get_request(self):
+        """Checks for timeout when getting request."""
+        try:
+            sock, address = self.socket.accept()
+            sock.settimeout(None)
+            return (sock, address)
+        except socket.timeout:
+            raise
+
 
 def run(addr, port, wsgi_handler):
     server_address = (addr, port)
