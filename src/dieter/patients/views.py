@@ -15,6 +15,7 @@ def settings(request):
     profile_form = ProfileSettingsForm(instance=request.user.get_profile())
     return direct_to_template(request, "patients/settings.html", extra_context=locals())
 
+@login_required
 def save_settings(request):
     
     if request.method == 'POST':
@@ -29,9 +30,6 @@ def save_settings(request):
         
     else: return redirect_to(request, reverse('settings'))
     
-    
-    
-
 @login_required
 def patients_list(request):
     

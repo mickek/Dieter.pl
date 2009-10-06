@@ -14,6 +14,8 @@ urlpatterns = patterns('',
     url(r'^shopping/', include('dieter.shopping.urls')),
     url(r'^graphs/', include('dieter.graphs.urls')),
     url(r'^inbox/', include('dieter.inbox.urls')),
+    url(r'^nutritionist/', include('dieter.nutritionist.urls')),
+    url(r'^managment/', include('dieter.managment.urls')),
     
     url(r'^comments/', include('django.contrib.comments.urls')),    
     url(r'^admin/(.*)', admin.site.root),

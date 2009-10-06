@@ -19,8 +19,17 @@ def index(request):
     return render_to_response("home/index.html", {'form':AuthenticationForm()}, context_instance=RequestContext(request))
 
 def logged_in(request):
+    '''
+    Po zalogowaniu nastąpi przekierowanie dla:
+     * root'a do panelu managment
+     * dietetyka dla panelu pacjentów ( zmienić na nutritionist )
+     * zwykłego użytkownika do dashboardu
+    '''
     
-    if request.user.is_staff:
+    if request.user.is_superuser:
+        return redirect_to(request, reverse('managment_index'))
+    
+    if 'nutritionist' in request.user.groups.values_list('name',flat=True):
         return redirect_to(request, reverse('patients_list'))
     
     if request.user.is_authenticated():

@@ -1,3 +1,4 @@
+
 from defaults import *
 
 MANAGERS = ADMINS = (
@@ -59,7 +60,8 @@ INSTALLED_APPS = (
     'dieter.graphs',
     'dieter.inbox',
     'dieter.nutritionist',
-    'dieter.registration',
+    'dieter.managment',
+    'dieter.registration',    
 )
 
 AUTHENTICATION_BACKENDS = (

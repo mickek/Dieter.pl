@@ -1,0 +1,45 @@
+{% extends 'admin-base.html' %}
+
+{% load humanize %}
+{% load webdesign %} 
+{% load i18n %}
+{% load comments %}
+
+{% block content %}
+
+	<div id="managment_index" class="grid_12">
+
+		<h2>Dostępne diety</h2>
+		{%if diets %}
+			<table>
+				<tr>
+					<th></th>
+					<th>Data rejestracji</th>
+					<th>Waga</th>
+					<th>Akcje</th>
+				</tr>
+				{% for p in patients %}
+				<tr>
+					<td>{{p.user.email}}</td>
+					<td>{{p.user.date_joined|naturalday}}</td>
+					<td>{{p.get_user_data.weight}}</td>
+					<td>
+						{% if p.has_diet %}
+							<a href="{% url edit_diet p.current_diet.id %}" title="Edytuj dietę">Edytuj dietę</a>
+						{%else%}
+							<a href="{% url create_diet p.user.id %}" title="Utwórz nową dietę">Utwórz nową dietę</a>
+						{%endif%}
+						&nbsp;|&nbsp;
+						{% get_comment_count for p.user as comment_count %}
+						<a href="{% url patients_inbox p.user.id %}" title="Przeglądaj wiadomości">Przeglądaj wiadomości ({{comment_count}})</a>
+					</td>									
+				</tr>
+				{% endfor %}
+			</table>				
+		{%endif%}
+		
+	</div>
+	
+	
+
+{% endblock %}
