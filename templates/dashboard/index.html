@@ -4,6 +4,7 @@
 {% load humanize %}
 {% load graphs %}
 {% load diet %}
+{% load home %}
 
 {% block head %}
 	{{block.super}}
@@ -59,9 +60,11 @@
 			</h2>
 		</div>
 		
+		{% ifusergroup patient %}
 		<div class="grid_4 omega date_nav" style="text-align: right;">
 			<h2><a href="{%url inbox%}">spytaj się dietetyka</a></h2>
 		</div>
+		{% endifusergroup %}
 	
 	
 		<div class="grid_10 alpha">

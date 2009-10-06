@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-    
 
 from django import forms
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from registration.models import RegistrationProfile
 from dieter.patients.models import Coupon
 import re
@@ -36,9 +36,13 @@ class RegistrationForm(forms.Form):
         new_user = RegistrationProfile.objects.create_inactive_user(username= re.sub(r"[@\-+.]", "_", self.cleaned_data['email']),
                                                                     password= self.cleaned_data['password1'],
                                                                     email= self.cleaned_data['email'])
+
+        new_user.groups.add(Group.objects.get(name='web_user'))
         
         if 'coupon' in self.cleaned_data and self.cleaned_data['coupon']:
             coupon = Coupon(user=new_user,coupon=self.cleaned_data['coupon'])
             coupon.save()
+            
+        new_user.save()
         
         return new_user

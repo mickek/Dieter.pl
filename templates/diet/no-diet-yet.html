@@ -4,6 +4,7 @@
 {% load humanize %}
 {% load graphs %}
 {% load diet %}
+{% load home %}
 
 {% block head %}
 	{{block.super}}
@@ -15,8 +16,12 @@
 
 	
 	<div class="grid_10 alpha">
-
-		<p>Nie masz jeszcze wprowadzonej diety, dietetyk niebawem powinien ją uzupełnić, w międzyczasie możesz zapoznać się z <a href="">serwisem...</a></p>		
+		{% ifusergroup patient %}
+		<p>Nie masz jeszcze wprowadzonej diety, dietetyk niebawem powinien ją uzupełnić, w międzyczasie możesz zapoznać się z <a href="/wprowadzenie">serwisem...</a></p>
+		{% endifusergroup %}
+		{% ifusergroup web_user %}
+		<p>Nie masz jeszcze wprowadzonej diety, możesz ją wprowadzić albo kupić <a href="">tutaj</a></p>
+		{% endifusergroup %}		
 
 	</div>
 

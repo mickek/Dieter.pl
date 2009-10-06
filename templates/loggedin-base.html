@@ -1,4 +1,7 @@
 {% extends 'base.html' %}
+
+{% load home %}
+
 {% block main-tabs %}
 <!-- Start tabs -->
 <div id="top-tabs" class="grid_12 ui-tabs ui-widget ui-widget-content ui-corner-all">
@@ -6,9 +9,16 @@
 		<!-- start -->
 		<li class="ui-state-default ui-corner-top {% ifequal top_tab 'dashboard'%}ui-tabs-selected ui-state-active{%endifequal%}"><a href="{% url dashboard %}">Start</a></li>
 		<!-- dieta -->
-		{% if user_has_diet %}<li class="ui-state-default ui-corner-top {% ifequal top_tab 'diet'%}ui-tabs-selected ui-state-active{%endifequal%}"><a href="{% url diet %}">Dieta</a></li>{%endif%}
+		{% ifusergroup web_user %}
+			<li class="ui-state-default ui-corner-top {% ifequal top_tab 'diet'%}ui-tabs-selected ui-state-active{%endifequal%}"><a href="{% url diet %}">Dieta</a></li>
+		{% endifusergroup %}
+		{% ifusergroup patient %}
+		{% if user_has_diet %}
+			<li class="ui-state-default ui-corner-top {% ifequal top_tab 'diet'%}ui-tabs-selected ui-state-active{%endifequal%}"><a href="{% url diet %}">Dieta</a></li>
+		{% endif %}
+		{% endifusergroup %}
 		<!-- inbox -->
-		<li class="ui-state-default ui-corner-top {% ifequal top_tab 'inbox'%}ui-tabs-selected ui-state-active{%endifequal%}"><a href="{%url inbox%}">Dietetyk</a></li>
+		{% ifusergroup patient %}<li class="ui-state-default ui-corner-top {% ifequal top_tab 'inbox'%}ui-tabs-selected ui-state-active{%endifequal%}"><a href="{%url inbox%}">Dietetyk</a></li>{% endifusergroup %}
 		<!-- wykresy -->
 		<li class="ui-state-default ui-corner-top {% ifequal top_tab 'graphs'%}ui-tabs-selected ui-state-active{%endifequal%}"><a href="{%url graphs%}">Wykresy</a></li>
 		<!-- zakupy -->	
