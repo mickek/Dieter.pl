@@ -1,0 +1,1 @@
+[{"pk": 1, "model": "auth.group", "fields": {"name": "web_user", "permissions": []}}, {"pk": 2, "model": "auth.group", "fields": {"name": "patient", "permissions": []}}, {"pk": 4, "model": "auth.group", "fields": {"name": "nutritionist", "permissions": []}}]

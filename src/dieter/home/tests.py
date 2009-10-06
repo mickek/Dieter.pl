@@ -14,7 +14,7 @@ models.signals.post_save.disconnect(user_post_save, User)
 
 class BasicFunctionsTest(TestCase):
     
-    fixtures = ['users.json','full_diet.json']
+    fixtures = ['users.json','full_diet.json', 'groups.json']
             
     def test_start_page(self):
         
@@ -43,6 +43,8 @@ class BasicFunctionsTest(TestCase):
         
 class TestRegistration(TestCase):
     
+    fixtures = ['groups.json']
+    
     def setUp(self):
         
         models.signals.post_save.connect(user_post_save, sender=User)        
@@ -53,9 +55,9 @@ class TestRegistration(TestCase):
         '''
         Rejestracja
         '''
-        r = self.client.post("/accounts/register/",{'email':'a@example.com','password1':'qaz123','password2':'qaz123', 'tos':'true'})
+        self.client.post("/accounts/register/",{'email':'a@example.com','password1':'qaz123','password2':'qaz123', 'tos':'true'})
         
-        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(len(mail.outbox), 1) #@UndefinedVariable
         
         results = re.findall(r'http://example.com/accounts/activate/([a-f0-9]*)\n', mail.outbox[0].body, re.MULTILINE)
         activation_key = results[0]
