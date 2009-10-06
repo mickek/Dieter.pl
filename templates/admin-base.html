@@ -10,6 +10,9 @@
 <div id="top-tabs" class="grid_12 ui-tabs ui-widget ui-widget-content ui-corner-all">
 	<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
 
+		{% if user.is_superuser %}
+		<li class="ui-state-default ui-corner-top {% ifequal top_tab 'managment'%}ui-tabs-selected ui-state-active{%endifequal%}"><a href="{% url managment_index %}">Zarządzaj Serwisem</a></li>
+		{% endif %}
 		<li class="ui-state-default ui-corner-top {% ifequal top_tab 'patients'%}ui-tabs-selected ui-state-active{%endifequal%}"><a href="{% url patients_list %}">Pacjenci</a></li>
 		<li class="ui-state-default ui-corner-top {% ifequal top_tab 'messages'%}ui-tabs-selected ui-state-active{%endifequal%}"><a href="">Wiadomości</a></li>
 		

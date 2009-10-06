@@ -2,6 +2,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from dieter.utils import DieterException
+from dieter.console import strfix
 import datetime
 
 class DietManager(models.Manager):
@@ -26,14 +27,28 @@ class DietManager(models.Manager):
         return (diet, created,)
     
 class Diet(models.Model):
+
+    STATE_CHOICES = (
+        ('active', 'aktywna'),
+        ('inactive', 'nieaktywna'),
+    )
+    
+    TYPE_CHOICES = (
+        ('user_created', 'Stworzona przez użytkownika'),
+        ('nutronist_created', 'Stworzona przez dietetyka'),
+        ('for_sale', 'Na sprzedaż'),
+        ('for_free', 'Darmowa'),
+    )    
+
+    name            = models.CharField('Nazwa diety', max_length=200, null=True, blank=True) # used for displaying diets
+    description     = models.TextField('Opis diety', max_length=50000, null=True, blank=True)
     
     start_date      = models.DateField('Data startu diety',null=True,blank=True)
-    state           = models.CharField('Stan diety', unique=False, max_length=50)   # may be active / inactive
+
+    state           = models.CharField('Stan diety', max_length=50, choices=STATE_CHOICES, null=True, blank=True)   # may be active / inactive diet is inactive when it's created but not yet sent to patient
+    type            = models.CharField('Typ diety', max_length=50, null=True, blank=True, choices=TYPE_CHOICES) # may be 'user_created', 'nutronist_created', 'for_sale', 'for_free'
     
-    description     = models.CharField('Opis diety', max_length=50000, null=True, blank=True)
-    type            = models.CharField('Typ diety', max_length=50, null=True, blank=True) # may be 'user_created', 'nutronist_created', 'for_sale'
-    
-    user            = models.ForeignKey(User)
+    user            = models.ForeignKey(User, null=True, blank=True)
     
     '''
     Dieta na podstawie, której powstała ta dieta.
@@ -46,6 +61,9 @@ class Diet(models.Model):
     price           = models.FloatField('Cena', null=True, blank=True)
     
     objects         = DietManager()
+    
+    def __unicode__(self):
+        return strfix("Diet[%s] %s" % (self.pk, self.name))
     
     def add_day(self, sequence_no):
 

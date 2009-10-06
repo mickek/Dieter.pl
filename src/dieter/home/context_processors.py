@@ -17,6 +17,9 @@ def tabs(request):
         top_tab = 'inbox'
     elif path.startswith('/patients/settings') or path.startswith('/accounts/password/change/'):
         top_tab = 'settings'
+    elif path.startswith('/managment'):
+        top_tab = 'managment'
+        
     
     if path.startswith('/patients/inbox'):
         top_tab = 'messages'        

@@ -23,7 +23,7 @@ def create(request, user_id):
     If diet already exists just redirects to edit screen 
     """
     
-    diet, created = Diet.objects.get_or_create(user=User.objects.get(pk=user_id))
+    diet, created = Diet.objects.get_or_create(user=User.objects.get(pk=user_id), type='nutronist_created')
     if created: request.user.message_set.create(message="Utworzono nową dietę do edycji.")
     return redirect(reverse('edit_diet',kwargs={'diet_id':diet.id}))
 
@@ -33,6 +33,10 @@ def edit(request, diet_id, day = None):
     Diet edit screen
     """
     diet = get_object_or_404(Diet, pk=diet_id)
+    
+    if not len(diet.dayplan_set.all()):
+        diet.dayplan_set.create(sequence_no=1)
+        diet.save()
     
     try:
         current_day = diet.dayplan_set.get(sequence_no=day)
