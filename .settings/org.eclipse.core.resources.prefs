@@ -1,4 +1,4 @@
-#Sat Oct 03 20:48:17 CEST 2009
+#Tue Oct 06 09:01:04 CEST 2009
 eclipse.preferences.version=1
 encoding//libs/django/contrib/localflavor/no/no_municipalities.py=utf-8
 encoding//src/dieter/diet/forms.py=utf-8
@@ -9,10 +9,14 @@ encoding//src/dieter/diet/tests.py=utf-8
 encoding//src/dieter/diet/views/edit.py=utf-8
 encoding//src/dieter/diet/views/view.py=utf-8
 encoding//src/dieter/graphs/templatetags/graphs.py=utf-8
+encoding//src/dieter/graphs/views.py=utf-8
+encoding//src/dieter/home/tests.py=utf-8
 encoding//src/dieter/home/views.py=utf-8
+encoding//src/dieter/nutritionist/models.py=utf-8
 encoding//src/dieter/patients/forms.py=utf-8
 encoding//src/dieter/patients/migrations/0001_initial.py=utf-8
 encoding//src/dieter/patients/migrations/0002_user_data_index.py=utf-8
 encoding//src/dieter/patients/models.py=utf-8
+encoding//src/dieter/patients/tests.py=utf-8
 encoding//src/dieter/registration/forms.py=utf-8
 encoding//src/dieter/registration/views.py=utf-8

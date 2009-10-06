@@ -4,9 +4,7 @@ from django.test import TestCase
 from dieter.patients.models import user_post_save
 from django.contrib.auth.models import User
 from django.db import models
-from django.test.client import Client
 from django.core import mail
-from dieter.console import write
 import re
 
 '''
@@ -25,7 +23,7 @@ class BasicFunctionsTest(TestCase):
         
     def test_login(self):
     
-        logged_in = self.client.post("/accounts/login/",{'username':'mklujszo@gmail.com','password':'test12'})
+        self.client.post("/accounts/login/",{'username':'mklujszo@gmail.com','password':'test12'})
         
     def test_basic_services(self):
     
