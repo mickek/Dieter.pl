@@ -109,7 +109,7 @@ def perform_action(request, diet_id, sequence_no):
             
         if 'save_diet' in request.POST:
             request.user.message_set.create(message="Zapisano dietę")
-            return redirect(reverse('patients_list'))
+            return redirect('/')
             
         if 'send_diet' in request.POST:
             return redirect(reverse('diet_send_form',kwargs={'diet_id':diet_id}))

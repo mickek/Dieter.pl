@@ -14,6 +14,7 @@ def index(request):
     
     return direct_to_template(request, "managment/index.html", locals())
 
+@user_passes_test(lambda u: u.is_superuser, login_url='/dashboard/')
 def create_diet(request):
     
     form = CreateDietForm()
@@ -32,3 +33,19 @@ def create_diet(request):
     
     
     return direct_to_template(request, "managment/create_diet.html", locals())
+
+def delete_diet(request, diet_id):
+    
+    try:
+        
+        diet = Diet.objects.get(pk=diet_id)
+        for child in Diet.objects.filter(parent=diet).all():
+            child.parent = None
+            child.save()
+            
+        diet.delete()
+        request.user.message_set.create(message="Usunięto dietę")
+    except Diet.DoesNotExist: #@UndefinedVariable
+        request.user.message_set.create(message="Nie znaleziono żądanej diety")
+    
+    return redirect(reverse('managment_index'))

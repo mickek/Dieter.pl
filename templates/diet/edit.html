@@ -62,7 +62,9 @@
 		<div class="grid_12" style="text-align:right;">
 			<input type="submit" id="save_day" name="save_day" value="Zapisz Dzień"/>
 			<input type="submit" id="save_diet" name="save_diet" value="Zapisz Dietę"/>
-			<input type="submit" id="send_diet" name="send_diet" value="Wyślij Dietę"/>
+			{% if diet.user %}
+				<input type="submit" id="send_diet" name="send_diet" value="Wyślij Dietę"/>
+			{% endif %}
 			<br/><br/>
 		</div>
 	

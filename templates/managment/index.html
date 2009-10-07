@@ -17,28 +17,35 @@
 			<h2><a href="{% url managment_create_diet %}" title="Utwórz nową dietę">Utwórz nową dietę</a></h2>		
 		</div>
 		
-		<div class="grid_12">		
-		
-			{%if diets %}
-				<table>
-					<tr>
-						<th>Nazwa diety</th>
-						<th>Akcje</th>
-					</tr>
-					{% for d in diets %}
-					<tr>
-						<td>{{d.name}}</td>
-						<td>
-							<a href="{% url edit_diet d.id %}" title="Edytuj dietę">Edytuj dietę</a>
-						</td>									
-					</tr>
-					{% endfor %}
-				</table>				
-			{%endif%}
-		
-		</div>
-		
 	</div>
+
+	<div class="grid_12">		
+	
+		{%if diets %}
+			<table>
+				<tr>
+					<th>Nazwa diety</th>
+					<th>Typ diety</th>
+					<th>Cena</th>
+					<th>Akcje</th>
+				</tr>
+				{% for d in diets %}
+				<tr>
+					<td>{{d.name}}</td>
+					<td>{{d.type}}</td>
+					<td>{% if d.price %}{{d.price}}{% else %}<i>darmowa</i>{% endif %}</td>
+					<td>
+						<a href="{% url edit_diet d.id %}" title="Edytuj dietę">Edytuj dietę</a>
+						&nbsp;|&nbsp;
+						<a href="{% url managment_delete_diet d.id %}" onclick="return confirm('Czy napewno chcesz usunąć tą dietę?')" title="Usuń dietę">Usuń dietę</a>
+					</td>									
+				</tr>
+				{% endfor %}
+			</table>				
+		{%endif%}
+	
+	</div>
+	
 	
 	
 
