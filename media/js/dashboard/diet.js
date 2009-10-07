@@ -9,7 +9,5 @@ $(document).ready( function() {
 			window.location=dashboard_url+dateText;
 		}
 	});
-
-	$("#weight_knob").weight_knob(save_weight_url, current_weight);
-		
+	
 });

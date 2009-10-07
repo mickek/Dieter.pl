@@ -10,9 +10,20 @@ def profile_complete_required(f):
         if request.user.get_profile().is_profile_complete():
             return f(request, *args, **kwargs)
         else:
-            return redirect_to(request, reverse('complete_profile'))    
+            return redirect_to(request, reverse('complete_profile'))
+
     update_wrapper(wrap, f)
     return wrap
+
+def choose_diet_shown_required(f):
+    def wrap(request, *args, **kwargs):
+        if not 'choose_diet' in request.session:
+            return f(request, *args, **kwargs)
+        else:
+            return redirect_to(request, reverse('diet_choose_diet'))    
+    update_wrapper(wrap, f)
+    return wrap
+
 
 def today():
     today = datetime.date.today()

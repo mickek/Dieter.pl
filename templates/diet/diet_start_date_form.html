@@ -1,10 +1,15 @@
 <form id="start_date_form" action="{%url diet_start_date diet_id%}" method="post">
-{{form.as_p}}
+	<p>
+		<label for="id_start_date">{{form.start_date.label}}</label>
+		{{form.start_date}}
+		{% if diet.start_date %}
+		<span><a href="javascript:void(0)" id="reset_diet_start_date">Wyłącz dietę</a></span>
+		{% endif %}
+	</p>
 </form>
 <script>
 
 	var handle_submit = function(){		
-		console.log(this)
 		$.post(set_diet_start_date_url, $("#start_date_form").serialize(), function(data){
 			if(data == 'ok'){  
 				window.location.reload();
@@ -28,6 +33,12 @@
 	$('#id_start_date').datepicker('show')
 
 	$("#start_date_form").submit(handle_submit)
+	
+	$("#reset_diet_start_date").click(function(){
+		$('#id_start_date').attr('value','')
+		handle_submit();		
+	})
+	
 
 	
 

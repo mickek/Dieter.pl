@@ -1,5 +1,6 @@
-from django.contrib.auth.decorators import login_required
-from dieter.utils import profile_complete_required, DieterException, today as get_today
+from django.contrib.auth.decorators import login_required, user_passes_test
+from dieter.utils import profile_complete_required, DieterException, today as get_today,\
+    choose_diet_shown_required
     
 from django.views.generic.simple import direct_to_template, redirect_to
 from django.http import HttpResponse
@@ -8,10 +9,19 @@ import datetime
 from django.core.urlresolvers import reverse
 
 @login_required
+@user_passes_test(lambda u: not u.is_superuser and not u.is_staff, login_url='/')
+@choose_diet_shown_required
 @profile_complete_required
 def index(request, year=None, month=None, day=None):
     
     try:
+        
+        '''
+        A bit of hack, no idea how to do it better now
+        '''
+        if 'choose_diet' in request.session:
+            return redirect_to(request, reverse('diet_choose_diet'))    
+        
 
         diet = None
         day_plan = None
@@ -25,7 +35,8 @@ def index(request, year=None, month=None, day=None):
         try:
             diet = Diet.objects.get(user=request.user)
             day_plan = diet.current_day_plan(requested_day)
-            days_left = (diet.end_day() - today).days
+            if diet.end_day():
+                days_left = (diet.end_day() - today).days
         except Diet.DoesNotExist: #@UndefinedVariable
             pass
     

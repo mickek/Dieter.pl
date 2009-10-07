@@ -1,0 +1,49 @@
+{% extends 'loggedin-base.html' %}
+
+{% block main-tabs %}
+{% if initial %}{% else %}{{block.super}}{% endif %}
+{% endblock %}
+
+{% block head %}
+	{{block.super}}
+	
+	<link rel="stylesheet" href="{{MEDIA_URL}}css/choose_diet.css" type="text/css" />
+	<script type="text/javascript" src="{{MEDIA_URL}}js/dashboard/choose_diet.js"></script>	
+{% endblock %}
+
+{% block content %}
+
+<div class="grid_12 choose_diet alpha">
+
+	<h2>Wybierz dietę <span>( kliknij na jedną z diet aby zobaczyć szczegóły )</span></h2> 
+
+	<div class="grid_5 alpha">		
+			{%if diets %}
+				{% for d in diets %}
+					<div class="diet">
+						<div class="grid_3 alpha">
+							<h3>{{d.name}}</h3>
+						</div>
+						<div class="grid_1 omega actions">
+							{% ifequal d.type 'for_sale' %}
+							Cena: {{d.price}} zł
+							{% endifequal %}	
+						</div>
+						<br style="clear:both;"/>
+					</div>
+				{% endfor %}
+			{%endif%}
+			
+			<h2 style="text-align: center;margin-top:2em;"><a href="">Wprowadź własną dietę za darmo</a></h2>
+			
+			
+	</div>
+	
+	<div class="grid_7 omega diet_details">
+	</div>
+	
+	
+</div>
+
+{% endblock %}
+

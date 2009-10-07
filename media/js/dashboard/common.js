@@ -1,3 +1,7 @@
+var show_datepicker = function(id){
+	$(id).datepicker( 'show' );
+};
+
 $(document).ready(function(){
 	
 	$("#set_start_date").dialog({

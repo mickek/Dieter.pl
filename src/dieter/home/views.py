@@ -56,6 +56,7 @@ def complete_profile(request):
                                              waist=form.cleaned_data['current_waist'])
             form.save()
             request.user.save()
+            request.session['choose_diet'] = True
             
             request.user.message_set.create(message="Uzupełniono profil")
             

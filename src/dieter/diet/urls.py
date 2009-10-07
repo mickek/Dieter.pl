@@ -15,7 +15,8 @@ urlpatterns = patterns('',
     url(r'^send_diet/(?P<diet_id>[0-9]+)/$','dieter.diet.views.edit.send_diet', name='diet_send_form'),
     
     # diet dashboard
-    url(r'^$','dieter.diet.views.view.index',name="diet"),
+    url(r'^$','dieter.diet.views.view.index', name="diet"),
+    url(r'^choose_diet/$','dieter.diet.views.view.choose_diet', name="diet_choose_diet"),
     url(r'^(\d{4})/(\d{1,2})/(\d{1,2})/$','dieter.diet.views.view.index', name='diet'),
     url(r'^print_diet/(?P<diet_id>[0-9]+)/$','dieter.diet.views.view.print_diet', name='diet_print_diet'),
     url(r'^print_diet/$','dieter.diet.views.view.print_diet', name='diet_print_diet'),
