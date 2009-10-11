@@ -21,8 +21,8 @@
 	<h2>Wybierz dietę <span>( kliknij na jedną z diet aby zobaczyć szczegóły )</span></h2> 
 
 	<div class="grid_4 alpha">		
-			{%if diets %}
-				{% for d in diets %}
+			{%if page.object_list %}
+				{% for d in page.object_list %}
 					<div class="diet" id="{{d.id}}">
 						<div class="grid_2 alpha">
 							<h3>{{d.name}}</h3>
@@ -36,6 +36,28 @@
 					</div>
 				{% endfor %}
 			{%endif%}
+			
+			<p>
+
+				{% if page.has_previous %}
+					<a href="?page={{page.previous_page_number}}">&laquo</a>
+				{% endif %}
+
+
+				{% for i in paginator.page_range %}
+					{% ifequal i page_no %}
+						<b>{{i}}</b>
+					{% else %}
+						<a href="?page={{i}}">{{i}}</a>
+					{% endifequal %}
+					
+				{% endfor %}
+				
+				{% if page.has_next %}
+					<a href="?page={{page.next_page_number}}">&raquo</a>
+				{% endif %}
+				
+			</p>
 			
 			<h2 style="text-align: center;margin-top:2em;"><a href="">Wprowadź własną dietę za darmo</a></h2>
 			

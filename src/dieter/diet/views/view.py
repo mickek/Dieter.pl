@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from dieter.diet.forms import SetDietStartDateForm
 from django.core.urlresolvers import reverse
+from django.core.paginator import Paginator, EmptyPage
 import datetime
 
 @login_required
@@ -15,7 +16,7 @@ import datetime
 def index(request, year=None, month=None, day=None):
     """
     Diet index may be in three distinct states:
-     * there's no diet introduced yet
+     * there's no diet introduced yet, showing choose diet form
      * there's a diet, but the starting day haven't been choosen
      * there's a diet and the starting day has been choosen  
     """
@@ -46,16 +47,23 @@ def index(request, year=None, month=None, day=None):
 @profile_complete_required
 def choose_diet(request):
     
-    '''
-    should we show the top bar navigation
-    '''
-    initial = 'choose_diet' in request.session
-    diets = Diet.objects.filter(user__isnull=True).order_by('name')
-    
-    '''TODO paginacja diet'''
-    
-    return direct_to_template(request, 'diet/choose_diet.html', locals())
+    try:
+        '''
+        should we show the top bar navigation
+        '''
+        initial = 'choose_diet' in request.session
+        page_no = int(request.GET['page']) if 'page' in request.GET else 1
+        
+        diets = Diet.objects.filter(user__isnull=True).order_by('name')
+        paginator = Paginator(diets,5)
+        page = paginator.page(page_no)
+            
+        return direct_to_template(request, 'diet/choose_diet.html', locals())
+    except EmptyPage:
+        return redirect_to(request, reverse('diet_choose_diet')) 
 
+@login_required
+@profile_complete_required
 def diet_details(request, diet_id):
     '''
     Ajax loaded
