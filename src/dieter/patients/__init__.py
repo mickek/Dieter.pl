@@ -16,6 +16,10 @@ def approximate_user_data(user_data_list, field = 'weight', extend_to=0, current
     
     extend_right = (current_date - max_date).days
     if extend_right < 0: extend_to = extend_to + abs(extend_right)
+    
+    # print min_date, max_date
+    # print 'extend_to', extend_to    
+    # print 'extend_right', extend_right
         
     days = (max_date - min_date).days+1
     values = [ 0 for i in range(days) ]
@@ -69,7 +73,7 @@ def approximate_user_data(user_data_list, field = 'weight', extend_to=0, current
             pass 
         
     # appending approximated values after last value
-    if extend_right and len(values) < extend_to:
+    if extend_right:
         extended_values = [ values[len(values)-1] for i in range(extend_right) ]
         values.extend(extended_values)
     
@@ -83,6 +87,7 @@ def approximate_user_data(user_data_list, field = 'weight', extend_to=0, current
     We have entire approximated history in values variable and we must return extend_to long sequence ending in requested day so:
     if the sequence is too long ( user has more data in his history then we want to show ) we nead to return a subsequence of values
     '''
+    print len(values)
     if len(values) >= extend_to and extend_to:
         if extend_right < 0:
             '''
