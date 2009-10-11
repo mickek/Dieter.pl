@@ -1,4 +1,3 @@
-#Tue Oct 06 23:49:25 CEST 2009
 eclipse.preferences.version=1
 encoding//libs/django/contrib/localflavor/no/no_municipalities.py=utf-8
 encoding//src/dieter/diet/forms.py=utf-8
@@ -12,8 +11,6 @@ encoding//src/dieter/graphs/templatetags/graphs.py=utf-8
 encoding//src/dieter/graphs/views.py=utf-8
 encoding//src/dieter/home/tests.py=utf-8
 encoding//src/dieter/home/views.py=utf-8
-encoding//src/dieter/managment/forms.py=utf-8
-encoding//src/dieter/managment/views.py=utf-8
 encoding//src/dieter/patients/forms.py=utf-8
 encoding//src/dieter/patients/migrations/0001_initial.py=utf-8
 encoding//src/dieter/patients/migrations/0002_user_data_index.py=utf-8
