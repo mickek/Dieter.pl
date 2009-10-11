@@ -52,6 +52,8 @@ def choose_diet(request):
     initial = 'choose_diet' in request.session
     diets = Diet.objects.filter(user__isnull=True).order_by('name')
     
+    '''TODO paginacja diet'''
+    
     return direct_to_template(request, 'diet/choose_diet.html', locals())
 
 def diet_details(request, diet_id):
@@ -59,7 +61,8 @@ def diet_details(request, diet_id):
     Ajax loaded
     '''
     diet = get_object_or_404(Diet, pk = diet_id)
-    days = diet.dayplan_set.all()    
+    days = diet.dayplan_set.all()
+    example_day = min(days)     
     
     return direct_to_template(request, 'diet/details.html', locals())
     
@@ -92,3 +95,15 @@ def diet_start_date(request, diet_id):
             return HttpResponse('ok', mimetype="application/json")
     
     return direct_to_template(request, 'diet/diet_start_date_form.html', locals())
+
+@login_required
+@profile_complete_required
+def set_diet(request, diet_id):
+    '''
+    Ustawia bieżącą dietę użytkownika
+    
+    Jeśli dieta jest dietą wzorcową to kopiuje ją jako nową dietę przypisaną do wybranego usera
+    Jeśli dieta jest wybranego usera to ustawia ją jako active a pozostałe jako inactive
+    W przyszłośći tutaj będą realizowane opłaty
+    '''
+    pass

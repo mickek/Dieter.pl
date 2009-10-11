@@ -25,5 +25,7 @@ urlpatterns = patterns('',
     url(r'^details/(?P<diet_id>[0-9]+)/$','dieter.diet.views.view.diet_details', name="diet_details"),
     url(r'^details/$','dieter.diet.views.view.diet_details', name="diet_details"), # required for generation of js urls
     
+    url(r'^set/(?P<diet_id>[0-9]+)/$','dieter.diet.views.view.set_diet', name="diet_set"),
+    
     
 )

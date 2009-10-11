@@ -1,11 +1,14 @@
 {% load diet %}
 
-<h1>{{diet.name}}</h1>
+<h2>{{diet.name}}</h2>
+<ul>
+	<li>Czas trwania diety: {{days|length}}</li>
+	<li>Cena: {{days|length}}</li>
+</ul>
+<h3>Opis diety</h3>
+<p>{{diet.description|safe}}</p>
 
-<p>{{diet.description}}</p>
-
-{% for day in days %}
-	<h2>{{day.sequence_no}} dzień diety</h2>
-	{% day_plan diet day %}
-	<br style="clear:both;"/>
-{% endfor %}
+<h3>{{example_day.sequence_no}} dzień</h3>
+{% day_plan diet example_day %}
+<br style="clear:both;"/>
+<h2 style="text-align:right;margin:1em;back"><a href="{% url diet_set diet.id %}">Wybierz tą dietę</a></h2>

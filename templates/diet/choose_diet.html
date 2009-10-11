@@ -7,7 +7,7 @@
 {% block head %}
 	{{block.super}}
 	
-	<link rel="stylesheet" href="{{MEDIA_URL}}css/choose_diet.css" type="text/css" />
+	<link rel="stylesheet" href="{{MEDIA_URL}}css/dashboard.css" type="text/css" />
 	<script>
 		details_url = '{% url diet_details %}'
 	</script>
@@ -20,11 +20,11 @@
 
 	<h2>Wybierz dietę <span>( kliknij na jedną z diet aby zobaczyć szczegóły )</span></h2> 
 
-	<div class="grid_5 alpha">		
+	<div class="grid_4 alpha">		
 			{%if diets %}
 				{% for d in diets %}
 					<div class="diet" id="{{d.id}}">
-						<div class="grid_3 alpha">
+						<div class="grid_2 alpha">
 							<h3>{{d.name}}</h3>
 						</div>
 						<div class="grid_1 omega actions">
@@ -42,8 +42,10 @@
 			
 	</div>
 	
-	<div class="grid_7 omega diet_details">
-		<div id="details"/>
+	<div class="grid_8 omega diet_details">
+		<div id="details">
+			<h2 style="text-align: center;padding:10px;">Wybierz jedną z diet po lewej aby zobaczyć szczegóły</h2>
+		</div>
 	</div>
 	
 	

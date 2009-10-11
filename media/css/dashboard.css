@@ -12,3 +12,17 @@
 .shopping_list table tr, .shopping_list table td, .shopping_list table th{ border: 1px solid black; }
 .shopping_list table th { text-align: center; }
 .shopping_list table td { text-align: right; } 
+
+/* choose diet */
+.choose_diet h2 span{ font-weight: normal; font-size: 80%; }
+
+.diet { padding: 1em 0em 1em 1em; border: 1px solid black; margin: 0px 0px 5px 0px; height: 3em; cursor: pointer;}
+.diet:hover { background-color: lightgreen;}
+.diet h3{ padding:0px; margin: 0px; }
+
+.diet .actions{ text-align: right;  width: 100px; }
+.active{ background-color: lightyellow !important; }
+
+#details { padding: 5px; border: 1px solid black; }
+#details h1, #details h2, #details h3, #details h4{ margin:0px 0px 1em 0px; padding:0px; }
+#details .day_plan .meal_section{ width: 20%; }
