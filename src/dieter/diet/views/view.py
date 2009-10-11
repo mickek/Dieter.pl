@@ -50,11 +50,18 @@ def choose_diet(request):
     should we show the top bar navigation
     '''
     initial = 'choose_diet' in request.session
-    
     diets = Diet.objects.filter(user__isnull=True).order_by('name')
     
-    
     return direct_to_template(request, 'diet/choose_diet.html', locals())
+
+def diet_details(request, diet_id):
+    '''
+    Ajax loaded
+    '''
+    diet = get_object_or_404(Diet, pk = diet_id)
+    days = diet.dayplan_set.all()    
+    
+    return direct_to_template(request, 'diet/details.html', locals())
     
 @login_required
 @profile_complete_required

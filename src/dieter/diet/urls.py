@@ -16,11 +16,14 @@ urlpatterns = patterns('',
     
     # diet dashboard
     url(r'^$','dieter.diet.views.view.index', name="diet"),
-    url(r'^choose_diet/$','dieter.diet.views.view.choose_diet', name="diet_choose_diet"),
     url(r'^(\d{4})/(\d{1,2})/(\d{1,2})/$','dieter.diet.views.view.index', name='diet'),
-    url(r'^print_diet/(?P<diet_id>[0-9]+)/$','dieter.diet.views.view.print_diet', name='diet_print_diet'),
-    url(r'^print_diet/$','dieter.diet.views.view.print_diet', name='diet_print_diet'),
-    url(r'^diet_start_day/(?P<diet_id>[0-9]+)/$','dieter.diet.views.view.diet_start_date', name='diet_start_date'),
+    url(r'^print/(?P<diet_id>[0-9]+)/$','dieter.diet.views.view.print_diet', name='diet_print_diet'),
+    url(r'^print/$','dieter.diet.views.view.print_diet', name='diet_print_diet'),
+    url(r'^start_day/(?P<diet_id>[0-9]+)/$','dieter.diet.views.view.diet_start_date', name='diet_start_date'),
+    url(r'^choose/$','dieter.diet.views.view.choose_diet', name="diet_choose_diet"),
+    
+    url(r'^details/(?P<diet_id>[0-9]+)/$','dieter.diet.views.view.diet_details', name="diet_details"),
+    url(r'^details/$','dieter.diet.views.view.diet_details', name="diet_details"), # required for generation of js urls
     
     
 )

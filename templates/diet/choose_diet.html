@@ -8,6 +8,9 @@
 	{{block.super}}
 	
 	<link rel="stylesheet" href="{{MEDIA_URL}}css/choose_diet.css" type="text/css" />
+	<script>
+		details_url = '{% url diet_details %}'
+	</script>
 	<script type="text/javascript" src="{{MEDIA_URL}}js/dashboard/choose_diet.js"></script>	
 {% endblock %}
 
@@ -20,7 +23,7 @@
 	<div class="grid_5 alpha">		
 			{%if diets %}
 				{% for d in diets %}
-					<div class="diet">
+					<div class="diet" id="{{d.id}}">
 						<div class="grid_3 alpha">
 							<h3>{{d.name}}</h3>
 						</div>
@@ -40,6 +43,7 @@
 	</div>
 	
 	<div class="grid_7 omega diet_details">
+		<div id="details"/>
 	</div>
 	
 	

@@ -1,0 +1,11 @@
+{% load diet %}
+
+<h1>{{diet.name}}</h1>
+
+<p>{{diet.description}}</p>
+
+{% for day in days %}
+	<h2>{{day.sequence_no}} dzień diety</h2>
+	{% day_plan diet day %}
+	<br style="clear:both;"/>
+{% endfor %}
