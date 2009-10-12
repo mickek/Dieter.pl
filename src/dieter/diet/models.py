@@ -10,18 +10,24 @@ class DietManager(models.Manager):
     When creating diet we should also create dayplan objects.
     """
     def create(self, **kwargs):
-        
+
+        diet_length = kwargs['length'] if 'length' in kwargs else 21
+        del kwargs['length']        
         new_diet = self.get_query_set().create(**kwargs)
-        for i in range(1,21):
+
+        for i in range(1,diet_length):
             new_diet.dayplan_set.create(sequence_no=i)
             
         return new_diet
     
     def get_or_create(self, **kwargs):
-        
+
+        diet_length = kwargs['length'] if 'length' in kwargs else 21        
         diet, created = self.get_query_set().get_or_create(**kwargs)
+        del kwargs['length']
         if created:
-            for i in range(1,21): diet.dayplan_set.create(sequence_no=i)
+
+            for i in range(1,diet_length): diet.dayplan_set.create(sequence_no=i)
             diet.save()
             
         return (diet, created,)

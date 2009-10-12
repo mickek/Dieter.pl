@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib.auth.decorators import login_required
-from dieter.utils import profile_complete_required, today as get_today
+from dieter.utils import profile_complete_required, today as get_today,\
+    DieterException
 from dieter.diet.models import Diet
 from django.views.generic.simple import direct_to_template, redirect_to
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from dieter.diet.forms import SetDietStartDateForm
 from django.core.urlresolvers import reverse
-from django.core.paginator import Paginator, EmptyPage
+from django.core.paginator import Paginator, InvalidPage
+from dieter.diet import copy_and_activate_diet
 import datetime
 
 @login_required
@@ -59,7 +61,7 @@ def choose_diet(request):
         page = paginator.page(page_no)
             
         return direct_to_template(request, 'diet/choose_diet.html', locals())
-    except EmptyPage:
+    except InvalidPage:
         return redirect_to(request, reverse('diet_choose_diet')) 
 
 @login_required
@@ -114,4 +116,14 @@ def set_diet(request, diet_id):
     Jeśli dieta jest wybranego usera to ustawia ją jako active a pozostałe jako inactive
     W przyszłośći tutaj będą realizowane opłaty
     '''
-    pass
+    
+    diet = get_object_or_404(Diet, pk=diet_id)
+    
+    try:
+        copy_and_activate_diet(diet, request.user)
+        request.user.message_set.create(message="Wybrano dietę")
+    except DieterException:
+        request.user.message_set.create(message="Nie można dwukrotnie wybrać tej samej diety")
+    
+    return redirect_to(request, reverse('diet'))
+    
