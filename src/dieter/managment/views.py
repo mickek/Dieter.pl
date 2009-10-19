@@ -34,6 +34,7 @@ def create_diet(request):
     
     return direct_to_template(request, "managment/create_diet.html", locals())
 
+@user_passes_test(lambda u: u.is_superuser, login_url='/dashboard/')
 def delete_diet(request, diet_id):
     
     try:

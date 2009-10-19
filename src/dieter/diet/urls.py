@@ -20,7 +20,9 @@ urlpatterns = patterns('',
     url(r'^print/(?P<diet_id>[0-9]+)/$','dieter.diet.views.view.print_diet', name='diet_print_diet'),
     url(r'^print/$','dieter.diet.views.view.print_diet', name='diet_print_diet'),
     url(r'^start_day/(?P<diet_id>[0-9]+)/$','dieter.diet.views.view.diet_start_date', name='diet_start_date'),
+    
     url(r'^choose/$','dieter.diet.views.view.choose_diet', name="diet_choose_diet"),
+    url(r'^choose_first_time/$','dieter.diet.views.view.choose_diet', {'initial':True}, name="diet_choose_diet_first_time"),
     
     url(r'^details/(?P<diet_id>[0-9]+)/$','dieter.diet.views.view.diet_details', name="diet_details"),
     url(r'^details/$','dieter.diet.views.view.diet_details', name="diet_details"), # required for generation of js urls

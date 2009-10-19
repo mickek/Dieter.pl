@@ -102,7 +102,7 @@
 	<div class="grid_12 alpha">
 		<h2>Dzisiejsze posiłki{%if day_plan %} ({{day_plan.sequence_no}} dzień diety{% if days_left %}, pozostało jeszcze {{days_left}} dni{% endif %}){%endif%}</h2>
 		{% if not diet %}
-		<p>Nie masz jeszcze wprowadzonej diety, dietetyk niebawem powinien ją uzupełnić, w międzyczasie możesz zapoznać się z <a class="open_set_start_day_dialog" href="#">serwisem.</a></p>
+		<p>Nie masz jeszcze wybranej diety, możesz to zrobić <b><a href="{% url diet %}">tutaj</a></b></p>
 		{% else %}
 			{% if not diet.start_date %}
 				<p>Nie wybrałeś jeszcze daty rozpoczęcia swojej diety, możesz to zrobić <a class="open_set_start_day_dialog" href="#">tutaj</a>. Poniżej pokazujemy, pierwszy dzień diety.</p>

@@ -56,15 +56,14 @@ def complete_profile(request):
                                              waist=form.cleaned_data['current_waist'])
             form.save()
             request.user.save()
-            request.session['choose_diet'] = True
             
             request.user.message_set.create(message="Uzupełniono profil")
             
             try:
-                FlatPage.objects.get(url='/wprowadzenie/')
-                return redirect_to(request, '/wprowadzenie/')
+                FlatPage.objects.get(url='/wprowadzenie_po_rejestracji/')
+                return redirect_to(request, '/wprowadzenie_po_rejestracji/')
             except FlatPage.DoesNotExist: #@UndefinedVariable
-                return redirect_to(reverse('dashboard'), '/wprowadzenie/')
+                return redirect_to(request, reverse('dashboard'))
             
 
     

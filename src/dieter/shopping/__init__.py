@@ -20,9 +20,11 @@ def agregate_meal_data( meals ):
     for meal in meals:
         
         matches = [ (calculate_similarity(meal.name, f.name), f,) for f in food ]   # similarity function
-        matches.sort(cmp = lambda a,b: cmp(a[0],b[0]), reverse=True)
+        first_match_probability = 0
         
-        first_match_probability, first_match = matches[0]
+        if matches:
+            matches.sort(cmp = lambda a,b: cmp(a[0],b[0]), reverse=True)
+            first_match_probability, first_match = matches[0]
         
         if first_match_probability: # there's match even slight > 0.0
             recognized_food[first_match] += meal.quantity

@@ -1,4 +1,5 @@
 from dieter.diet.models import Diet
+from dieter.diet import get_active_diet
 def tabs(request):
 
     top_tab = 'dashboard'
@@ -30,7 +31,7 @@ def tabs(request):
     user_diet_started = False
     try:   
         if request.user.is_authenticated(): 
-            diet = Diet.objects.get(user=request.user) 
+            diet = get_active_diet(request.user)
             user_has_diet = diet is not None
             user_diet_started = diet.start_date is not None
     except Diet.DoesNotExist: #@UndefinedVariable

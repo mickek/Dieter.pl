@@ -3,7 +3,7 @@
 <h2>{{diet.name}}</h2>
 <ul>
 	<li>Czas trwania diety: {{days|length}}</li>
-	<li>Cena: {{days|length}}</li>
+	{% if diet.price%}<li>Cena: {{diet.price}}</li>{%endif%}
 </ul>
 <h3>Opis diety</h3>
 <p>{{diet.description|safe}}</p>

@@ -15,7 +15,7 @@ def agregated_meal_data(request, mode = 'day', template_name = 'index.html'):
     """
     meals = []
     today = get_today()
-    diet = get_object_or_404(Diet, user=request.user)
+    diet = get_object_or_404(Diet, user=request.user, state = 'active')
     day_range = 1 if mode is None or mode == 'day' else 7
     
     if diet.start_date: # there's a diet and the starting day has been choosen

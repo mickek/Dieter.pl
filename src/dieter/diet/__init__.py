@@ -2,6 +2,9 @@ from dieter.utils import DieterException
 from dieter.diet.models import Diet
 import re
 
+def get_active_diet(user):
+    return Diet.objects.get(user=user, state='active')
+
 def parse_quantity(value):
     
     pattern = re.compile(r"([0-9\.,]+)\s*(.*)")
@@ -25,7 +28,7 @@ def parse_quantity(value):
     
     return quantity, unit_type
 
-def copy_and_activate_diet(source_diet, target_user):
+def copy_and_activate_diet(source_diet, target_user, start_date = None):
     '''
     Check if target_user has already this diet if he has fail
     Check if target_user has an active diet, deactivate it 
@@ -35,7 +38,7 @@ def copy_and_activate_diet(source_diet, target_user):
 
     current_diet = None
     try:    # checking if target_user has already this diet
-        current_diet = Diet.objects.get(user=target_user, state = 'active')
+        current_diet = get_active_diet(target_user)
         if current_diet.parent and current_diet.parent.pk == source_diet.pk:
             raise DieterException('can not activate the same diet twice')
     except Diet.DoesNotExist: #@UndefinedVariable
@@ -54,6 +57,7 @@ def copy_and_activate_diet(source_diet, target_user):
                                           type = source_diet.type,
                                           price = source_diet.price,
                                           parent = source_diet,
+                                          start_date = start_date,
                                           )
     
     for dayplan in source_diet.dayplan_set.all():
@@ -68,4 +72,6 @@ def copy_and_activate_diet(source_diet, target_user):
                                         sequence_no = meal.sequence_no)
             
         new_dayplan.save()
+        
+    return new_diet
     

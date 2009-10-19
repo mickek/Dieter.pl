@@ -2,7 +2,7 @@
 
 from django.contrib.auth.decorators import login_required
 from dieter.utils import profile_complete_required, today as get_today,\
-    DieterException
+    DieterException, today
 from dieter.diet.models import Diet
 from django.views.generic.simple import direct_to_template, redirect_to
 from django.http import HttpResponse
@@ -10,7 +10,7 @@ from django.shortcuts import get_object_or_404
 from dieter.diet.forms import SetDietStartDateForm
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, InvalidPage
-from dieter.diet import copy_and_activate_diet
+from dieter.diet import copy_and_activate_diet, get_active_diet
 import datetime
 
 @login_required
@@ -29,7 +29,7 @@ def index(request, year=None, month=None, day=None):
         yesterday = requested_day - datetime.timedelta(days=1)
         tommorow = requested_day + datetime.timedelta(days=1)
         
-        diet = Diet.objects.get(user=request.user)        
+        diet = get_active_diet(request.user)        
 
         if diet.start_date: # there's a diet and the starting day has been choosen
             
@@ -47,18 +47,16 @@ def index(request, year=None, month=None, day=None):
 
 @login_required
 @profile_complete_required
-def choose_diet(request):
+def choose_diet(request, initial = False):
     
     try:
-        '''
-        should we show the top bar navigation
-        '''
-        initial = 'choose_diet' in request.session
+            
         page_no = int(request.GET['page']) if 'page' in request.GET else 1
         
         diets = Diet.objects.filter(user__isnull=True).order_by('name')
         paginator = Paginator(diets,5)
         page = paginator.page(page_no)
+        show_pagination = len(paginator.page_range) > 1
             
         return direct_to_template(request, 'diet/choose_diet.html', locals())
     except InvalidPage:
@@ -80,7 +78,7 @@ def diet_details(request, diet_id):
 @profile_complete_required
 def print_diet(request, diet_id=None):
 
-        diet = get_object_or_404(Diet,pk=diet_id) if diet_id else get_object_or_404(Diet,user=request.user)
+        diet = get_object_or_404(Diet,pk=diet_id) if diet_id else get_object_or_404(Diet,user=request.user, state = 'active')
         days = diet.dayplan_set.all()
         return direct_to_template(request, 'diet/print.html', locals())
     
@@ -120,8 +118,8 @@ def set_diet(request, diet_id):
     diet = get_object_or_404(Diet, pk=diet_id)
     
     try:
-        copy_and_activate_diet(diet, request.user)
-        request.user.message_set.create(message="Wybrano dietę")
+        copy_and_activate_diet(diet, request.user, start_date = today())
+        request.user.message_set.create(message="Wybrano dietę oraz ustawiono datę rozpoczęcia na dzisiaj.")
     except DieterException:
         request.user.message_set.create(message="Nie można dwukrotnie wybrać tej samej diety")
     

@@ -36,13 +36,13 @@
 					</div>
 				{% endfor %}
 			{%endif%}
-			
+
+			{% if show_pagination %}			
 			<p>
 
 				{% if page.has_previous %}
 					<a href="?page={{page.previous_page_number}}">&laquo</a>
 				{% endif %}
-
 
 				{% for i in paginator.page_range %}
 					{% ifequal i page_no %}
@@ -58,8 +58,15 @@
 				{% endif %}
 				
 			</p>
+			{% endif %}
 			
 			<h2 style="text-align: center;margin-top:2em;"><a href="">Wprowadź własną dietę za darmo</a></h2>
+			
+			{% if initial %}
+			
+				<h2 style="text-align: center;margin-top:2em;"><a href="{%url dashboard%}">Wybierz dietę później</a></h2>			
+			
+			{% endif %}
 			
 			
 	</div>
