@@ -26,12 +26,14 @@
 				<a class="open_set_start_day_dialog" href="#">rozpocznij dietę</a>
 				&nbsp;|&nbsp;
 				<a target="blank" href="{%url diet_print_diet%}">wydrukuj</a>
+				&nbsp;|&nbsp;
+				<a target="blank" href="{%url edit_diet_user%}">edytuj</a>
 			</h2>
 		</div>
 	
 		<div class="grid_10 alpha">
 			
-			<p>Nie wybrałeś jeszcze dnia rozpoczęcia diety, więc prezentujemy całą dietę do przejrzenia:</p>
+			<h2>Nie wybrałeś jeszcze dnia rozpoczęcia diety, więc prezentujemy całą dietę do przejrzenia:</h2>
 			
 			{% for day in days %}
 				<h2>{{day.sequence_no}} dzień diety</h2>

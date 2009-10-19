@@ -1,9 +1,27 @@
 from dieter.utils import DieterException
-from dieter.diet.models import Diet
+from dieter.diet.models import Diet, DayPlan
 import re
 
 def get_active_diet(user):
     return Diet.objects.get(user=user, state='active')
+
+def data_for_diet_editing(diet, day):
+    
+    if not len(diet.dayplan_set.all()):
+        diet.dayplan_set.create(sequence_no=1)
+        diet.save()
+    
+    current_day = None
+    try:
+        current_day = diet.dayplan_set.get(sequence_no=day)
+    except DayPlan.DoesNotExist: #@UndefinedVariable
+        current_day = min(diet.dayplan_set.all())
+        
+    days = diet.dayplan_set.all()
+    can_delete = len(diet.dayplan_set.all()) > 1
+    
+    return (current_day, days, can_delete,)
+    
 
 def parse_quantity(value):
     

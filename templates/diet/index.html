@@ -33,7 +33,7 @@
 
 	<div class="grid_10 alpha">
 
-		<div class="grid_5 alpha date_nav">
+		<div class="grid_4 alpha date_nav">
 			<h2>
 				<a href="{% url diet yesterday.year yesterday.month yesterday.day  %}">&laquo;</a>
 	
@@ -52,10 +52,12 @@
 			</h2>
 		</div>
 		
-		<div class="grid_5 omega date_nav">
+		<div class="grid_6 omega date_nav">
 			<h2>
 				<a class="open_set_start_day_dialog" href="#">zmień datę rozpoczęcia diety</a>
 				&nbsp;|&nbsp;
+				<a target="blank" href="{%url edit_diet_user%}">edytuj</a>
+				&nbsp;|&nbsp;				
 				<a target="blank" href="{%url diet_print_diet%}">wydrukuj</a>
 			</h2>
 		</div>

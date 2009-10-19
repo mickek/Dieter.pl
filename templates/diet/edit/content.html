@@ -1,0 +1,62 @@
+{% load humanize %}
+{% load webdesign %} 
+{% load i18n %}
+{% load diet %}	
+	
+<div class="grid_12 diet_header">
+	<h2>Dzień {{current_day.sequence_no}}</h2>
+	<div class="actions">
+		<a href="{%url diet_add_day diet.id%}">Dodaj dzień</a>
+		{% if can_delete %}
+			<a href="{%url diet_del_day diet.id current_day.sequence_no%}" onclick="return confirm('Czy napewno chcesz usunąć ten dzień?')">Usuń dzień</a>
+		{% endif %}
+	</div>
+</div>
+
+<div class="grid_12">
+	<ul id="diet_days">
+	{%for d in days%}
+		<li>
+			{% ifequal d.sequence_no current_day.sequence_no %}
+				{{d.sequence_no}}
+			{% else %}
+				{% if user.is_staff %}
+					<a href="{%url edit_diet diet.id d.sequence_no%}">{{d.sequence_no}}</a>
+				{% else %}
+					<a href="{%url edit_diet_user d.sequence_no%}">{{d.sequence_no}}</a>
+				{% endif %}
+								
+			{% endifequal %}
+		</li>
+	{%endfor%}
+	</ul>
+</div>
+
+<form action="{% url diet_perform_action diet.id current_day.sequence_no %}" method="post">
+
+	<div class="grid_12 meals">
+		{% meals_section 'breakfest' 'Śniadanie' current_day.meals_breakfest %}
+	</div>
+	
+	<div class="grid_12 meals">
+		{% meals_section 'brunch' 'Drugie Śniadanie' current_day.meals_brunch %}		
+	</div>
+	
+	<div class="grid_12 meals">
+		{% meals_section 'lunch' 'Obiad' current_day.meals_lunch %}		
+	</div>
+	
+	<div class="grid_12 meals">
+		{% meals_section 'dinner' 'Kolacja' current_day.meals_dinner %}
+	</div>	
+	
+	<div class="grid_12" style="text-align:right;">
+		<input type="submit" id="save_day" name="save_day" value="Zapisz Dzień"/>
+		<input type="submit" id="save_diet" name="save_diet" value="Zapisz Dietę"/>
+		{% if diet.user and user.is_staff %}
+			<input type="submit" id="send_diet" name="send_diet" value="Wyślij Dietę"/>
+		{% endif %}
+		<br/><br/>
+	</div>
+
+</form>

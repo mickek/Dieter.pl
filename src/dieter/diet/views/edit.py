@@ -10,11 +10,9 @@ from dieter.diet.forms import SendDietForm
 from django.contrib.comments.models import Comment
 from django.conf import settings
 from dieter.utils import DieterException
-from dieter.diet import parse_quantity
+from dieter.diet import parse_quantity, get_active_diet, data_for_diet_editing
 from django.http import HttpResponse
 import datetime
-
-
 
 @login_required
 def create(request, user_id):
@@ -28,55 +26,60 @@ def create(request, user_id):
     return redirect(reverse('edit_diet',kwargs={'diet_id':diet.id}))
 
 @login_required
-def edit(request, diet_id, day = None):
+def edit_for_admin(request, diet_id = None, day = None):
     """
     Diet edit screen
     """
     diet = get_object_or_404(Diet, pk=diet_id)
+    current_day, days, can_delete = data_for_diet_editing(diet, day)
+    type = "edit_diet"
+                    
+    return direct_to_template(request,"diet/edit.html", locals())
+
+@login_required
+def edit_for_user(request, day = None):
+    """
+    Diet edit screen
+    """
+    diet = get_active_diet(request.user)
+    current_day, days, can_delete = data_for_diet_editing(diet, day)
+    type = "edit_diet_user"    
     
-    if not len(diet.dayplan_set.all()):
-        diet.dayplan_set.create(sequence_no=1)
-        diet.save()
-    
-    try:
-        current_day = diet.dayplan_set.get(sequence_no=day)
-    except DayPlan.DoesNotExist: #@UndefinedVariable
-        current_day = min(diet.dayplan_set.all())
-                
-    return direct_to_template(request,"diet/edit.html", {
-                                                        'diet': diet, 
-                                                        'days': diet.dayplan_set.all(),
-                                                        'current_day': current_day,
-                                                        'can_delete': len(diet.dayplan_set.all())>1
-                                                        })
+    return direct_to_template(request,"diet/user_edit.html", locals())
     
 @login_required
 def add_day(request, diet_id, day = None):
     """
     Adds a new day to selected diet and redirects to edit screen for the new day
     """
-
     diet = get_object_or_404(Diet, pk=diet_id)
     day = diet.add_day(day)
-    
     request.user.message_set.create(message="Dodano dzień")
-    return redirect(reverse('edit_diet',kwargs={'diet_id':diet_id, 'day':day}))
+    
+    if request.user.is_staff:    
+        return redirect(reverse('edit_diet',kwargs={'diet_id':diet_id, 'day': day}))
+    else:                
+        return redirect(reverse('edit_diet_user',kwargs={'day': day}))
+
 
 @login_required
 def del_day(request, diet_id, day = None):
     """
     Removes a day from selected diet and redirects to previous day
     """
-    status = None
+    sequence_no = None
     try:
         diet = get_object_or_404(Diet, pk=diet_id)    
-        status = diet.remove_day(int(day))
+        sequence_no = diet.remove_day(int(day))
         request.user.message_set.create(message="Usunięto dzień")
         
     except DieterException:
         request.user.message_set.create(message="Nie można skasować wszystkich dni diety")
         
-    return redirect(reverse('edit_diet',kwargs={'diet_id':diet_id, 'day': status}))                
+    if request.user.is_staff:    
+        return redirect(reverse('edit_diet',kwargs={'diet_id':diet_id, 'day': sequence_no}))
+    else:                
+        return redirect(reverse('edit_diet_user',kwargs={'day': sequence_no}))
         
 
 @login_required
@@ -114,7 +117,10 @@ def perform_action(request, diet_id, sequence_no):
         if 'send_diet' in request.POST:
             return redirect(reverse('diet_send_form',kwargs={'diet_id':diet_id}))
             
-    return redirect(reverse('edit_diet',kwargs={'diet_id':diet_id, 'day': sequence_no}))
+    if request.user.is_staff:    
+        return redirect(reverse('edit_diet',kwargs={'diet_id':diet_id, 'day': sequence_no}))
+    else:                
+        return redirect(reverse('edit_diet_user',kwargs={'day': sequence_no}))
 
 def send_diet(request, diet_id):
     

@@ -1,0 +1,9 @@
+#diet_days li{ list-style: none; float: left; padding: 0px 10px; font-weight: bold; font-size: 100%; border: 1px soild black; background-color: lightgrey; margin-right: 2px; }
+
+.meals h2 a{ font-size: 80%; font-weight: normal; }
+.meals .meal_name{ width: 350px; }
+.meals .meal_quantity{ width: 75px; }
+
+.diet_header h2{ margin: 0px; }
+.diet_header h2{ float:left; }
+.diet_header .actions{ float: right; font-weight: bold; } 

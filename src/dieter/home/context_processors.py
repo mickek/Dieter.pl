@@ -24,7 +24,7 @@ def tabs(request):
     
     if path.startswith('/patients/inbox'):
         top_tab = 'messages'        
-    elif path == '/patients/' or path.startswith('/diet/edit/'):
+    elif path == '/patients/' or path.startswith('/s/'):
         top_tab = 'patients'                
     
     user_has_diet = False
