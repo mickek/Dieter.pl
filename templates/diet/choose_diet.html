@@ -60,7 +60,14 @@
 			</p>
 			{% endif %}
 			
-			<h2 style="text-align: center;margin-top:2em;"><a href="{% url dashboard_create_diet %}">Wprowadź własną dietę za darmo</a></h2>
+			{% if can_create_diet %}
+			<h2 style="text-align: center;margin-top:2em;">
+				<a href="{% url dashboard_create_diet %}">Wprowadź własną dietę za darmo</a>
+			</h2>
+			{% else %}
+			
+			{% endif %}
+			
 			
 			{% if initial %}
 			

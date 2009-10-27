@@ -64,6 +64,8 @@ def choose_diet(request, initial = False):
         paginator = Paginator(diets,5)
         page = paginator.page(page_no)
         show_pagination = len(paginator.page_range) > 1
+
+        can_create_diet = Diet.objects.filter(type='user_created', user=request.user).count() == 0
         
             
         return direct_to_template(request, 'diet/choose_diet.html', locals())
@@ -137,6 +139,10 @@ def set_diet(request, diet_id):
 @login_required
 @profile_complete_required
 def create_diet(request):
+    
+    if not Diet.objects.filter(user = request.user, type='user_created').count() == 0:
+        return redirect(reverse('diet'))
+    
     form = CreateDietForm()
     
     if request.method == 'POST':
