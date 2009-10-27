@@ -30,6 +30,7 @@ urlpatterns = patterns('',
     url(r'^details/$','dieter.diet.views.view.diet_details', name="diet_details"), # required for generation of js urls
     
     url(r'^set/(?P<diet_id>[0-9]+)/$','dieter.diet.views.view.set_diet', name="diet_set"),
+    url(r'^create_diet/$','dieter.diet.views.view.create_diet', name="dashboard_create_diet")
     
     
 )

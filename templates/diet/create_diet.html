@@ -1,0 +1,39 @@
+{% extends 'loggedin-base.html' %}
+
+{% load humanize %}
+{% load webdesign %} 
+{% load i18n %}
+{% load comments %}
+
+{% block content %}
+
+	<div id="managment_index" class="grid_12">
+
+		<div class="grid_12">
+			<h2>Utwórz nową dietę</h2>
+		</div>
+		
+		<div class="grid_12">		
+		
+			<form action="" method="post">
+			
+				<p>{{form.name.errors}}<label for="id_name">{{form.name.label}}: {{form.name}}</label></p>
+				<p>{{form.diet_length.errors}}<label for="id_diet_length">{{form.diet_length.label}}: {{form.diet_length}}</label></p>
+				<p>{{form.description.errors}}<label for="id_description">{{form.description.label}} {{form.description}}</label></p>			
+			
+			
+				<p><input type="submit" value="Zapisz"/></p>
+			</form>
+		
+		</div>
+		
+	</div>
+	
+	<script type="text/javascript" src="{{MEDIA_URL}}ckeditor/ckeditor.js"></script>
+	<script>
+	$(document).ready(function(){
+		var ckeditor = CKEDITOR.replace('id_description');
+	});
+	</script>
+
+{% endblock %}

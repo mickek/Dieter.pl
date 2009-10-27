@@ -55,10 +55,14 @@
 		<div class="grid_6 omega date_nav">
 			<h2>
 				<a class="open_set_start_day_dialog" href="#">zmień datę rozpoczęcia diety</a>
+				{% if not diet.parent %}
 				&nbsp;|&nbsp;
 				<a target="blank" href="{%url edit_diet_user%}">edytuj</a>
+				{% endif %}
 				&nbsp;|&nbsp;				
-				<a target="blank" href="{%url diet_print_diet%}">wydrukuj</a>
+				<a target="blank" href="{%url diet_choose_diet%}">zmień dietę</a>
+				&nbsp;|&nbsp;				
+				<a target="blank" href="{%url diet_print_diet%}">drukuj</a>
 			</h2>
 		</div>
 	

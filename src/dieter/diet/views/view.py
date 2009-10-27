@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib.auth.decorators import login_required
-from dieter.utils import profile_complete_required, today as get_today,\
-    DieterException, today
+from dieter.utils import profile_complete_required, today as get_today, today,\
+    no_cache
 from dieter.diet.models import Diet
 from django.views.generic.simple import direct_to_template, redirect_to
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
-from dieter.diet.forms import SetDietStartDateForm
+from django.shortcuts import get_object_or_404, redirect
+from dieter.diet.forms import SetDietStartDateForm, CreateDietForm
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, InvalidPage
-from dieter.diet import copy_and_activate_diet, get_active_diet
+from dieter.diet import copy_and_activate_diet, get_active_diet, diet_comparator
+from dieter import DieterException
 import datetime
 
 @login_required
@@ -53,10 +54,17 @@ def choose_diet(request, initial = False):
             
         page_no = int(request.GET['page']) if 'page' in request.GET else 1
         
-        diets = Diet.objects.filter(user__isnull=True).order_by('name')
+        user_diets = Diet.objects.filter(user=request.user)
+        general_diets = Diet.objects.filter(user__isnull=True).exclude(pk__in = user_diets.values_list('parent_id', flat=True)).order_by('name')
+                
+        diets = list(user_diets) + list(general_diets)
+                
+        diets.sort(diet_comparator, reverse = True)
+        
         paginator = Paginator(diets,5)
         page = paginator.page(page_no)
         show_pagination = len(paginator.page_range) > 1
+        
             
         return direct_to_template(request, 'diet/choose_diet.html', locals())
     except InvalidPage:
@@ -106,6 +114,7 @@ def diet_start_date(request, diet_id):
 
 @login_required
 @profile_complete_required
+@no_cache
 def set_diet(request, diet_id):
     '''
     Ustawia bieżącą dietę użytkownika
@@ -124,4 +133,27 @@ def set_diet(request, diet_id):
         request.user.message_set.create(message="Nie można dwukrotnie wybrać tej samej diety")
     
     return redirect_to(request, reverse('diet'))
+
+@login_required
+@profile_complete_required
+def create_diet(request):
+    form = CreateDietForm()
     
+    if request.method == 'POST':
+    
+        empty_diet = Diet(**{'user':request.user, 'type':'user_created'})
+        form = CreateDietForm(request.POST, instance = empty_diet)    
+        if form.is_valid():
+            
+            diet = form.save()
+            request.user.message_set.create(message="Utworzono nową dietę do edycji.")
+            for i in range(1,form.cleaned_data['diet_length']+1):
+                diet.dayplan_set.create(sequence_no=i)
+                diet.save()
+            
+            copy_and_activate_diet(diet, request.user, today())
+            
+            return redirect(reverse('edit_diet_user'))
+    
+    
+    return direct_to_template(request, "diet/create_diet.html", locals())    

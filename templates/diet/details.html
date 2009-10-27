@@ -1,6 +1,6 @@
 {% load diet %}
 
-<h2>{{diet.name}}</h2>
+<h2>{{diet.name}} {% ifequal diet.state 'active'%}( Aktualnie wybrana ){%endifequal%}</h2>
 <ul>
 	<li>Czas trwania diety: {{days|length}}</li>
 	{% if diet.price%}<li>Cena: {{diet.price}}</li>{%endif%}
@@ -11,4 +11,6 @@
 <h3>{{example_day.sequence_no}} dzień</h3>
 {% day_plan diet example_day %}
 <br style="clear:both;"/>
+{% ifnotequal diet.state 'active'%}
 <h2 style="text-align:right;margin:1em;back"><a href="{% url diet_set diet.id %}">Wybierz tą dietę</a></h2>
+{% endifnotequal %}

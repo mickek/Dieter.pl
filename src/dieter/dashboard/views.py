@@ -1,16 +1,18 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
-from dieter.utils import profile_complete_required, DieterException, today as get_today
+from dieter.utils import profile_complete_required, today as get_today, no_cache
     
 from django.views.generic.simple import direct_to_template, redirect_to
 from django.http import HttpResponse
 from dieter.diet.models import Diet
 from dieter.diet import get_active_diet
+from dieter import DieterException
 import datetime
 from django.core.urlresolvers import reverse
 
 @login_required
 @user_passes_test(lambda u: not u.is_superuser and not u.is_staff, login_url='/')
 @profile_complete_required
+@no_cache
 def index(request, year=None, month=None, day=None):
     
     try:

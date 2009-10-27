@@ -1,8 +1,29 @@
 from django.utils.functional import update_wrapper
 from django.views.generic.simple import redirect_to
 from django.core.urlresolvers import reverse
+from django.http import HttpResponseForbidden
+from django.shortcuts import get_object_or_404
+from dieter.diet.models import Diet
+from dieter.diet import get_active_diet
+
 import re
 import datetime
+
+def has_read_write_access_to_diet(user, diet):
+    
+    if user.is_superuser:
+        return True
+    
+    if diet.user == user:
+        return True
+    
+    if user.is_staff and user.practice:
+        '''
+        TODO private practice staff may edit someone else diet
+        '''
+        pass
+        
+    return False
 
 def profile_complete_required(f):
     def wrap(request, *args, **kwargs):
@@ -14,6 +35,34 @@ def profile_complete_required(f):
 
     update_wrapper(wrap, f)
     return wrap
+
+def diet_read_write_allowed(f):
+    def wrap(request, *args, **kwargs):
+        diet = None
+        try:
+            if 'diet_id' in request.REQUEST:
+                diet = Diet.objects.get(pk=request.REQUEST['diet_id'])
+            else:
+                diet = get_active_diet(request.user)
+            if has_read_write_access_to_diet(request.user, diet):
+                return f(request, *args, **kwargs)
+            else:
+                return HttpResponseForbidden(content='Forbiden')
+        except Diet.DoesNotExist: #@UndefinedVariable
+            return f(request, *args, **kwargs)
+    update_wrapper(wrap, f)
+    return wrap
+
+def no_cache(f):
+    def wrap(request, *args, **kwargs):
+        
+        response = f(request, *args, **kwargs)
+        response['Pragma'] = 'no-cache'
+        return response
+
+    update_wrapper(wrap, f)
+    return wrap
+
 
 def choose_diet_shown_required(f):
     def wrap(request, *args, **kwargs):
@@ -35,10 +84,6 @@ def tommorow():
 def yesterday():
     return today() - datetime.timedelta(days=1)
     
-    
-class DieterException(Exception):
-    def __init__(self, message):
-        Exception.__init__(self, message)   
         
 def calculate_similarity(text1, text2):
 

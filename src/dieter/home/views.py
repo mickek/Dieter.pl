@@ -9,8 +9,9 @@ from django.views.generic.simple import redirect_to, direct_to_template
 from dieter.patients.forms import CompleteProfileForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.flatpages.models import FlatPage
+from dieter.utils import no_cache
 
-
+@no_cache
 def index(request):
     
     if request.user.is_authenticated():
@@ -39,7 +40,8 @@ def logged_in(request):
         else:
             return redirect_to(request, reverse('complete_profile'))
 
-@login_required     
+@login_required  
+@no_cache   
 def complete_profile(request):
 
     p = request.user.get_profile()

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.generic.simple import direct_to_template
 from django.shortcuts import redirect, get_object_or_404
 from django.core.urlresolvers import reverse
@@ -9,12 +9,14 @@ from django.contrib.auth.models import User
 from dieter.diet.forms import SendDietForm
 from django.contrib.comments.models import Comment
 from django.conf import settings
-from dieter.utils import DieterException
+from dieter.utils import diet_read_write_allowed
 from dieter.diet import parse_quantity, get_active_diet, data_for_diet_editing
 from django.http import HttpResponse
+from dieter import DieterException
 import datetime
 
 @login_required
+@user_passes_test(lambda u: u.is_staff, login_url='/')
 def create(request, user_id):
     """
     Creates a new diet for a given user.
@@ -26,6 +28,7 @@ def create(request, user_id):
     return redirect(reverse('edit_diet',kwargs={'diet_id':diet.id}))
 
 @login_required
+@user_passes_test(lambda u: u.is_staff, login_url='/')
 def edit_for_admin(request, diet_id = None, day = None):
     """
     Diet edit screen
@@ -42,12 +45,18 @@ def edit_for_user(request, day = None):
     Diet edit screen
     """
     diet = get_active_diet(request.user)
+    
+    if diet.type != 'user_created' is not None:
+        request.user.message_set.create(message="Nie możesz edytować diety utworzonej przez kogoś innego")
+        return redirect(reverse('diet')) 
+    
     current_day, days, can_delete = data_for_diet_editing(diet, day)
     type = "edit_diet_user"    
     
     return direct_to_template(request,"diet/user_edit.html", locals())
     
 @login_required
+@diet_read_write_allowed
 def add_day(request, diet_id, day = None):
     """
     Adds a new day to selected diet and redirects to edit screen for the new day
@@ -63,6 +72,7 @@ def add_day(request, diet_id, day = None):
 
 
 @login_required
+@diet_read_write_allowed
 def del_day(request, diet_id, day = None):
     """
     Removes a day from selected diet and redirects to previous day
@@ -83,6 +93,7 @@ def del_day(request, diet_id, day = None):
         
 
 @login_required
+@diet_read_write_allowed
 def perform_action(request, diet_id, sequence_no):
     """
     Bulk action handler for diet editing, handlers for save and send diet
@@ -122,6 +133,7 @@ def perform_action(request, diet_id, sequence_no):
     else:                
         return redirect(reverse('edit_diet_user',kwargs={'day': sequence_no}))
 
+@user_passes_test(lambda u: u.is_staff, login_url='/')
 def send_diet(request, diet_id):
     
     diet = get_object_or_404(Diet, pk = diet_id)

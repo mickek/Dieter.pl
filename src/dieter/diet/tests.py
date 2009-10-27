@@ -6,7 +6,7 @@ from dieter.patients.models import user_post_save
 from django.contrib.auth.models import User
 from django.db import models
 from dieter.diet.models import Diet
-from dieter.utils import DieterException
+from dieter import DieterException
 
 '''
 Required or the user_post_save signall will cause column user_id is not unique error

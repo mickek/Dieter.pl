@@ -1,6 +1,18 @@
-from dieter.utils import DieterException
 from dieter.diet.models import Diet, DayPlan
+from dieter import DieterException
 import re
+
+def diet_comparator(a,b):
+    if a.state == 'active':
+        return 1
+    elif a.user is not None:
+        if b.user is not None:
+            return cmp(a.name,b.name)
+        else:
+            return 1
+    
+    return -1
+
 
 def get_active_diet(user):
     return Diet.objects.get(user=user, state='active')
@@ -59,37 +71,62 @@ def copy_and_activate_diet(source_diet, target_user, start_date = None):
         current_diet = get_active_diet(target_user)
         if current_diet.parent and current_diet.parent.pk == source_diet.pk:
             raise DieterException('can not activate the same diet twice')
+        
+        user_diets = Diet.objects.filter(user=target_user).values_list('parent_id',flat=True)
+        if source_diet.pk in user_diets:
+            raise DieterException('already have a copy of this diet')
+        
     except Diet.DoesNotExist: #@UndefinedVariable
         pass
+    
     
     if current_diet:
         current_diet.state = 'inactive'
         current_diet.save()
     
-    new_diet = Diet.objects.create(
-                                          user = target_user, 
-                                          state = 'active', 
-                                          length = len(source_diet.dayplan_set.all())+1, 
-                                          name = source_diet.name,
-                                          description = source_diet.description,
-                                          type = source_diet.type,
-                                          price = source_diet.price,
-                                          parent = source_diet,
-                                          start_date = start_date,
-                                          )
-    
-    for dayplan in source_diet.dayplan_set.all():
+    if source_diet.parent is None and source_diet.type != 'user_created':
+        '''
+        We are copying data from a diet template
+        '''
+        new_diet = Diet.objects.create(
+                                              user = target_user, 
+                                              state = 'active', 
+                                              length = len(source_diet.dayplan_set.all())+1, 
+                                              name = source_diet.name,
+                                              description = source_diet.description,
+                                              type = source_diet.type,
+                                              price = source_diet.price,
+                                              parent = source_diet,
+                                              start_date = start_date,
+                                              )
         
-        new_dayplan = new_diet.dayplan_set.get(sequence_no = dayplan.sequence_no)
-        for meal in dayplan.meal_set.all():
-            new_dayplan.meal_set.create(
-                                        name = meal.name,
-                                        type = meal.type,
-                                        quantity = meal.quantity,
-                                        unit_type = meal.unit_type,
-                                        sequence_no = meal.sequence_no)
+        for dayplan in source_diet.dayplan_set.all():
             
-        new_dayplan.save()
+            new_dayplan = new_diet.dayplan_set.get(sequence_no = dayplan.sequence_no)
+            for meal in dayplan.meal_set.all():
+                new_dayplan.meal_set.create(
+                                            name = meal.name,
+                                            type = meal.type,
+                                            quantity = meal.quantity,
+                                            unit_type = meal.unit_type,
+                                            sequence_no = meal.sequence_no)
+                
+            new_dayplan.save()
+            
+        return new_diet
+            
+    else:
+        '''
+        We are simply switching to a user created or previously bought diet
+        '''
+        if source_diet.user != target_user:
+            raise DieterException('cant choose non root diet with incorect user')
         
-    return new_diet
+        source_diet.state = 'active'
+        source_diet.start_date = start_date
+        source_diet.save()
+        
+        return source_diet
+        
+
     

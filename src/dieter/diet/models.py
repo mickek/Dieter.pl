@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-    
 from django.db import models
 from django.contrib.auth.models import User
-from dieter.utils import DieterException
 from dieter.console import strfix
+from dieter import DieterException
 import datetime
 
 class DietManager(models.Manager):
